@@ -1,4 +1,4 @@
-import java_cup.runtime.Symbol;
+import java_cup.runtime.ComplexSymbolFactory;import java_cup.runtime.Symbol;import lexical.StringTable;
 
 /**
 * This class is a simple example lexer.
@@ -18,34 +18,42 @@ import java_cup.runtime.Symbol;
 %column
 
 %{
-    StringBuffer string = new StringBuffer();
+            StringBuffer string = new StringBuffer();
+            StringTable table;
 
-    private Symbol generateParserSym(int type) {
-        return new Symbol(type);
-    }
+            ComplexSymbolFactory complexSymbolFactory;
 
-    private Symbol generateParserSym(int type, Object value) {
-        return new Symbol(type, value);
-    }
+            private Symbol generateParserSym(int type) {
+                return new Symbol(type);
+            }
 
-    private Symbol generateError() {
-        return new Symbol(ParserSym.ERROR);
-    }
+            private Symbol generateParserSym(int type, Object value) {
+                this.table.install(value.toString());
+                return new Symbol(type, value);
+            }
 
-    private Symbol generateError(Object value){
-        return new Symbol(ParserSym.ERROR, value);
-    }
-    public boolean initialize(String filePath) {
-        try {
-          this.zzReader = new java.io.FileReader(filePath);
-          return true;
-        } catch (java.io.FileNotFoundException e) {
-          return false;
-        }
-    }
+            private Symbol generateError() {
+                //TODO cambiare il return e aggiungere symbolFactory
+                return new Symbol(ParserSym.ERROR);
+            }
 
-    Lexer() { }
+            private Symbol generateError(Object value){
+                return new Symbol(ParserSym.ERROR, value);
+            }
+            public boolean initialize(String filePath) {
+                try {
+                  this.zzReader = new java.io.FileReader(filePath);
+                  return true;
+                } catch (java.io.FileNotFoundException e) {
+                  return false;
+                }
+            }
 
+            public Lexer(StringTable table, ComplexSymbolFactory csf){
+                this.complexSymbolFactory =csf;
+                this.table=table;
+            }
+            Lexer() { }
 %}
 
 %eofval{
