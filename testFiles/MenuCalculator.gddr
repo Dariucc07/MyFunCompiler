@@ -1,0 +1,19 @@
+    var t:= 5.4453;
+main
+    var c := 2;
+    var b := true;
+    var tipregofunziona := 2.2;
+    ?. 'Seleziona la scelta tra queste quattro operazioni';
+    ?. '1: Addizione';
+    ?. '2: Sottrazione';
+    ?. '3: Moltiplicazione';
+    ?. '4: Divisione';
+    ?. 'Inserisci:';
+    % scelta;
+    ?. 'Inserisci due operandi a e b';
+    ?: 'A:';
+    % a;
+    ?: 'B:';
+    % b;
+    ?. 'Il risultato è:' + result;
+end main;

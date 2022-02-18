@@ -1,0 +1,16 @@
+ if (selection = 0) then
+        result := add(a,b);
+    else
+        if(selection = 1) then
+            results := sub(a,b);
+        end if;
+    end if
+'comment # sono un
+
+'
+'ciao sono un"commento'
+
+"commento ' ciao "
+"prova"
+# sono un commento
+

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Program>
+  <VarDecl isVar="true">
+    <IdInitObblOp>
+      <Id lexeme="t"/>
+      <Const>
+        <RealConst value="5.4453"/>
+      </Const>
+    </IdInitObblOp>
+  </VarDecl>
+  <Main>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
+        <Id lexeme="c"/>
+        <Const>
+          <IntegerConst value="2"/>
+        </Const>
+      </IdInitObblOp>
+    </VarDecl>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
+        <Id lexeme="b"/>
+        <Const>
+          <BoolConst value="true"/>
+        </Const>
+      </IdInitObblOp>
+    </VarDecl>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
+        <Id lexeme="tipregofunziona"/>
+        <Const>
+          <RealConst value="2.2"/>
+        </Const>
+      </IdInitObblOp>
+    </VarDecl>
+    <WriteLnOp>
+      <StringConst value="Seleziona la scelta tra queste quattro operazioni"/>
+    </WriteLnOp>
+    <WriteLnOp>
+      <StringConst value="1: Addizione"/>
+    </WriteLnOp>
+    <WriteLnOp>
+      <StringConst value="2: Sottrazione"/>
+    </WriteLnOp>
+    <WriteLnOp>
+      <StringConst value="3: Moltiplicazione"/>
+    </WriteLnOp>
+    <WriteLnOp>
+      <StringConst value="4: Divisione"/>
+    </WriteLnOp>
+    <WriteLnOp>
+      <StringConst value="Inserisci:"/>
+    </WriteLnOp>
+    <ReadStat>
+      <Id lexeme="scelta"/>
+    </ReadStat>
+    <WriteLnOp>
+      <StringConst value="Inserisci due operandi a e b"/>
+    </WriteLnOp>
+    <WriteTOp>
+      <StringConst value="A:"/>
+    </WriteTOp>
+    <ReadStat>
+      <Id lexeme="a"/>
+    </ReadStat>
+    <WriteTOp>
+      <StringConst value="B:"/>
+    </WriteTOp>
+    <ReadStat>
+      <Id lexeme="b"/>
+    </ReadStat>
+    <WriteLnOp>
+      <PlusOp>
+        <StringConst value="Il risultato è:"/>
+        <Id lexeme="result"/>
+      </PlusOp>
+    </WriteLnOp>
+  </Main>
+</Program>

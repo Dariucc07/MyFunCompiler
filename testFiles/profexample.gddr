@@ -1,0 +1,67 @@
+
+var c := 1;
+
+
+# fa somma e restituisce anche la taglia del numero, oltre che il risultato
+fun sommac(integer a, real b, out string size): real
+
+	real result;
+	var valore := 'grande';
+	var valore2 := 'piccola';
+
+	result  :=  (a + b) * c;
+
+	if result > 100 then
+
+ 		size := valore;
+	else
+
+ 		size := valore;
+	end if;
+
+	return result;
+
+end fun;
+
+# stampa il messaggio dopo 4 ritorni a capo
+fun stampa(string messaggio)
+    var incremento := 1;
+	var i := 1;
+	while i <= 4 loop
+
+		?. '';
+		i := i + incremento;
+	end loop;
+
+	?. messaggio;
+
+end fun;
+
+#programma main
+main
+	var a := 1, b := 2.2;
+
+	string taglia;
+
+	real risultato := sommac(a, b, @taglia);
+
+	stampa('la somma di ' & a & ' e ' & b & ' incrementata di ' & c & ' è ' & taglia);
+	stampa('ed è pari a ' & risultato);
+
+	?: 'vuoi continuare? (si/no)';
+	% ans;
+	while ans = 'si' loop
+		% a 'inserisci un intero:';
+		% b 'inserisci un reale:';
+		risultato := sommac(a, b, @taglia);
+		stampa('la somma di ' & a & ' e ' & b &  ' incrementata di ' & c & ' è ' & taglia);
+		stampa(' ed è pari a ' & risultato);
+		% ans 'vuoi continuare? (si/no):\t';
+	end loop;
+	
+	?. '';
+	? 'ciao';
+
+end main;
+
+

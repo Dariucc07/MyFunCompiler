@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Program>
+  <VarDecl isVar="true">
+    <IdInitObblOp>
+      <Id lexeme="c"/>
+      <Const>
+        <IntegerConst value="1"/>
+      </Const>
+    </IdInitObblOp>
+  </VarDecl>
+  <Fun>
+    <Id lexeme="sommac"/>
+    <ParDecl out="false">
+      <PrimitiveType type="INTEGER"/>
+      <Id lexeme="a"/>
+    </ParDecl>
+    <ParDecl out="false">
+      <PrimitiveType type="REAL"/>
+      <Id lexeme="b"/>
+    </ParDecl>
+    <ParDecl out="true">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="size"/>
+    </ParDecl>
+    <PrimitiveType type="REAL"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="REAL"/>
+      <IdInitOp>
+        <Id lexeme="result"/>
+      </IdInitOp>
+    </VarDecl>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
+        <Id lexeme="valore"/>
+        <Const>
+          <StringConst value="grande"/>
+        </Const>
+      </IdInitObblOp>
+    </VarDecl>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
+        <Id lexeme="valore2"/>
+        <Const>
+          <StringConst value="piccola"/>
+        </Const>
+      </IdInitObblOp>
+    </VarDecl>
+    <AssignStat>
+      <Id lexeme="result"/>
+      <TimesOp>
+        <PlusOp>
+          <Id lexeme="a"/>
+          <Id lexeme="b"/>
+        </PlusOp>
+        <Id lexeme="c"/>
+      </TimesOp>
+    </AssignStat>
+    <IfStat>
+      <GreaterThanRelop>
+        <Id lexeme="result"/>
+        <IntegerConst value="100"/>
+      </GreaterThanRelop>
+      <AssignStat>
+        <Id lexeme="size"/>
+        <Id lexeme="valore"/>
+      </AssignStat>
+      <ElseOp>
+        <AssignStat>
+          <Id lexeme="size"/>
+          <Id lexeme="valore"/>
+        </AssignStat>
+      </ElseOp>
+    </IfStat>
+    <ReturnOp>
+      <Id lexeme="result"/>
+    </ReturnOp>
+  </Fun>
+  <Fun>
+    <Id lexeme="stampa"/>
+    <ParDecl out="false">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="messaggio"/>
+    </ParDecl>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
+        <Id lexeme="incremento"/>
+        <Const>
+          <IntegerConst value="1"/>
+        </Const>
+      </IdInitObblOp>
+    </VarDecl>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
+        <Id lexeme="i"/>
+        <Const>
+          <IntegerConst value="1"/>
+        </Const>
+      </IdInitObblOp>
+    </VarDecl>
+    <WhileStat>
+      <LessEqualRelop>
+        <Id lexeme="i"/>
+        <IntegerConst value="4"/>
+      </LessEqualRelop>
+      <WriteLnOp>
+        <StringConst value=""/>
+      </WriteLnOp>
+      <AssignStat>
+        <Id lexeme="i"/>
+        <PlusOp>
+          <Id lexeme="i"/>
+          <Id lexeme="incremento"/>
+        </PlusOp>
+      </AssignStat>
+    </WhileStat>
+    <WriteLnOp>
+      <Id lexeme="messaggio"/>
+    </WriteLnOp>
+  </Fun>
+  <Main>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
+        <Id lexeme="a"/>
+        <Const>
+          <IntegerConst value="1"/>
+        </Const>
+      </IdInitObblOp>
+      <IdInitObblOp>
+        <Id lexeme="b"/>
+        <Const>
+          <RealConst value="2.2"/>
+        </Const>
+      </IdInitObblOp>
+    </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="STRING"/>
+      <IdInitOp>
+        <Id lexeme="taglia"/>
+      </IdInitOp>
+    </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="REAL"/>
+      <IdInitOp>
+        <Id lexeme="risultato"/>
+        <CallFunction>
+          <Id lexeme="sommac"/>
+          <Id lexeme="a"/>
+          <Id lexeme="b"/>
+          <OutParIdExpr>
+            <Id lexeme="taglia"/>
+          </OutParIdExpr>
+        </CallFunction>
+      </IdInitOp>
+    </VarDecl>
+    <CallFunctionStat>
+      <CallFunction>
+        <Id lexeme="stampa"/>
+        <StringConcatOp>
+          <StringConcatOp>
+            <StringConcatOp>
+              <StringConcatOp>
+                <StringConcatOp>
+                  <StringConcatOp>
+                    <StringConcatOp>
+                      <StringConst value="la somma di "/>
+                      <Id lexeme="a"/>
+                    </StringConcatOp>
+                    <StringConst value=" e "/>
+                  </StringConcatOp>
+                  <Id lexeme="b"/>
+                </StringConcatOp>
+                <StringConst value=" incrementata di "/>
+              </StringConcatOp>
+              <Id lexeme="c"/>
+            </StringConcatOp>
+            <StringConst value=" è "/>
+          </StringConcatOp>
+          <Id lexeme="taglia"/>
+        </StringConcatOp>
+      </CallFunction>
+    </CallFunctionStat>
+    <CallFunctionStat>
+      <CallFunction>
+        <Id lexeme="stampa"/>
+        <StringConcatOp>
+          <StringConst value="ed è pari a "/>
+          <Id lexeme="risultato"/>
+        </StringConcatOp>
+      </CallFunction>
+    </CallFunctionStat>
+    <WriteTOp>
+      <StringConst value="vuoi continuare? (si/no)"/>
+    </WriteTOp>
+    <ReadStat>
+      <Id lexeme="ans"/>
+    </ReadStat>
+    <WhileStat>
+      <EqualRelop>
+        <Id lexeme="ans"/>
+        <StringConst value="si"/>
+      </EqualRelop>
+      <ReadStat>
+        <Id lexeme="a"/>
+        <StringConst value="inserisci un intero:"/>
+      </ReadStat>
+      <ReadStat>
+        <Id lexeme="b"/>
+        <StringConst value="inserisci un reale:"/>
+      </ReadStat>
+      <AssignStat>
+        <Id lexeme="risultato"/>
+        <CallFunction>
+          <Id lexeme="sommac"/>
+          <Id lexeme="a"/>
+          <Id lexeme="b"/>
+          <OutParIdExpr>
+            <Id lexeme="taglia"/>
+          </OutParIdExpr>
+        </CallFunction>
+      </AssignStat>
+      <CallFunctionStat>
+        <CallFunction>
+          <Id lexeme="stampa"/>
+          <StringConcatOp>
+            <StringConcatOp>
+              <StringConcatOp>
+                <StringConcatOp>
+                  <StringConcatOp>
+                    <StringConcatOp>
+                      <StringConcatOp>
+                        <StringConst value="la somma di "/>
+                        <Id lexeme="a"/>
+                      </StringConcatOp>
+                      <StringConst value=" e "/>
+                    </StringConcatOp>
+                    <Id lexeme="b"/>
+                  </StringConcatOp>
+                  <StringConst value=" incrementata di "/>
+                </StringConcatOp>
+                <Id lexeme="c"/>
+              </StringConcatOp>
+              <StringConst value=" è "/>
+            </StringConcatOp>
+            <Id lexeme="taglia"/>
+          </StringConcatOp>
+        </CallFunction>
+      </CallFunctionStat>
+      <CallFunctionStat>
+        <CallFunction>
+          <Id lexeme="stampa"/>
+          <StringConcatOp>
+            <StringConst value=" ed è pari a "/>
+            <Id lexeme="risultato"/>
+          </StringConcatOp>
+        </CallFunction>
+      </CallFunctionStat>
+      <ReadStat>
+        <Id lexeme="ans"/>
+        <StringConst value="vuoi continuare? (si/no):\t"/>
+      </ReadStat>
+    </WhileStat>
+    <WriteLnOp>
+      <StringConst value=""/>
+    </WriteLnOp>
+    <WriteOp>
+      <StringConst value="ciao"/>
+    </WriteOp>
+  </Main>
+</Program>
