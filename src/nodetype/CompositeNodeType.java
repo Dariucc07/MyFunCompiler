@@ -64,7 +64,7 @@ public class CompositeNodeType implements NodeType {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        this.types.forEach(t -> sb.append(t.toString()));
+        this.types.forEach(t -> sb.append(t.toString()+","));
         return sb.toString();
     }
 }

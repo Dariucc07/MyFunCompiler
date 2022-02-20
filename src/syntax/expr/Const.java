@@ -1,6 +1,7 @@
 package syntax.expr;
 
 import syntax.AstNode;
+import syntax.type.PrimitiveType;
 import visitor.Visitor;
 import syntax.Expr;
 public class Const extends AstNode {
@@ -10,24 +11,39 @@ public class Const extends AstNode {
     private RealConst realConst;
     private BoolConst boolConst;
 
+    private PrimitiveType type;
+
+
+
+
+
+
     public Const(int leftLocation, int rightLocation, IntegerConst integerConst){
         super(leftLocation, rightLocation);
+        type = new PrimitiveType(leftLocation,rightLocation,"INTEGER");
         this.integerConst = integerConst;
     }
 
     public Const(int leftLocation, int rightLocation, StringConst stringConst){
         super(leftLocation, rightLocation);
+        type = new PrimitiveType(leftLocation,rightLocation,"STRING");
         this.stringConst = stringConst;
     }
 
     public Const(int leftLocation, int rightLocation, RealConst realConst){
         super(leftLocation, rightLocation);
+        type = new PrimitiveType(leftLocation,rightLocation,"REAL");
         this.realConst = realConst;
     }
 
     public Const(int leftLocation, int rightLocation, BoolConst boolConst){
         super(leftLocation, rightLocation);
+        type = new PrimitiveType(leftLocation,rightLocation,"BOOL");
         this.boolConst = boolConst;
+    }
+
+    public PrimitiveType getType() {
+        return type;
     }
 
     public Expr getConst(){

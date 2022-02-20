@@ -19,6 +19,13 @@ public class Id extends Expr implements Leaf<String> {
     }
 
     @Override
+    public String toString() {
+        return "Id{" +
+                "value='" + value + '\'' +
+                '}';
+    }
+
+    @Override
     public <T, P> T accept(Visitor<T, P> visitor, P arg) {
         return visitor.visit(this, arg);
     }
