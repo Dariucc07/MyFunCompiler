@@ -40,6 +40,8 @@ end fun;
 #programma main
 main
 	var a := 1, b := 2.2;
+    string ans,ans2;
+    integer resu := (a+a);
 
 	string taglia;
 
@@ -49,7 +51,7 @@ main
 	stampa('ed è pari a ' & risultato);
 
 	?: 'vuoi continuare? (si/no)';
-	% ans;
+	% ans,ans2;
 	while ans = 'si' loop
 		% a 'inserisci un intero:';
 		% b 'inserisci un reale:';

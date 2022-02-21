@@ -1,5 +1,6 @@
 package syntax.expr;
 
+import nodetype.PrimitiveNodeType;
 import syntax.AstNode;
 import visitor.Visitor;
 
@@ -7,6 +8,16 @@ public class IdInitObblOp extends AstNode {
 
     private Id id;
     private Const constant;
+
+    private PrimitiveNodeType NodeType;
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
+
 
     public IdInitObblOp(int leftLocation, int rightLocation, Id id, Const constant) {
         super(leftLocation, rightLocation);

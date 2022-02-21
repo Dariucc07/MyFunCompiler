@@ -1,5 +1,6 @@
 package syntax.expr;
 
+import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.Leaf;
 import visitor.Visitor;
@@ -7,7 +8,14 @@ import visitor.Visitor;
 public class RealConst extends Expr implements Leaf<Double> {
 
     private double value;
+    PrimitiveNodeType NodeType;
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
 
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
     public RealConst(int leftLocation, int rightLocation, String value) {
         super(leftLocation, rightLocation);
         this.value = Double.parseDouble(value);

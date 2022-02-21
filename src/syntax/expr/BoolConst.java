@@ -1,5 +1,6 @@
 package syntax.expr;
 
+import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.Leaf;
 import visitor.Visitor;
@@ -7,6 +8,17 @@ import visitor.Visitor;
 public class BoolConst extends Expr implements Leaf<Boolean> {
 
     private boolean value;
+    
+    PrimitiveNodeType NodeType;
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
+
+
 
     public BoolConst(int leftLocation, int rightLocation, String value) {
         super(leftLocation, rightLocation);

@@ -1,5 +1,6 @@
 package syntax.expr.binaryexpr.arithop;
 
+import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.expr.BinaryOp;
 import visitor.Visitor;
@@ -8,6 +9,16 @@ public class PowOp extends BinaryOp {
 
     private Expr baseOperand;
     private Expr exponentOperand;
+
+    PrimitiveNodeType NodeType;
+
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
 
     public PowOp(int leftLocation, int rightLocation, Expr baseOperand, Expr exponentOperand){
         super(leftLocation, rightLocation);

@@ -32,6 +32,21 @@ public enum PrimitiveNodeType implements NodeType {
                     return NULL;
             }
         }
+
+        @Override
+        public PrimitiveNodeType checkDivInt(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkPow(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
+            return null;
+        }
     },
 
     REAL {
@@ -85,6 +100,26 @@ public enum PrimitiveNodeType implements NodeType {
             }
         }
 
+        @Override
+        public PrimitiveNodeType checkDivInt(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkPow(PrimitiveNodeType type) {
+            switch(type){
+                case INT: case REAL:
+                    return REAL;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
+            return null;
+        }
+
     },
 
     INT {
@@ -124,6 +159,7 @@ public enum PrimitiveNodeType implements NodeType {
             }
         }
 
+
         @Override
         public PrimitiveNodeType checkDiv(PrimitiveNodeType type) {
             switch(type){
@@ -144,6 +180,33 @@ public enum PrimitiveNodeType implements NodeType {
                 default:
                     return NULL;
             }
+        }
+
+        @Override
+        public PrimitiveNodeType checkDivInt(PrimitiveNodeType type) {
+            switch(type) {
+                case INT:
+                    return INT;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkPow(PrimitiveNodeType type) {
+            switch(type) {
+                case INT:
+                    return INT;
+                case REAL:
+                    return REAL;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
+            return null;
         }
 
     },
@@ -174,6 +237,21 @@ public enum PrimitiveNodeType implements NodeType {
             return NULL;
         }
 
+        @Override
+        public PrimitiveNodeType checkDivInt(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkPow(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
+            return null;
+        }
+
     },
 
     STRING {
@@ -202,6 +280,27 @@ public enum PrimitiveNodeType implements NodeType {
             switch(type){
                 case STRING:
                     return BOOL;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkDivInt(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkPow(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
+            switch(type) {
+                case STRING: case INT: case REAL: case BOOL:
+                    return STRING;
+
                 default:
                     return NULL;
             }

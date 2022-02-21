@@ -1,5 +1,6 @@
 package syntax;
 
+import nodetype.PrimitiveNodeType;
 import syntax.expr.Id;
 import visitor.Visitor;
 
@@ -9,11 +10,22 @@ public class ParDecl extends AstNode{
     private Id id;
 
 
+    PrimitiveNodeType NodeType;
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
+
+
     public ParDecl(int leftLocation,int rightLocation, Type type, Id id){
         super(leftLocation, rightLocation);
         this.out = false;
         this.type = type;
         this.id = id;
+        NodeType =(PrimitiveNodeType) type.typeFactory();
     }
 
     public ParDecl(int leftLocation,int rightLocation, boolean out, Type type, Id id){
@@ -21,6 +33,7 @@ public class ParDecl extends AstNode{
         this.out = out;
         this.type = type;
         this.id = id;
+        NodeType =(PrimitiveNodeType) type.typeFactory();
     }
 
     public boolean isOut() {

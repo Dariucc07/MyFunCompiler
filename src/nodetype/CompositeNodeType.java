@@ -31,6 +31,12 @@ public class CompositeNodeType implements NodeType {
         return PrimitiveNodeType.NULL;
     }
 
+    public PrimitiveNodeType checkDivInt(PrimitiveNodeType type){ return PrimitiveNodeType.NULL; }
+
+    public PrimitiveNodeType checkPow(PrimitiveNodeType type){ return PrimitiveNodeType.NULL; }
+
+    public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type){ return PrimitiveNodeType.NULL; }
+
     @Override
     public PrimitiveNodeType checkRel(PrimitiveNodeType type) {
         return PrimitiveNodeType.NULL;

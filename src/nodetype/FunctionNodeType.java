@@ -39,6 +39,21 @@ public class FunctionNodeType implements NodeType {
         return null;
     }
 
+    @Override
+    public PrimitiveNodeType checkDivInt(PrimitiveNodeType type) {
+        return null;
+    }
+
+    @Override
+    public PrimitiveNodeType checkPow(PrimitiveNodeType type) {
+        return null;
+    }
+
+    @Override
+    public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
+        return null;
+    }
+
     public CompositeNodeType getParamsType() {
         return paramsType;
     }

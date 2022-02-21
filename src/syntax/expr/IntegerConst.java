@@ -1,5 +1,6 @@
 package syntax.expr;
 
+import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.Leaf;
 import visitor.Visitor;
@@ -7,6 +8,15 @@ import visitor.Visitor;
 public class IntegerConst extends Expr implements Leaf<Integer> {
 
     private int value;
+    PrimitiveNodeType NodeType;
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
+
 
     public IntegerConst(int leftLocation, int rightLocation, String value) {
         super(leftLocation, rightLocation);

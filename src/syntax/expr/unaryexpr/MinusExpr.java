@@ -1,5 +1,6 @@
 package syntax.expr.unaryexpr;
 
+import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.expr.UnaryOp;
 import visitor.Visitor;
@@ -7,14 +8,26 @@ import visitor.Visitor;
 public class MinusExpr extends UnaryOp {
 
     private Expr expr;
+    PrimitiveNodeType NodeType;
+
+
+
 
     public MinusExpr(int leftLocation, int rightLocation, Expr expr) {
         super(leftLocation, rightLocation);
         this.expr = expr;
     }
 
+
     public Expr getExpr(){
         return expr;
+    }
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
     }
 
     @Override

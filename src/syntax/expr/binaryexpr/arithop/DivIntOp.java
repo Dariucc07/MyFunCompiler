@@ -1,5 +1,6 @@
 package syntax.expr.binaryexpr.arithop;
 
+import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.expr.BinaryOp;
 import visitor.Visitor;
@@ -8,6 +9,15 @@ public class DivIntOp extends BinaryOp {
 
     private Expr leftOperand;
     private Expr rightOperand;
+    PrimitiveNodeType NodeType;
+
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
 
     public DivIntOp(int leftLocation, int rightLocation, Expr leftOperand, Expr rightOperand){
         super(leftLocation, rightLocation);

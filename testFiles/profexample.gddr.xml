@@ -81,6 +81,7 @@
       <PrimitiveType type="STRING"/>
       <Id lexeme="messaggio"/>
     </ParDecl>
+    <PrimitiveType type="NULL"/>
     <VarDecl isVar="true">
       <IdInitObblOp>
         <Id lexeme="incremento"/>
@@ -131,6 +132,25 @@
           <RealConst value="2.2"/>
         </Const>
       </IdInitObblOp>
+    </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="STRING"/>
+      <IdInitOp>
+        <Id lexeme="ans"/>
+      </IdInitOp>
+      <IdInitOp>
+        <Id lexeme="ans2"/>
+      </IdInitOp>
+    </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="INTEGER"/>
+      <IdInitOp>
+        <Id lexeme="resu"/>
+        <PlusOp>
+          <Id lexeme="a"/>
+          <Id lexeme="a"/>
+        </PlusOp>
+      </IdInitOp>
     </VarDecl>
     <VarDecl isVar="false">
       <PrimitiveType type="STRING"/>
@@ -193,6 +213,7 @@
     </WriteTOp>
     <ReadStat>
       <Id lexeme="ans"/>
+      <Id lexeme="ans2"/>
     </ReadStat>
     <WhileStat>
       <EqualRelop>

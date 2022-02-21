@@ -1,5 +1,6 @@
 package syntax.expr.binaryexpr.relop;
 
+import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.expr.BinaryOp;
 import visitor.Visitor;
@@ -7,6 +8,16 @@ import visitor.Visitor;
 public class GreaterEqualRelop extends BinaryOp {
     private Expr leftOperand;
     private Expr rightOperand;
+    PrimitiveNodeType NodeType;
+
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
+
 
     public GreaterEqualRelop(int leftLocation, int rightLocation, Expr leftOperand, Expr rightOperand) {
         super(leftLocation, rightLocation);

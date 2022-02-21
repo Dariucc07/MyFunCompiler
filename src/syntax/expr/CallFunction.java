@@ -1,5 +1,7 @@
 package syntax.expr;
 
+import nodetype.CompositeNodeType;
+import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.Stat;
 import visitor.Visitor;
@@ -10,6 +12,14 @@ public class CallFunction extends Expr {
 
     private Id id;
     private LinkedList<Expr> exprList;
+    PrimitiveNodeType NodeType;
+    public PrimitiveNodeType getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
+    }
 
     public CallFunction(int leftLocation, int rightLocation, Id id, LinkedList<Expr> exprList) {
         super(leftLocation, rightLocation);
