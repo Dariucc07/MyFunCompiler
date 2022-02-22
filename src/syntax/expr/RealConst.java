@@ -13,12 +13,10 @@ public class RealConst extends Expr implements Leaf<Double> {
         return NodeType;
     }
 
-    public void setNodeType(PrimitiveNodeType nodeType) {
-        NodeType = nodeType;
-    }
     public RealConst(int leftLocation, int rightLocation, String value) {
         super(leftLocation, rightLocation);
         this.value = Double.parseDouble(value);
+        setNodeType(PrimitiveNodeType.REAL);
     }
 
     @Override

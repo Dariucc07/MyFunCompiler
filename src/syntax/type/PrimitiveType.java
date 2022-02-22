@@ -31,6 +31,20 @@ public class PrimitiveType extends Type {
                 return PrimitiveNodeType.NULL;
         }
     }
+    public String typeConverterC(){
+        switch(type){
+            case "INTEGER":
+                return "int";
+            case "REAL":
+                return "double";
+            case "STRING":
+                return "char";
+            case "BOOL":
+                return "int";
+            default:
+                return "void";
+        }
+    }
     @Override
     public <T, P> T accept(Visitor<T, P> visitor, P arg) {
         return visitor.visit(this,arg);

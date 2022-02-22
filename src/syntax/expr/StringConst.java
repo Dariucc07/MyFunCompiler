@@ -13,12 +13,10 @@ public class StringConst extends Expr implements Leaf<String> {
         return NodeType;
     }
 
-    public void setNodeType(PrimitiveNodeType nodeType) {
-        NodeType = nodeType;
-    }
     public StringConst(int leftLocation, int rightLocation, String value) {
         super(leftLocation, rightLocation);
         this.value = value;
+        setNodeType(PrimitiveNodeType.STRING);
     }
 
     @Override

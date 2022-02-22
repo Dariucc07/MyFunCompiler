@@ -14,15 +14,11 @@ public class BoolConst extends Expr implements Leaf<Boolean> {
         return NodeType;
     }
 
-    public void setNodeType(PrimitiveNodeType nodeType) {
-        NodeType = nodeType;
-    }
-
-
 
     public BoolConst(int leftLocation, int rightLocation, String value) {
         super(leftLocation, rightLocation);
         this.value = Boolean.parseBoolean(value);
+        setNodeType(PrimitiveNodeType.BOOL);
     }
 
     @Override
