@@ -290,7 +290,8 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         element.appendChild(ifStat.getExpr().accept(this, arg));
         ifStat.getVarDeclList().forEach(addParent(element, arg));
         ifStat.getStatList().forEach(addParent(element, arg));
-        element.appendChild(ifStat.getElseOp().accept(this, arg));
+        if(ifStat.getElseOp()!=null)
+            element.appendChild(ifStat.getElseOp().accept(this, arg));
         return element;
     }
 

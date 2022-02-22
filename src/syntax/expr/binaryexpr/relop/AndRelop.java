@@ -1,5 +1,6 @@
 package syntax.expr.binaryexpr.relop;
 
+import nodetype.NodeType;
 import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.expr.BinaryOp;
@@ -16,6 +17,11 @@ public class AndRelop extends BinaryOp {
         return NodeType;
     }
 
+    @Override
+    public nodetype.NodeType getType() {
+        return getNodeType();
+    }
+
     public void setNodeType(PrimitiveNodeType nodeType) {
         NodeType = nodeType;
     }
@@ -25,6 +31,7 @@ public class AndRelop extends BinaryOp {
         super(leftLocation, rightLocation);
         this.leftOperand = leftOperand;
         this.rightOperand = rightOperand;
+        this.NodeType= PrimitiveNodeType.BOOL;
     }
 
     public Expr getLeftOperand(){

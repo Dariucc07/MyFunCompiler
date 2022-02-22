@@ -19,11 +19,16 @@ public class LessEqualRelop extends BinaryOp {
         NodeType = nodeType;
     }
 
+    @Override
+    public PrimitiveNodeType getType(){
+        return getNodeType();
+    }
 
     public LessEqualRelop(int leftLocation, int rightLocation, Expr leftOperand, Expr rightOperand) {
         super(leftLocation, rightLocation);
         this.leftOperand = leftOperand;
         this.rightOperand = rightOperand;
+        this.NodeType= PrimitiveNodeType.BOOL;
     }
     public Expr getLeftOperand(){
         return leftOperand;

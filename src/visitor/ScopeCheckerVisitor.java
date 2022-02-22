@@ -65,11 +65,12 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         arg.enterScope();
 
         boolean areVarDeclListvalid = this.checkContext(program.getVarDeclList(),arg);
-        boolean areFunListValid = this.checkContext(program.getFunList(),arg);
         for (Fun f : program.getFunList()){
             f.getParamNodeType();
             arg.addEntry(f.getId().getValue(), new SymbolTableRecord( f.getId().getValue(),new FunctionNodeType(f.getParamNodeType(), f.getFunctionNodeType()),NodeKind.FUNCTION));
         }
+        boolean areFunListValid = this.checkContext(program.getFunList(),arg);
+
         boolean isMainValid = (program.getMain() != null) ? program.getMain().accept(this, arg) : true;
         boolean isProgramValid = areVarDeclListvalid && areFunListValid && isMainValid;
         arg.exitScope();
@@ -300,12 +301,14 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         boolean isExprValid = (ifStat.getExpr() != null) ? ifStat.getExpr().accept(this, arg) : true;
         boolean areVarDeclListValid = this.checkContext(ifStat.getVarDeclList(),arg);
         boolean areStatListValid = this.checkContext(ifStat.getStatList(),arg);
+
+        arg.exitScope();
         boolean isElseValid = (ifStat.getElseOp() != null) ? ifStat.getElseOp().accept(this, arg) : true;
         boolean isIfValid = isExprValid && areVarDeclListValid && areStatListValid && isElseValid;
         if(!isExprValid){
             throw new RuntimeException("Id:"+ifStat.getExpr().toString()+" doesn't exists!");
         }
-        arg.exitScope();
+
         return isIfValid;
     }
 

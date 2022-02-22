@@ -19,11 +19,15 @@ public class NotEqualRelop extends BinaryOp {
         NodeType = nodeType;
     }
 
-
+    @Override
+    public PrimitiveNodeType getType(){
+        return getNodeType();
+    }
     public NotEqualRelop(int leftLocation, int rightLocation, Expr leftOperand, Expr rightOperand){
         super(leftLocation, rightLocation);
         this.leftOperand = leftOperand;
         this.rightOperand = rightOperand;
+        this.NodeType=PrimitiveNodeType.BOOL;
     }
 
     public Expr getLeftOperand(){

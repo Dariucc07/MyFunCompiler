@@ -19,12 +19,16 @@ public class EqualRelop extends BinaryOp {
     public void setNodeType(PrimitiveNodeType nodeType) {
         NodeType = nodeType;
     }
-
+    @Override
+    public PrimitiveNodeType getType(){
+        return getNodeType();
+    }
 
     public EqualRelop(int leftLocation, int rightLocation, Expr leftOperand, Expr rightOperand){
         super(leftLocation, rightLocation);
         this.leftOperand = leftOperand;
         this.rightOperand = rightOperand;
+        this.NodeType = PrimitiveNodeType.BOOL;
     }
 
     public Expr getLeftOperand(){

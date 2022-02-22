@@ -12,6 +12,10 @@ public class StringConcatOp extends BinaryOp {
 
     PrimitiveNodeType NodeType;
 
+    public PrimitiveNodeType getType(){
+        return getNodeType();
+    }
+
     public PrimitiveNodeType getNodeType() {
         return NodeType;
     }
@@ -25,6 +29,7 @@ public class StringConcatOp extends BinaryOp {
         super(leftLocation, rightLocation);
         this.leftOperand = leftOperand;
         this.rightOperand = rightOperand;
+        this.NodeType= PrimitiveNodeType.STRING;
     }
 
     public Expr getLeftOperand(){
