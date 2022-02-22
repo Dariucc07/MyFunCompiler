@@ -237,6 +237,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
             String type= tp.cType();
             return String.format("%s %s = %s;",type,id,expr);
         }else {
+            if(arg.lookup(idInitOp.getId().getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING)){
+                return String.format("char %s[256];",id);
+            }
             PrimitiveNodeType tp= (PrimitiveNodeType) arg.lookup(idInitOp.getId().getValue()).get().getNodeType();
             String type= tp.cType();
             return String.format("%s %s;",type,id);
@@ -254,6 +257,7 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         String id = idInitObblOp.getId().accept(this,arg);
         String constant ="";
         if(idInitObblOp.getConstant().getConst()!=null) {
+
             constant = idInitObblOp.getConstant().getConst().accept(this, arg);
             String type = idInitObblOp.getConstant().getType().getType();
             if(type.equals("STRING")){
@@ -264,7 +268,7 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
 
             }
         }
-        return String.format("%s",id);
+        return String.format("%s;",id);
     }
 
     @Override
@@ -276,7 +280,7 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(ParDecl parDecl, SymbolTable arg) {
         String type = parDecl.getType().accept(this,arg);
         String id = parDecl.getId().accept(this,arg);
-        if(parDecl.isOut()){
+        if(parDecl.isOut() || type.equals("char")){
             return String.format("%s* %s",type,id);
         }else{
             return String.format("%s %s",type,id);
@@ -311,9 +315,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         String elseOp = "";
         if(ifStat.getElseOp() != null) {
             elseOp = ifStat.getElseOp().accept(this, arg);
-            return String.format("if(%s){\n%s%s}else{\n%s}", condition, sjVarDecl.toString(), sjStat.toString(),elseOp);
+            return String.format("if(%s){\n%s%s\n}\n%s", condition, sjVarDecl.toString(), sjStat.toString(),elseOp);
         }else {
-            return String.format("if(%s){\n%s%s}", condition, sjVarDecl.toString(), sjStat.toString());
+            return String.format("if(%s){\n%s%s\n}", condition, sjVarDecl.toString(), sjStat.toString());
         }
 
     }
@@ -328,12 +332,12 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
             sjVarDecl.add(declaredElement.accept(this, arg));
         }
 
-        StringJoiner sjStat = new StringJoiner(";\n");
+        StringJoiner sjStat = new StringJoiner("\n");
         for(Stat statement : whileStat.getStatList()){
             sjStat.add(statement.accept(this, arg));
         }
         arg.exitScope();
-        return String.format("while(%s){\n%s%s}", condition, sjVarDecl.toString(), sjStat.toString());
+        return String.format("while(%s){\n%s%s\n}", condition, sjVarDecl.toString(), sjStat.toString());
 
 
     }
@@ -353,7 +357,7 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
            String format = formatType(readStat.getExpr().getType());
            message = String.format("printf(\"%s\",%s);\n",format,expr);
         }
-        return String.format("%s scanf(\"%s\",%s);\n",message, typesFormat.toString(),scanfs.toString());
+        return String.format("%sscanf(\"%s\",%s);",message, typesFormat.toString(),scanfs.toString());
     }
 
     @Override
@@ -380,21 +384,21 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(WriteLnOp writeLnOp, SymbolTable arg) {
         String expr = writeLnOp.getExpr().accept(this,arg);
         String format = formatType(writeLnOp.getExpr().getType());
-        return String.format("printf(\"%s\n\",%s);\n",format,expr);
+        return String.format("printf(\"%s\\n\",%s);\n",format,expr);
     }
 
     @Override
     public String visit(WriteTOp writeTOp, SymbolTable arg) {
         String expr = writeTOp.getExpr().accept(this,arg);
         String format = formatType(writeTOp.getExpr().getType());
-        return String.format("printf(\"%s\t\",%s);\n",format,expr);
+        return String.format("printf(\"%s\\t\",%s);\n",format,expr);
     }
 
     @Override
     public String visit(WriteBOp writeBOp, SymbolTable arg) {
         String expr = writeBOp.getExpr().accept(this,arg);
         String format = formatType(writeBOp.getExpr().getType());
-        return String.format("printf(\"%s\b\",%s);\n",format,expr);
+        return String.format("printf(\"%s\\b\",%s);\n",format,expr);
     }
 
     @Override
@@ -409,7 +413,7 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
             }
         }
 
-        StringJoiner sjVarDecl = new StringJoiner(";\n");
+        StringJoiner sjVarDecl = new StringJoiner("\n");
         if(fun.getVarDeclList() != null){
             for(VarDecl element : fun.getVarDeclList()){
                 sjVarDecl.add(element.accept(this, arg));
@@ -425,9 +429,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         arg.exitScope();
         if(fun.getType() != null) {
             String type = fun.getType().accept(this, arg);
-            return String.format("%s  %s(%s){\n%s%s\n}", type, functionName, sjParamDecl.toString(), sjVarDecl.toString(), sjStat.toString());
+            return String.format("%s  %s(%s){\n%s\n%s\n}", type, functionName, sjParamDecl.toString(), sjVarDecl.toString(), sjStat.toString());
         }else {
-            return String.format("void %s(%s){\n%s%s\n}", functionName, sjParamDecl.toString(), sjVarDecl.toString(), sjStat.toString());
+            return String.format("void %s(%s){\n%s\n%s\n}", functionName, sjParamDecl.toString(), sjVarDecl.toString(), sjStat.toString());
         }
 
     }
@@ -435,11 +439,12 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     @Override
     public String visit(Main main, SymbolTable arg) {
         arg.enterScope();
+        StringJoiner varDecls = new StringJoiner("\n");
         StringJoiner statements = new StringJoiner("\n");
-        main.getVarDeclList().forEach(varDecl -> statements.add(varDecl.accept(this,arg)));
+        main.getVarDeclList().forEach(varDecl -> varDecls.add(varDecl.accept(this,arg)));
         main.getStatList().forEach(stat -> statements.add(stat.accept(this,arg)));
         arg.exitScope();
-        return String.format("int main(){\n%s\n}\n",statements.toString());
+        return String.format("int main(){\n%s\n%s\n}\n",varDecls.toString(),statements.toString());
     }
 
     @Override
@@ -451,12 +456,12 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     @Override
     public String visit(VarDecl varDecl, SymbolTable arg) {
         StringJoiner vardecls = new StringJoiner("\n");
-        if(varDecl.isVar()){
+        if(varDecl.getType()==null ){
             varDecl.getIdListInitObblOp().forEach(idInitObbl -> vardecls.add(idInitObbl.accept(this,arg)));
         }else{
             varDecl.getIdListInitOp().forEach(idInit -> vardecls.add(idInit.accept(this,arg)));
         }
-        return String.format("%s",vardecls.toString());
+            return String.format("%s",vardecls.toString());
     }
     private String formatType(NodeType type){
         PrimitiveNodeType pType = (PrimitiveNodeType) type;

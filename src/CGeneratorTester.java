@@ -16,7 +16,6 @@ public class CGeneratorTester {
     static Parser parser;
 
 
-
     public static void main(String[] args) throws Exception {
         StringTable stringTable = new ArrayStringTable();
         StackSymbolTable symbolTable = new StackSymbolTable(stringTable);
