@@ -4,18 +4,22 @@ integer prova1:=1,prova2:=2;
 
 # fa somma e restituisce anche la taglia del numero, oltre che il risultato
 fun sommac(integer a, real b, out string size): real
+    real dario;
+	string result;
+	string result4:='c';
 
-	real result;
-	var valore := 'grande';
+
 	var valore2 := 'piccola';
 
-	result  :=  (a + b) * c;
 
-	if result > 100 then
 
+
+	if dario > 100 then
+        var valore := 'grande';
+        dario := sommac(1,1.2,@result);
  		size := valore;
 	else
-
+        var valore := 'grande';
  		size := valore;
 	end if;
 
@@ -26,9 +30,10 @@ end fun;
 # stampa il messaggio dopo 4 ritorni a capo
 fun stampa(string messaggio)
     var incremento := 1;
+    real pesce;
 	var i := 1;
 	while i <= 4 loop
-
+        pesce := sommac(1,1.2,@messaggio);
 		?. '';
 		i := i + incremento;
 	end loop;

@@ -9,6 +9,10 @@ public class CTemplate implements Template<String> {
     @Override
     public void write(String filePath, String model) {
         filePath = filePath.replace(".gddr", ".c");
+        filePath = filePath.replace(".txt", ".c");
+        filePath = filePath.replace("test_files/", "test_files/c_out/");
+        filePath = filePath.replace("tests/", "tests/c_out/");
+
         try (FileWriter fw = new FileWriter(filePath)) {
             fw.write(model);
         } catch (IOException ex) {

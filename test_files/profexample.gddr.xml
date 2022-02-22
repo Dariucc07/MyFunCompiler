@@ -8,6 +8,17 @@
       </Const>
     </IdInitObblOp>
   </VarDecl>
+  <VarDecl isVar="false">
+    <PrimitiveType type="INTEGER"/>
+    <IdInitOp>
+      <Id lexeme="prova1"/>
+      <IntegerConst value="1"/>
+    </IdInitOp>
+    <IdInitOp>
+      <Id lexeme="prova2"/>
+      <IntegerConst value="2"/>
+    </IdInitOp>
+  </VarDecl>
   <Fun>
     <Id lexeme="sommac"/>
     <ParDecl out="false">
@@ -26,16 +37,21 @@
     <VarDecl isVar="false">
       <PrimitiveType type="REAL"/>
       <IdInitOp>
+        <Id lexeme="dario"/>
+      </IdInitOp>
+    </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="STRING"/>
+      <IdInitOp>
         <Id lexeme="result"/>
       </IdInitOp>
     </VarDecl>
-    <VarDecl isVar="true">
-      <IdInitObblOp>
-        <Id lexeme="valore"/>
-        <Const>
-          <StringConst value="grande"/>
-        </Const>
-      </IdInitObblOp>
+    <VarDecl isVar="false">
+      <PrimitiveType type="STRING"/>
+      <IdInitOp>
+        <Id lexeme="result4"/>
+        <StringConst value="c"/>
+      </IdInitOp>
     </VarDecl>
     <VarDecl isVar="true">
       <IdInitObblOp>
@@ -45,26 +61,43 @@
         </Const>
       </IdInitObblOp>
     </VarDecl>
-    <AssignStat>
-      <Id lexeme="result"/>
-      <TimesOp>
-        <PlusOp>
-          <Id lexeme="a"/>
-          <Id lexeme="b"/>
-        </PlusOp>
-        <Id lexeme="c"/>
-      </TimesOp>
-    </AssignStat>
     <IfStat>
       <GreaterThanRelop>
-        <Id lexeme="result"/>
+        <Id lexeme="dario"/>
         <IntegerConst value="100"/>
       </GreaterThanRelop>
+      <VarDecl isVar="true">
+        <IdInitObblOp>
+          <Id lexeme="valore"/>
+          <Const>
+            <StringConst value="grande"/>
+          </Const>
+        </IdInitObblOp>
+      </VarDecl>
+      <AssignStat>
+        <Id lexeme="dario"/>
+        <CallFunction>
+          <Id lexeme="sommac"/>
+          <IntegerConst value="1"/>
+          <RealConst value="1.2"/>
+          <OutParIdExpr>
+            <Id lexeme="result"/>
+          </OutParIdExpr>
+        </CallFunction>
+      </AssignStat>
       <AssignStat>
         <Id lexeme="size"/>
         <Id lexeme="valore"/>
       </AssignStat>
       <ElseOp>
+        <VarDecl isVar="true">
+          <IdInitObblOp>
+            <Id lexeme="valore"/>
+            <Const>
+              <StringConst value="grande"/>
+            </Const>
+          </IdInitObblOp>
+        </VarDecl>
         <AssignStat>
           <Id lexeme="size"/>
           <Id lexeme="valore"/>
@@ -90,6 +123,12 @@
         </Const>
       </IdInitObblOp>
     </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="REAL"/>
+      <IdInitOp>
+        <Id lexeme="pesce"/>
+      </IdInitOp>
+    </VarDecl>
     <VarDecl isVar="true">
       <IdInitObblOp>
         <Id lexeme="i"/>
@@ -103,6 +142,17 @@
         <Id lexeme="i"/>
         <IntegerConst value="4"/>
       </LessEqualRelop>
+      <AssignStat>
+        <Id lexeme="pesce"/>
+        <CallFunction>
+          <Id lexeme="sommac"/>
+          <IntegerConst value="1"/>
+          <RealConst value="1.2"/>
+          <OutParIdExpr>
+            <Id lexeme="messaggio"/>
+          </OutParIdExpr>
+        </CallFunction>
+      </AssignStat>
       <WriteLnOp>
         <StringConst value=""/>
       </WriteLnOp>
