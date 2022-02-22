@@ -12,7 +12,7 @@ public class DivOp extends BinaryOp {
 
     PrimitiveNodeType NodeType;
 
-    public PrimitiveNodeType getNodeType() {
+    public PrimitiveNodeType getType() {
         return NodeType;
     }
 

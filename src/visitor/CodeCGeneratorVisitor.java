@@ -95,9 +95,22 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
 
     @Override
     public String visit(StringConcatOp stringConcatOp, SymbolTable arg) {
+
         String leftOperand = stringConcatOp.getLeftOperand().accept(this, arg);
+        if(!stringConcatOp.getLeftOperand().getType().equals(PrimitiveNodeType.STRING)){
+            if(stringConcatOp.getLeftOperand().getType().equals(PrimitiveNodeType.REAL))
+                leftOperand = String.format("toStringFloat(%s)",leftOperand);
+            else
+                leftOperand = String.format("toStringInt(%s)",leftOperand);
+        }
         String rightOperand = stringConcatOp.getRightOperand().accept(this, arg);
-        return String.format("strcat(%s, %s)", leftOperand, rightOperand);
+        if(!stringConcatOp.getRightOperand().getType().equals(PrimitiveNodeType.STRING)){
+            if(stringConcatOp.getRightOperand().getType().equals(PrimitiveNodeType.REAL))
+                rightOperand = String.format("toStringFloat(%s)",rightOperand);
+            else
+                rightOperand = String.format("toStringInt(%s)",rightOperand);
+        }
+        return String.format("stringConcat(%s, %s)", leftOperand, rightOperand);
     }
 
     @Override
@@ -118,13 +131,20 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(NotEqualRelop notEqualRelop, SymbolTable arg) {
         String leftOperand = notEqualRelop.getLeftOperand().accept(this, arg);
         String rightOperand = notEqualRelop.getRightOperand().accept(this, arg);
+        if(notEqualRelop.getLeftOperand().getType().equals(PrimitiveNodeType.STRING)){
+            return String.format("(strcmp(%s,%s)!=0))", leftOperand, rightOperand);
+        }
         return String.format("%s != %s", leftOperand, rightOperand);
     }
 
     @Override
     public String visit(EqualRelop equalRelop, SymbolTable arg) {
+
         String leftOperand = equalRelop.getLeftOperand().accept(this, arg);
         String rightOperand = equalRelop.getRightOperand().accept(this, arg);
+        if(equalRelop.getLeftOperand().getType().equals(PrimitiveNodeType.STRING)){
+            return String.format("(strcmp(%s,%s)==0)", leftOperand, rightOperand);
+        }
         return String.format("%s == %s", leftOperand, rightOperand);
     }
 
@@ -132,6 +152,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(GreaterThanRelop greaterThanRelop, SymbolTable arg){
         String leftOperand = greaterThanRelop.getLeftOperand().accept(this, arg);
         String rightOperand = greaterThanRelop.getRightOperand().accept(this, arg);
+        if(greaterThanRelop.getLeftOperand().getType().equals(PrimitiveNodeType.STRING)){
+            return String.format("((strcmp(%s,%s))>0)", leftOperand, rightOperand);
+        }
         return String.format("%s > %s", leftOperand, rightOperand);
     }
 
@@ -139,6 +162,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(GreaterEqualRelop greaterEqualRelop, SymbolTable arg) {
         String leftOperand = greaterEqualRelop.getLeftOperand().accept(this, arg);
         String rightOperand = greaterEqualRelop.getRightOperand().accept(this, arg);
+        if(greaterEqualRelop.getLeftOperand().getType().equals(PrimitiveNodeType.STRING)){
+            return String.format("(strcmp(%s,%s)>=0)", leftOperand, rightOperand);
+        }
         return String.format("%s >= %s", leftOperand, rightOperand);
     }
 
@@ -146,6 +172,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(LessThanRelop lessThanRelop, SymbolTable arg) {
         String leftOperand = lessThanRelop.getLeftOperand().accept(this, arg);
         String rightOperand = lessThanRelop.getRightOperand().accept(this, arg);
+        if(lessThanRelop.getLeftOperand().getType().equals(PrimitiveNodeType.STRING)){
+            return String.format("(strcmp(%s,%s)<0)", leftOperand, rightOperand);
+        }
         return String.format("%s < %s", leftOperand, rightOperand);
     }
 
@@ -153,6 +182,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(LessEqualRelop lessEqualRelop, SymbolTable arg) {
         String leftOperand = lessEqualRelop.getLeftOperand().accept(this, arg);
         String rightOperand = lessEqualRelop.getRightOperand().accept(this, arg);
+        if(lessEqualRelop.getLeftOperand().getType().equals(PrimitiveNodeType.STRING)){
+            return String.format("(strcmp(%s,%s)<=0)", leftOperand, rightOperand);
+        }
         return String.format("%s <= %s", leftOperand, rightOperand);
     }
 
@@ -220,6 +252,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     @Override
     public String visit(OutParIdExpr outParIdExpr, SymbolTable arg) {
         String left = outParIdExpr.getId().accept(this,arg);
+        if(arg.lookup(outParIdExpr.getId().getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING)){
+            return String.format("(%s)", left);
+        }
         return String.format("&(%s)", left);
     }
 
@@ -364,6 +399,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(AssignStat assignStat, SymbolTable arg) {
         String leftOperand = assignStat.getId().accept(this, arg);
         String rightOperand = assignStat.getExpr().accept(this, arg);
+        if(arg.lookup(assignStat.getId().getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING)){
+            return String.format("strcpy(%s,%s);", leftOperand, rightOperand);
+        }
         return String.format("%s = %s;", leftOperand, rightOperand);
     }
 

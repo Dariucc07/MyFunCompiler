@@ -312,7 +312,7 @@ public enum PrimitiveNodeType implements NodeType {
             case STRING:
                 return "char *";
             case REAL:
-                return "double";
+                return "float";
             case BOOL:
                 return "bool";
             case INT:

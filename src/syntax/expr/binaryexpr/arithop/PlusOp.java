@@ -24,7 +24,7 @@ public class PlusOp extends BinaryOp {
 
     public Expr getRightOperand(){ return rightOperand;}
 
-    public PrimitiveNodeType getNodeType() {
+    public PrimitiveNodeType getType() {
         return NodeType;
     }
 
