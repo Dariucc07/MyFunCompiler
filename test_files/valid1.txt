@@ -10,7 +10,7 @@ var c := 1;
 
 
 # fa somma e restituisce anche la taglia del numero, oltre che il risultato
-fun sommac(integer a, real b, out string size): real
+fun sommac(integer a, real b,out string size): real
 
 	real result;
 
