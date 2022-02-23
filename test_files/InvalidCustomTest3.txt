@@ -1,0 +1,32 @@
+#*Third Invalid test
+The errors will be:
+ - errore doesn't exists
+ - Type Mismatch. Trying to assign to integer a string expression
+ - Type Mismatch. While condition doesn't return boolean
+#
+var c:=1.1;
+
+#somma un numero a c finche l'utente non esce dal programma premendo 0
+
+fun somma(real numero): real
+    c:= c + numero;
+    return c;
+end fun;
+
+
+main
+    real app;
+    ?. 'Benvenuto!';
+    ?: 'Inserisci un numero e io continuerò a sommarlo finchè non sceglierai 0';
+    % app 'Numero:';
+    while app+1 loop
+        integer errore;
+        errore:= 'ciao';
+        ?. 'Ora il numero è:'& app;
+        ?. 'ciao';
+        %app;
+    end loop;
+    % errore 'Sono un errore';
+    ?. 'Okk hai scelto un numero minore di 0, ciao!';
+end main;
+

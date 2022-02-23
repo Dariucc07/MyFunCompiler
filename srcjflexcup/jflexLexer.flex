@@ -67,8 +67,8 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 
 
 Identifier = [$_A-Za-z][$_A-Za-z0-9]*
-IntegerLiteral = (\+|\-)?([0-9]+)
-NumberLiteral = (\+|\-)?([0-9]|([0-9]?\.[0-9]+))(E(\+|\-)?[0-9]+)?
+IntegerLiteral = ([0-9]+)
+NumberLiteral = ([0-9]|([0-9]?\.[0-9]+))(E(\+|\-)?[0-9]+)?
 // instead of doing regex for string and comment, we have to handle errors so we create comment and string (single quoted and double quoted) states
 // StringLiteral = ([\"]([^\"])*[\"])|([\']([^\'])*[\'])
 

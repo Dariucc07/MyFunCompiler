@@ -1,0 +1,27 @@
+
+integer prova1:=1, prova2:=2;
+
+# effettua la somma di due numeri come out di parametri e entrambi saranno uguali alla somma e restituisce true
+fun sommaout(out integer a, out integer b):bool
+    integer c :=0;
+    c:=a+b;
+    a:=c;
+    b:=c;
+    return true;
+end fun;
+
+#programma main
+main
+    integer a:=1;
+    integer b:=2;
+	?. 'Ciao!';
+	?. 'Scegli due numeri';
+	% a 'Numero1:';
+	% b 'Numero2:';
+	if (sommaout(@a,@b) = true) then
+	    ?. "Ora la somma e " & a;
+	    ?. "Entrambi i numeri ora hanno lo stesso valore della somma";
+	    ?: "Infatti";
+	    ?: "A=" & a & "B=" & b;
+	end if;
+end main;

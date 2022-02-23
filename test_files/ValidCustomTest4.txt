@@ -1,0 +1,19 @@
+#serie di fibonacci per i primi 100 numeri
+
+main
+    real ultimo, penultimo, i, f;
+    i := 2;
+    penultimo := 0;
+    ?. penultimo;
+    ultimo := 1;
+    ?. ultimo;
+
+    while i <= 10 loop
+        f :=ultimo + penultimo;
+        ?. f & "\n";
+        penultimo := ultimo;
+        ultimo := f;
+        i := i + 1 ;
+        f :=5-4;
+    end loop;
+end main;

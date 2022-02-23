@@ -1,0 +1,28 @@
+#*Fourth Invalid test
+The errors will be:
+ - errore doesn't exists
+ - Type Mismatch. While condition doesn't return boolean
+ - Type Mismatch. Type Mismatch. if condition doesn't return boolean
+ - Type Mismatch. Type Mismatch. Trying to assign to real a string expression
+#
+main
+    real ultimo, penultimo, i, f;
+    i := 2;
+    penultimo := 0;
+    ?. penultimo;
+    ultimo := 1;
+    ?. ultimo;
+
+    while 1<2 loop
+        f :=ultimo + penultimo;
+        ?. f & "\n";
+        penultimo := ultimo;
+        ultimo := f;
+        i := i + 1 ;
+       f :='ciao';
+       if 'ciao' then
+           ?. 'sono un errore';
+       end if;
+       % errore ;
+    end loop;
+end main;

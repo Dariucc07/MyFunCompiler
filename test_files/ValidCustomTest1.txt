@@ -1,0 +1,29 @@
+integer apparente;
+fun scambia(out integer a,out integer b): bool
+     integer app;
+     app := b;
+     b := a;
+     a := app;
+     return true;
+end fun;
+
+main
+    integer numero1;
+    integer numero2;
+    var scelta := 'no';
+    % scelta 'vuoi vedere una magia?(si/no)';
+    if scelta = 'si' then
+        ?. 'Bene. La Magia Inizia!' & 'Inserisci due Numeri:';
+        % numero1 'Numero1:';
+        % numero2 'Numero2:';
+        if(scambia(@numero1,@numero2)) then
+            ?. 'Perfetto!';
+            ? "Ora il tuo Numero1 e' " & numero1;
+            ?. " e il tuo Numero2 e' " & numero2;
+            ?: '';
+        end if;
+    else
+        ?. ' Ah ma allora sei cattivo! Va bene...';
+    end if;
+    ?: 'ciao bello!!!';
+end main;

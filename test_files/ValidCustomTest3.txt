@@ -1,0 +1,25 @@
+
+var c:=1.1;
+
+#somma un numero a c finche l'utente non esce dal programma premendo 0
+
+fun somma(real numero): real
+    c:= c + numero;
+    return c;
+end fun;
+
+
+main
+    real app;
+    ?. 'Benvenuto!';
+    ?: 'Inserisci un numero e io continuerò a sommarlo finchè non sceglierai 0';
+    % app 'Numero:';
+    while app>0 loop
+        app:= somma(app);
+        ?. 'Ora il numero è:'& app;
+        ?. 'Scegli un altro numero:';
+        %app;
+    end loop;
+    ?. 'Okk hai scelto un numero minore di 0, ciao!';
+end main;
+
