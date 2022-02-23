@@ -281,7 +281,10 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         if(isIdValid){
             throw new RuntimeException("Id:"+parDecl.getId().getValue() +" already exists");
         }
-        arg.addEntry(parDecl.getId().getValue(), new SymbolTableRecord(parDecl.getId().getValue(), parDecl.getType().typeFactory(), NodeKind.VARIABLE));
+        if(parDecl.isOut())
+            arg.addEntry(parDecl.getId().getValue(), new SymbolTableRecord(parDecl.getId().getValue(), parDecl.getType().typeFactory(), NodeKind.OUTVARIABLE));
+        else
+            arg.addEntry(parDecl.getId().getValue(), new SymbolTableRecord(parDecl.getId().getValue(), parDecl.getType().typeFactory(), NodeKind.VARIABLE));
         return isParDeclValid;
     }
 
