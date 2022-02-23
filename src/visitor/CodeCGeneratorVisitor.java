@@ -219,7 +219,8 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
 
         if(arg.lookup(id.getValue()).isPresent()){
             if(arg.lookup(id.getValue()).get().getKind().equals(NodeKind.OUTVARIABLE)){
-                return "*"+id.getValue();
+                if(!arg.lookup(id.getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING))
+                    return "*"+id.getValue();
             }
         }
         return id.getValue();
