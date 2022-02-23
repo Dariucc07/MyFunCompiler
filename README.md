@@ -11,6 +11,9 @@ Project SDK : Amazon corretto-11 (JDK 11)
 Language-level: 11.
 Main class: CGeneratorTester.java
 ```
+##TypeChecking
+Type checking inferential rules [here](TypeChecking.pdf).
+
 ## Lexical Specification
 
 | Token | Lexeme |
