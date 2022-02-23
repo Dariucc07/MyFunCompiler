@@ -11,7 +11,7 @@ public class DivIntOp extends BinaryOp {
     private Expr rightOperand;
     PrimitiveNodeType NodeType;
 
-    public PrimitiveNodeType getNodeType() {
+    public PrimitiveNodeType getType() {
         return NodeType;
     }
 

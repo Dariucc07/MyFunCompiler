@@ -1,8 +1,26 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
+char * toStringFloat(double f){
+    char* c= (char*) malloc(50); //size of the number
+    sprintf(c, "%g", f);
+    return c;
+}
+char * toStringInt(int f){
+    char* c= (char*) malloc(50); //size of the number
+    itoa(f,c,10);
+    return c;
+}
 
+char * stringConcat(char * s1,char * s2){
+    char* c= (char*) malloc(strlen(s1)+strlen(s2)+1);
+    c[0]='\0';
+    strcpy(c,s1);
+    strcat(c,s2);
+    return c;
+}
 
 
 /********************* Variable Declarations ****************/
@@ -34,8 +52,8 @@ scanf("%d",&choose);
 return choose;
 }
 void  do_sum(){
-double op1;
-double op2;
+float op1;
+float op2;
 printf("%s\n","\n(1) SOMMA\n");
 
 printf("%s","Inserisci il primo operando: ");
@@ -44,12 +62,12 @@ printf("%s","Inserisci il secondo operando: ");
 scanf("%f",&op2);
 printf("%s\n","");
 
-printf("%s\n",strcat(strcat(strcat(strcat(strcat("La somma tra ", op1), " e "), op2), " vale "), op1 + op2));
+printf("%s\n",stringConcat(stringConcat(stringConcat(stringConcat(stringConcat("La somma tra ", toStringFloat(op1)), " e "), toStringFloat(op2)), " vale "), toStringFloat(op1 + op2)));
 
 }
 void  do_mul(){
-double op1;
-double op2;
+float op1;
+float op2;
 printf("%s\n","\n(2) MOLTIPLICAZIONE");
 
 printf("%s","\nInserisci il primo operando: ");
@@ -58,7 +76,7 @@ printf("%s","Inserisci il secondo operando: ");
 scanf("%f",&op2);
 printf("%s\n","");
 
-printf("%s\n",strcat(strcat(strcat(strcat(strcat("La moltiplicazione tra ", op1), " e "), op2), " vale "), op1 * op2));
+printf("%s\n",stringConcat(stringConcat(stringConcat(stringConcat(stringConcat("La moltiplicazione tra ", toStringFloat(op1)), " e "), toStringFloat(op2)), " vale "), toStringFloat(op1 * op2)));
 
 }
 void  do_div_int(){
@@ -72,12 +90,12 @@ printf("%s","Inserisci il secondo operando: ");
 scanf("%d",&op2);
 printf("%s\n","");
 
-printf("%s\n",strcat(strcat(strcat(strcat(strcat("La divisione intera tra ", op1), " e "), op2), " vale "), op1 / op2));
+printf("%s\n",stringConcat(stringConcat(stringConcat(stringConcat(stringConcat("La divisione intera tra ", toStringInt(op1)), " e "), toStringInt(op2)), " vale "), toStringInt(op1 / op2)));
 
 }
 void  do_pow(){
-double op1;
-double op2;
+float op1;
+float op2;
 printf("%s\n","\n(4) POTENZA");
 
 printf("%s","\nInserisci la base: ");
@@ -86,7 +104,7 @@ printf("%s","Inserisci l'esponente: ");
 scanf("%f",&op2);
 printf("%s\n","");
 
-printf("%s\n",strcat(strcat(strcat(strcat(strcat("La potenza di ", op1), " elevato a "), op2), " vale "), pow(op1, op2)));
+printf("%s\n",stringConcat(stringConcat(stringConcat(stringConcat(stringConcat("La potenza di ", toStringFloat(op1)), " elevato a "), toStringFloat(op2)), " vale "), toStringFloat(pow(op1, op2))));
 
 }
 int  recursive_fib(int n){
@@ -128,12 +146,12 @@ printf("%s","\nInserisci n: ");
 scanf("%d",&n);
 printf("%s\n","");
 
-message = strcat(strcat("Il numero di Fibonacci in posizione ", n), " vale ");
+strcpy(message,stringConcat(stringConcat("Il numero di Fibonacci in posizione ", toStringInt(n)), " vale "));
 if(recursive){
-message = strcat(message, recursive_fib(n));
+strcpy(message,stringConcat(message, toStringInt(recursive_fib(n))));
 }
 else {
-message = strcat(message, iterative_fib(n));
+strcpy(message,stringConcat(message, toStringInt(iterative_fib(n))));
 }
 
 printf("%s\n",message);
@@ -179,7 +197,7 @@ void  print_continua(int* continua){
 char in[256];
 printf("%s","Vuoi continuare? (s/n) --> ");
 scanf("%s",&in);
-if(in == "s"){
+if((strcmp(in,"s")==0)){
 continua = 1;
 }
 else {

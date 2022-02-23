@@ -36,7 +36,7 @@ public class PrimitiveType extends Type {
             case "INTEGER":
                 return "int";
             case "REAL":
-                return "double";
+                return "float";
             case "STRING":
                 return "char";
             case "BOOL":
