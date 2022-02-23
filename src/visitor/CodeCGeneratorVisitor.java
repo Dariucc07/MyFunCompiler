@@ -324,7 +324,7 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         String type = parDecl.getType().accept(this,arg);
         String id = parDecl.getId().accept(this,arg);
         if( type.equals("char")){
-            return String.format("%s* %s",type,id);
+            return String.format("%s %s",type,id);
         }else{
             return String.format("%s %s",type,id);
         }
