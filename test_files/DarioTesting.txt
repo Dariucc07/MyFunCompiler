@@ -1,0 +1,38 @@
+var c:= 2.2;
+
+
+fun somma(string somma):string
+    string dario;
+    integer donato;
+    dario := "sono bello";
+    return dario;
+end fun;
+
+
+fun somma1(string messaggio):real
+    real dario;
+    return dario;
+end fun;
+
+
+fun somma2(string messaggio)
+    integer dario, donato, result;
+    result := dario + donato;
+end fun;
+
+
+fun somma3(string messaggio):string
+    integer donato;
+    integer dario;
+    return messaggio;
+end fun;
+
+fun somma6(string somma6):string
+    integer dario;
+    return somma6;
+end fun;
+
+main
+    string dario;
+    dario := "sono bello";
+end main;

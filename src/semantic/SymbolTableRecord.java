@@ -3,6 +3,8 @@ package semantic;
 import nodekind.NodeKind;
 import nodetype.NodeType;
 
+
+
 /**
  * SymbolTableRecord
  */
@@ -21,6 +23,7 @@ public class SymbolTableRecord {
     public NodeType getNodeType() {
         return nodeType;
     }
+
     public void setNodeType(NodeType nodeType) {
         this.nodeType = nodeType;
     }
@@ -28,6 +31,7 @@ public class SymbolTableRecord {
     public NodeKind getKind() {
         return nodeKind;
     }
+
     public void setKind(NodeKind nodeKind) {
         this.nodeKind = nodeKind;
     }

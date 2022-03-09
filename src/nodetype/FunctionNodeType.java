@@ -9,6 +9,7 @@ public class FunctionNodeType implements NodeType {
     private CompositeNodeType paramsType;
     private NodeType nodeType;
 
+
     public FunctionNodeType(CompositeNodeType paramsType, NodeType nodeType) {
         this.paramsType = paramsType;
         this.nodeType = nodeType;

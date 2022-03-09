@@ -9,8 +9,13 @@ public class IntegerConst extends Expr implements Leaf<Integer> {
 
     private int value;
     PrimitiveNodeType NodeType;
+
     public PrimitiveNodeType getNodeType() {
         return NodeType;
+    }
+
+    public void setNodeType(PrimitiveNodeType nodeType) {
+        NodeType = nodeType;
     }
 
     public IntegerConst(int leftLocation, int rightLocation, String value) {

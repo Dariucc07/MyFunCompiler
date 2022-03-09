@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Program>
+  <VarDecl isVar="true">
+    <IdInitObblOp>
+      <Id lexeme="c"/>
+      <Const>
+        <RealConst value="2.2"/>
+      </Const>
+    </IdInitObblOp>
+  </VarDecl>
+  <Fun>
+    <Id lexeme="somma"/>
+    <ParDecl out="false">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="somma"/>
+    </ParDecl>
+    <PrimitiveType type="STRING"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="STRING"/>
+      <IdInitOp>
+        <Id lexeme="dario"/>
+      </IdInitOp>
+    </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="INTEGER"/>
+      <IdInitOp>
+        <Id lexeme="donato"/>
+      </IdInitOp>
+    </VarDecl>
+    <AssignStat>
+      <Id lexeme="dario"/>
+      <StringConst value="sono bello"/>
+    </AssignStat>
+    <ReturnOp>
+      <Id lexeme="dario"/>
+    </ReturnOp>
+  </Fun>
+  <Fun>
+    <Id lexeme="somma1"/>
+    <ParDecl out="false">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="messaggio"/>
+    </ParDecl>
+    <PrimitiveType type="REAL"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="REAL"/>
+      <IdInitOp>
+        <Id lexeme="dario"/>
+      </IdInitOp>
+    </VarDecl>
+    <ReturnOp>
+      <Id lexeme="dario"/>
+    </ReturnOp>
+  </Fun>
+  <Fun>
+    <Id lexeme="somma2"/>
+    <ParDecl out="false">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="messaggio"/>
+    </ParDecl>
+    <PrimitiveType type="NULL"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="INTEGER"/>
+      <IdInitOp>
+        <Id lexeme="dario"/>
+      </IdInitOp>
+      <IdInitOp>
+        <Id lexeme="donato"/>
+      </IdInitOp>
+      <IdInitOp>
+        <Id lexeme="result"/>
+      </IdInitOp>
+    </VarDecl>
+    <AssignStat>
+      <Id lexeme="result"/>
+      <PlusOp>
+        <Id lexeme="dario"/>
+        <Id lexeme="donato"/>
+      </PlusOp>
+    </AssignStat>
+  </Fun>
+  <Fun>
+    <Id lexeme="somma3"/>
+    <ParDecl out="false">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="messaggio"/>
+    </ParDecl>
+    <PrimitiveType type="STRING"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="INTEGER"/>
+      <IdInitOp>
+        <Id lexeme="donato"/>
+      </IdInitOp>
+    </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="INTEGER"/>
+      <IdInitOp>
+        <Id lexeme="dario"/>
+      </IdInitOp>
+    </VarDecl>
+    <ReturnOp>
+      <Id lexeme="messaggio"/>
+    </ReturnOp>
+  </Fun>
+  <Fun>
+    <Id lexeme="somma6"/>
+    <ParDecl out="false">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="somma6"/>
+    </ParDecl>
+    <PrimitiveType type="STRING"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="INTEGER"/>
+      <IdInitOp>
+        <Id lexeme="dario"/>
+      </IdInitOp>
+    </VarDecl>
+    <ReturnOp>
+      <Id lexeme="somma6"/>
+    </ReturnOp>
+  </Fun>
+  <Main>
+    <VarDecl isVar="false">
+      <PrimitiveType type="STRING"/>
+      <IdInitOp>
+        <Id lexeme="dario"/>
+      </IdInitOp>
+    </VarDecl>
+    <AssignStat>
+      <Id lexeme="dario"/>
+      <StringConst value="sono bello"/>
+    </AssignStat>
+  </Main>
+</Program>

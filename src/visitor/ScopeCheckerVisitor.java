@@ -1,7 +1,9 @@
 package visitor;
 
 import nodekind.NodeKind;
+import nodetype.CompositeNodeType;
 import nodetype.FunctionNodeType;
+import nodetype.NodeType;
 import semantic.SymbolTable;
 import semantic.SymbolTableRecord;
 import syntax.*;
@@ -22,6 +24,8 @@ import syntax.type.PrimitiveType;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.StringJoiner;
 
 public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
 
@@ -186,7 +190,12 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
 
     @Override
     public Boolean visit(Id id, SymbolTable arg) {
-       return arg.lookup(id.getValue()).isPresent();
+        if(arg.lookup(id.getValue()).isPresent()){
+            if(id.isParDecl()){
+                return false;
+            }
+        }
+        return arg.lookup(id.getValue()).isPresent();
     }
 
     @Override
@@ -275,7 +284,11 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
 
     @Override
     public Boolean visit(ParDecl parDecl, SymbolTable arg) {
-         boolean isIdValid = (parDecl.getId() != null) ? parDecl.getId().accept(this, arg) : true;
+        if(parDecl.getId() != null){
+            parDecl.getId().setParDecl(true);
+            parDecl.getId().setFunction(false);
+        }
+        boolean isIdValid = (parDecl.getId() != null) ?  parDecl.getId().accept(this, arg) : true;
         boolean isTypeValid = (parDecl.getType() != null) ? parDecl.getType().accept(this, arg) : true;
         boolean isParDeclValid = !isIdValid && isTypeValid;
         if(isIdValid){
@@ -403,6 +416,10 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
     @Override
     public Boolean visit(Fun fun, SymbolTable arg) {
         arg.enterScope();
+        if(fun.getId() != null){
+            fun.getId().setFunction(true);
+            fun.getId().setParDecl(false);
+        }
         boolean isIdValid = (fun.getId() != null) ? fun.getId().accept(this, arg) : true;
         boolean areParamDeclListValid = this.checkContext(fun.getParamDeclList(),arg);
         boolean isTypeValid = (fun.getType() != null) ? fun.getType().accept(this, arg) : true;

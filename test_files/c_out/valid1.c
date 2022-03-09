@@ -10,7 +10,7 @@ char * toStringFloat(double f){
 }
 char * toStringInt(int f){
     char* c= (char*) malloc(50); //size of the number
-    itoa(f,c,10);
+    sprintf(c, "%d", f);
     return c;
 }
 

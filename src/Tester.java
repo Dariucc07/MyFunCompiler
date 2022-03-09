@@ -1,11 +1,18 @@
 import java.io.IOException;
 
+import java_cup.runtime.ComplexSymbolFactory;
 import java_cup.runtime.Symbol;
+import lexical.ArrayStringTable;
+import lexical.StringTable;
 
 public class Tester {
     public static void main(String[] args) throws IOException {
 
-        Lexer lexicalAnalyzer = new Lexer();
+
+        StringTable st = new ArrayStringTable();
+        ComplexSymbolFactory csf = new ComplexSymbolFactory();
+
+        Lexer lexicalAnalyzer = new Lexer(st, csf);
         String filePath = args[0];
 
         if (lexicalAnalyzer.initialize(filePath)) {

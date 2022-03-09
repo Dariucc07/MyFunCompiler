@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ScopeAndTypeCheckind" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="TypeCheckVisit" />
+    <module name="recupito-di-dario_es5_scg" />
+    <option name="PROGRAM_PARAMETERS" value="test_files/DarioTesting.txt" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

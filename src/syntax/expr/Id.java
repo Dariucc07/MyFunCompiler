@@ -8,7 +8,8 @@ import visitor.Visitor;
 public class Id extends Expr implements Leaf<String> {
 
     private String value;
-
+    private boolean isParDecl = false;
+    private boolean isFunction = false;
     PrimitiveNodeType NodeType;
     public PrimitiveNodeType getNodeType() {
         return NodeType;
@@ -35,6 +36,22 @@ public class Id extends Expr implements Leaf<String> {
         return "Id{" +
                 "value='" + value + '\'' +
                 '}';
+    }
+
+    public boolean isParDecl() {
+        return isParDecl;
+    }
+
+    public void setParDecl(boolean parDecl) {
+        isParDecl = parDecl;
+    }
+
+    public boolean isFunction() {
+        return isFunction;
+    }
+
+    public void setFunction(boolean function) {
+        isFunction = function;
     }
 
     @Override
