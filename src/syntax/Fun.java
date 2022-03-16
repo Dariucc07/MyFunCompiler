@@ -65,7 +65,7 @@ public class Fun extends AstNode{
     public CompositeNodeType getParamNodeType() {
         CompositeNodeType compositeNodeType = new CompositeNodeType(new ArrayList<>());
         this.getParamDeclList().forEach(parDecl -> {
-            compositeNodeType.addNodeType(parDecl.getType().typeFactory());
+            compositeNodeType.addNodeType(parDecl.getNodeType());
         });
         return compositeNodeType;
     }

@@ -10,6 +10,7 @@ public class Id extends Expr implements Leaf<String> {
     private String value;
     private boolean isParDecl = false;
     private boolean isFunction = false;
+    private boolean isCalledFunction = false;
     PrimitiveNodeType NodeType;
     public PrimitiveNodeType getNodeType() {
         return NodeType;
@@ -52,6 +53,14 @@ public class Id extends Expr implements Leaf<String> {
 
     public void setFunction(boolean function) {
         isFunction = function;
+    }
+
+    public boolean isCalledFunction() {
+        return isCalledFunction;
+    }
+
+    public void setCalledFunction(boolean calledFunction) {
+        isCalledFunction = calledFunction;
     }
 
     @Override

@@ -4,6 +4,7 @@ import nodekind.NodeKind;
 import nodetype.CompositeNodeType;
 import nodetype.FunctionNodeType;
 import nodetype.NodeType;
+import nodetype.OutParPrimitiveNoteType;
 import semantic.SymbolTable;
 import semantic.SymbolTableRecord;
 import syntax.*;
@@ -46,6 +47,8 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
 
         }
     }
+
+
 
     private AstNode signalContext(List<? extends AstNode> nodes, SymbolTable arg) {
         if((nodes==null) || nodes.isEmpty()){
@@ -187,9 +190,10 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
     public Boolean visit(StringConst stringConst, SymbolTable arg) {
         return true;
     }
-
+    
     @Override
     public Boolean visit(Id id, SymbolTable arg) {
+
         if(arg.lookup(id.getValue()).isPresent()){
             if(id.isParDecl()){
                 return false;
@@ -198,13 +202,29 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         return arg.lookup(id.getValue()).isPresent();
     }
 
+
     @Override
     public Boolean visit(CallFunction callFunction, SymbolTable arg) {
         boolean isIdValid = callFunction.getId().accept(this, arg);
+
         boolean areExprListValid = this.checkContext(callFunction.getExprList(),arg);
+        Optional<SymbolTableRecord> str = arg.lookup(callFunction.getId().getValue());
+        FunctionNodeType fnt = (FunctionNodeType) str.get().getNodeType();
+        CompositeNodeType cnt = fnt.getParamsType();
         boolean isCallFunctionValid = isIdValid && areExprListValid;
         if(!isIdValid){
             throw new RuntimeException("Function with id:"+callFunction.getId().getValue() +"doesn't exists!");
+        }
+        if(str.get().getKind() == NodeKind.FUNCTION){
+            if(callFunction.getExprList().size() != cnt.getTypes().size()){
+                throw new RuntimeException("Trying to call " + callFunction.getId().getValue() +"()" +  " with " + callFunction.getExprList().size() + " parameter/s but it was defined with " + cnt.getTypes().size());
+            }
+            /*
+            for(Expr parameter : callFunction.getExprList().){
+                if(parameter.getType() == ( str.get().getNodeType())
+            }
+
+             */
         }
         return isCallFunctionValid;
     }
@@ -295,7 +315,7 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
             throw new RuntimeException("Id:"+parDecl.getId().getValue() +" already exists");
         }
         if(parDecl.isOut())
-            arg.addEntry(parDecl.getId().getValue(), new SymbolTableRecord(parDecl.getId().getValue(), parDecl.getType().typeFactory(), NodeKind.OUTVARIABLE));
+            arg.addEntry(parDecl.getId().getValue(), new SymbolTableRecord(parDecl.getId().getValue(), new OutParPrimitiveNoteType(parDecl.getType().typeFactory()), NodeKind.OUTVARIABLE));
         else
             arg.addEntry(parDecl.getId().getValue(), new SymbolTableRecord(parDecl.getId().getValue(), parDecl.getType().typeFactory(), NodeKind.VARIABLE));
         return isParDeclValid;

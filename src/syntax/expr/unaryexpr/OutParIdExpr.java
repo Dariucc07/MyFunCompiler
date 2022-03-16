@@ -1,5 +1,6 @@
 package syntax.expr.unaryexpr;
 
+import nodetype.OutParPrimitiveNoteType;
 import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.expr.Id;
@@ -10,13 +11,13 @@ public class OutParIdExpr extends Expr {
     private Id id;
 
 
-    PrimitiveNodeType NodeType;
+    OutParPrimitiveNoteType NodeType;
 
-    public PrimitiveNodeType getNodeType() {
+    public OutParPrimitiveNoteType getNodeType() {
         return NodeType;
     }
 
-    public void setNodeType(PrimitiveNodeType nodeType) {
+    public void setNodeType(OutParPrimitiveNoteType nodeType) {
         NodeType = nodeType;
     }
 

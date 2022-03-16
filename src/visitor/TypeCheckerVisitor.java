@@ -1,9 +1,6 @@
 package visitor;
 
-import nodetype.CompositeNodeType;
-import nodetype.FunctionNodeType;
-import nodetype.NodeType;
-import nodetype.PrimitiveNodeType;
+import nodetype.*;
 import org.w3c.dom.Node;
 import semantic.SymbolTable;
 import syntax.*;
@@ -53,7 +50,6 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     @Override
     public NodeType visit(PlusOp plusOp, SymbolTable arg) {
         NodeType leftOperandType = plusOp.getLeftOperand().accept(this, arg);
-        //System.out.println("tipo operando sinistro " + leftOperandType);
         NodeType rightOperandType = plusOp.getRightOperand().accept(this, arg);
         NodeType result = leftOperandType.checkAdd((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
@@ -301,6 +297,20 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         } else {
             FunctionNodeType f = (FunctionNodeType) idNodeType;
             CompositeNodeType paramList = f.getParamsType();
+                for (int i = 0; i < paramList.getTypes().size(); i++) {
+                    if (paramList.getTypes().get(i) instanceof OutParPrimitiveNoteType) {
+                        if (compositeActualTypes.getTypes().get(i) instanceof OutParPrimitiveNoteType) {
+                            System.out.println("OKAAAAYLESSSSSGOOOOOO");
+                        }else {
+                            throw new RuntimeException("Missing \"@\" parameter in called function " + callFunction.getId().getValue() + "()");
+                        }
+                    }else{
+                        if (compositeActualTypes.getTypes().get(i) instanceof OutParPrimitiveNoteType) {
+                            throw new RuntimeException("Parameter " + compositeActualTypes.getTypes().get(i).toString() + " cannot admit the \"@\" symbol");
+                        }
+                    }
+
+                }
             if (paramList.equals(compositeActualTypes)) {
                 callFunction.setNodeType(idNodeType);
             } else {
@@ -355,8 +365,9 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     @Override
     public NodeType visit(OutParIdExpr outParIdExpr, SymbolTable arg) {
         NodeType idNodeType = arg.lookup(outParIdExpr.getId().getValue()).get().getNodeType();
-        outParIdExpr.setNodeType(idNodeType);
-        return idNodeType;
+        OutParPrimitiveNoteType outParPrimitiveNoteType = new OutParPrimitiveNoteType(idNodeType);
+        outParIdExpr.setNodeType(outParPrimitiveNoteType);
+        return outParPrimitiveNoteType;
     }
 
     @Override
@@ -401,6 +412,9 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     @Override
     public NodeType visit(ParDecl parDecl, SymbolTable arg) {
         NodeType nodetype = parDecl.getType().typeFactory();
+        if(parDecl.isOut()){
+            nodetype = new OutParPrimitiveNoteType(parDecl.getType().typeFactory());
+        }
         NodeType idNode = arg.lookup(parDecl.getId().getValue()).get().getNodeType();
         if (!nodetype.equals(idNode)) {
             throw new RuntimeException("Type Mismatch. " + parDecl.getId().getValue() + " cannot be " + nodetype.toString());
@@ -532,6 +546,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
                             throw new RuntimeException("Function " + fun.getId().getValue().toString() + " must return a " + functionType.toString() + " instead of " + returnType);
                         }
                     }
+                }else{
+                    element.accept(this, arg);
                 }
             }
             System.out.println("contnains " + fun.getStatList());
