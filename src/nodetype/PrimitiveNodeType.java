@@ -338,7 +338,7 @@ public enum PrimitiveNodeType implements NodeType {
             case REAL:
                 return "float";
             case BOOL:
-                return "bool";
+                return "int";
             case INT:
                 return "int";
             default:

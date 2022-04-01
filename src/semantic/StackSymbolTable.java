@@ -1,7 +1,10 @@
 package semantic;
 
 import lexical.StringTable;
+import nodekind.NodeKind;
+import visitor.TypeCheckerVisitor;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 public class StackSymbolTable extends LinkedHashMap<Integer, HashMap<Integer, SymbolTableRecord>> implements SymbolTable {
@@ -53,6 +56,21 @@ public class StackSymbolTable extends LinkedHashMap<Integer, HashMap<Integer, Sy
             }
         }
         return Optional.empty();
+    }
+    public Optional<SymbolTableRecord> lookupForMoreElement(String lexeme) {
+            int address = this.table.getAddress(lexeme);
+            int size = (this.scopeLevel.size() -1);
+            int duplicates = 0;
+            for(int i = size; i >= 0; i--) {
+                int level = this.scopeLevel.elementAt(i);
+                if (this.get(level).containsKey(address)) {
+                    duplicates++;
+                }
+                if(duplicates>1){
+                    return Optional.of(this.get(level).get(address));
+                }
+            }
+            return Optional.empty();
     }
 
     @Override

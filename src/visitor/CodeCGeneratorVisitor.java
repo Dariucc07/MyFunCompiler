@@ -2,6 +2,7 @@ package visitor;
 
 import nodekind.NodeKind;
 import nodetype.NodeType;
+import nodetype.OutParPrimitiveNoteType;
 import nodetype.PrimitiveNodeType;
 import semantic.SymbolTable;
 import syntax.*;
@@ -215,8 +216,6 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
 
     @Override
     public String visit(Id id, SymbolTable arg) {
-
-
         if(arg.lookup(id.getValue()).isPresent()){
             if(arg.lookup(id.getValue()).get().getKind().equals(NodeKind.OUTVARIABLE)){
                 if(!arg.lookup(id.getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING))
@@ -422,6 +421,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     @Override
     public String visit(ReturnOp returnOp, SymbolTable arg) {
         String exprElement = returnOp.getExpr().accept(this, arg);
+        if(returnOp.getNodeType().equals(PrimitiveNodeType.STRING)){
+            return String.format("return * %s;", exprElement);
+        }
         return String.format("return %s;", exprElement);
     }
 

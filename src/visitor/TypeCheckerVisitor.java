@@ -1,5 +1,6 @@
 package visitor;
 
+import nodekind.NodeKind;
 import nodetype.*;
 import org.w3c.dom.Node;
 import semantic.SymbolTable;
@@ -517,10 +518,16 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         return writeType;
     }
 
+
     @Override
     public NodeType visit(Fun fun, SymbolTable arg) {
         arg.enterScope();
-        NodeType idNode = arg.lookup(fun.getId().getValue()).get().getNodeType();
+        NodeType idNode = null;
+        if(arg.lookup(fun.getId().getValue()).get().getKind().equals(NodeKind.VARIABLE)){
+            idNode = arg.lookupForMoreElement(fun.getId().getValue()).get().getNodeType();
+        }else{
+            idNode = arg.lookup(fun.getId().getValue()).get().getNodeType();
+        }
         //idNode can be confused with a ParDel with the same name of the function
         if(idNode instanceof PrimitiveNodeType){
             return null;
@@ -550,7 +557,6 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
                     element.accept(this, arg);
                 }
             }
-            System.out.println("contnains " + fun.getStatList());
             if(!functionType.toString().equals("null") && !isReturnStatement){
                 throw new RuntimeException("Missing return statement of type " + functionType.toString() + " for function " + fun.getId().getValue().toString());
             }

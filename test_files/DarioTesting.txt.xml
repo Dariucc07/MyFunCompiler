@@ -17,6 +17,23 @@
     </IdInitObblOp>
   </VarDecl>
   <Fun>
+    <Id lexeme="esempio"/>
+    <ParDecl out="false">
+      <PrimitiveType type="INTEGER"/>
+      <Id lexeme="parametro"/>
+    </ParDecl>
+    <PrimitiveType type="STRING"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="STRING"/>
+      <IdInitOp>
+        <Id lexeme="nellino"/>
+      </IdInitOp>
+    </VarDecl>
+    <ReturnOp>
+      <Id lexeme="nellino"/>
+    </ReturnOp>
+  </Fun>
+  <Fun>
     <Id lexeme="somma"/>
     <ParDecl out="false">
       <PrimitiveType type="REAL"/>
@@ -38,11 +55,26 @@
       </IdInitOp>
     </VarDecl>
     <VarDecl isVar="false">
+      <PrimitiveType type="BOOL"/>
+      <IdInitOp>
+        <Id lexeme="frank"/>
+      </IdInitOp>
+    </VarDecl>
+    <VarDecl isVar="false">
       <PrimitiveType type="INTEGER"/>
       <IdInitOp>
         <Id lexeme="donato"/>
       </IdInitOp>
     </VarDecl>
+    <IfStat>
+      <Id lexeme="frank"/>
+      <CallFunctionStat>
+        <CallFunction>
+          <Id lexeme="esempio"/>
+          <IntegerConst value="5"/>
+        </CallFunction>
+      </CallFunctionStat>
+    </IfStat>
     <AssignStat>
       <Id lexeme="dario"/>
       <StringConst value="sono bello"/>

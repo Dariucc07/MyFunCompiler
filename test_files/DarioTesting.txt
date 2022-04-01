@@ -1,9 +1,19 @@
 var c:= 2.2;
 var d := "donato";
 
+fun esempio(integer parametro):string
+    #do something
+    string nellino;
+    return nellino;
+end fun;
+
 fun somma(real francesco, out string messaggio, bool ciao):string
     string dario;
+    bool frank;
     integer donato;
+    if(frank) then
+        esempio(5);
+    end if;
     dario := "sono bello";
     return dario;
 end fun;
