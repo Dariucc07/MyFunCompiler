@@ -3,6 +3,7 @@ package semantic;
 import lexical.StringTable;
 import nodekind.NodeKind;
 import visitor.TypeCheckerVisitor;
+import nodetype.NodeType;
 
 import javax.swing.text.html.Option;
 import java.util.*;
@@ -71,6 +72,21 @@ public class StackSymbolTable extends LinkedHashMap<Integer, HashMap<Integer, Sy
                 }
             }
             return Optional.empty();
+    }
+
+    @Override
+    public Optional<SymbolTableRecord> lookupKind(String lexeme, NodeKind kind) {
+        int address = this.table.getAddress(lexeme);
+        int size = (this.scopeLevel.size() - 1);
+        for (int i = size; i >= 0; i--) {
+            int level = this.scopeLevel.elementAt(i);
+            if (this.get(level).containsKey(address)) {
+                NodeKind nk_symbol_table = this.get(level).get(address).getKind();
+                if(nk_symbol_table.equals(kind))
+                    return Optional.of(this.get(level).get(address));
+            }
+        }
+        return Optional.empty();
     }
 
     @Override

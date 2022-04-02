@@ -1,5 +1,8 @@
 package semantic;
 
+import nodekind.NodeKind;
+import nodetype.NodeType;
+
 import java.util.Optional;
 
 /**
@@ -19,6 +22,7 @@ public interface SymbolTable {
 
     Optional<SymbolTableRecord> lookupForMoreElement(String lexeme);
 
+    Optional<SymbolTableRecord> lookupKind(String lexeme, NodeKind kind);
     void addEntry(String lexeme, SymbolTableRecord str);
 
 }
