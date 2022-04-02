@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CustomTest" type="CompoundRunConfigurationType">
+    <toRun name="ScopeAndTypeCheckind" type="Application" />
+    <toRun name="ScopeTestCheckDario2" type="Application" />
+    <toRun name="Invalid4CustomTest" type="Application" />
+    <toRun name="Invalid1CustomTest" type="Application" />
+    <toRun name="Invalid2CustomTest" type="Application" />
+    <toRun name="Valid3CustomTest" type="Application" />
+    <toRun name="Valid2CustomTest" type="Application" />
+    <toRun name="Invalid3CustomTest" type="Application" />
+    <toRun name="Valid4CustomTest" type="Application" />
+    <method v="2" />
+  </configuration>
+</component>

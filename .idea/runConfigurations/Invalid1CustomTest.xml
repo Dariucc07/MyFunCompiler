@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Invalid1CustomTest" type="Application" factoryName="Application">
+  <configuration default="false" name="Invalid1CustomTest" type="Application" factoryName="Application" folderName="CustomTest">
     <option name="MAIN_CLASS_NAME" value="CGeneratorTester" />
     <module name="recupito-di-dario_es5_scg" />
     <option name="PROGRAM_PARAMETERS" value="test_files/InvalidCustomTest1.txt" />

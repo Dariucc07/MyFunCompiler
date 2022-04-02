@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Valid1CGenerator" type="Application" factoryName="Application">
+  <configuration default="false" name="Valid1CGenerator" type="Application" factoryName="Application" folderName="ExamTest">
     <option name="MAIN_CLASS_NAME" value="CGeneratorTester" />
     <module name="recupito-di-dario_es5_scg" />
     <option name="PROGRAM_PARAMETERS" value="test_files/valid1.txt" />
