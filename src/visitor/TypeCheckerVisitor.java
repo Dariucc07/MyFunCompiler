@@ -52,7 +52,9 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(PlusOp plusOp, SymbolTable arg) {
         NodeType leftOperandType = plusOp.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = plusOp.getRightOperand().accept(this, arg);
-        NodeType result = leftOperandType.checkAdd((PrimitiveNodeType) rightOperandType);
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
+        NodeType result = leftOperandType.checkAdd( (PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
         } else {

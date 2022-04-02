@@ -194,11 +194,7 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
     @Override
     public Boolean visit(Id id, SymbolTable arg) {
 
-        if(arg.lookup(id.getValue()).isPresent()){
-            if(id.isParDecl()){
-                return false;
-            }
-        }
+
         return arg.lookup(id.getValue()).isPresent();
     }
 

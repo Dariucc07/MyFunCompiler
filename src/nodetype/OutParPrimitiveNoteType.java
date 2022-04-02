@@ -6,8 +6,15 @@ public class OutParPrimitiveNoteType implements NodeType{
 
     private NodeType nodeType;
 
+
+
     public OutParPrimitiveNoteType(NodeType nodeType) {
         this.nodeType = nodeType;
+    }
+
+
+    public NodeType getNodeType() {
+        return nodeType;
     }
 
     @Override
