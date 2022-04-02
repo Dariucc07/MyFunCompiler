@@ -67,7 +67,9 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(MinusOp minusOp, SymbolTable arg) {
         NodeType leftOperandType = minusOp.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = minusOp.getRightOperand().accept(this, arg);
-        NodeType result = leftOperandType.checkSub((PrimitiveNodeType) rightOperandType);
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
+        NodeType result = leftOperandType.checkSub( (PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
         } else {
@@ -80,7 +82,9 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(TimesOp timesOp, SymbolTable arg) {
         NodeType leftOperandType = timesOp.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = timesOp.getRightOperand().accept(this, arg);
-        NodeType result = leftOperandType.checkMul((PrimitiveNodeType) rightOperandType);
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
+        NodeType result = leftOperandType.checkMul( (PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
         } else {
@@ -93,7 +97,9 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(DivOp divOp, SymbolTable arg) {
         NodeType leftOperandType = divOp.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = divOp.getRightOperand().accept(this, arg);
-        NodeType result = leftOperandType.checkDiv((PrimitiveNodeType) rightOperandType);
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
+        NodeType result = leftOperandType.checkDiv( (PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
         } else {
@@ -106,7 +112,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(DivIntOp divIntOp, SymbolTable arg) {
         NodeType leftOperandType = divIntOp.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = divIntOp.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkDivInt((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -120,7 +127,9 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(PowOp powOp, SymbolTable arg) {
         NodeType baseOperandType = powOp.getBaseOperand().accept(this, arg);
         NodeType exponentOperandType = powOp.getExponentOperand().accept(this, arg);
-        NodeType result = baseOperandType.checkPow((PrimitiveNodeType) exponentOperandType);
+        if(exponentOperandType instanceof OutParPrimitiveNoteType)
+            exponentOperandType= ((OutParPrimitiveNoteType) exponentOperandType).getNodeType();
+        NodeType result = exponentOperandType.checkPow( (PrimitiveNodeType) exponentOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + baseOperandType.toString() + " to " + exponentOperandType.toString());
         } else {
@@ -133,7 +142,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(StringConcatOp stringConcatOp, SymbolTable arg) {
         NodeType leftOperandType = stringConcatOp.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = stringConcatOp.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkStrConcat((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -147,7 +157,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(AndRelop andRelop, SymbolTable arg) {
         NodeType leftOperandType = andRelop.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = andRelop.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkRel((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -161,7 +172,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(OrRelop orRelop, SymbolTable arg) {
         NodeType leftOperandType = orRelop.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = orRelop.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkRel((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -175,7 +187,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(NotEqualRelop notEqualRelop, SymbolTable arg) {
         NodeType leftOperandType = notEqualRelop.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = notEqualRelop.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkRel((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -189,7 +202,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(EqualRelop equalRelop, SymbolTable arg) {
         NodeType leftOperandType = equalRelop.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = equalRelop.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkRel((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -203,7 +217,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(GreaterThanRelop greaterThanRelop, SymbolTable arg) {
         NodeType leftOperandType = greaterThanRelop.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = greaterThanRelop.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkRel((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -217,7 +232,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(GreaterEqualRelop greaterEqualRelop, SymbolTable arg) {
         NodeType leftOperandType = greaterEqualRelop.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = greaterEqualRelop.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkRel((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -231,7 +247,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(LessThanRelop lessThanRelop, SymbolTable arg) {
         NodeType leftOperandType = lessThanRelop.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = lessThanRelop.getRightOperand().accept(this, arg);
-
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkRel((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -245,6 +262,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(LessEqualRelop lessEqualRelop, SymbolTable arg) {
         NodeType leftOperandType = lessEqualRelop.getLeftOperand().accept(this, arg);
         NodeType rightOperandType = lessEqualRelop.getRightOperand().accept(this, arg);
+        if(rightOperandType instanceof OutParPrimitiveNoteType)
+            rightOperandType= ((OutParPrimitiveNoteType) rightOperandType).getNodeType();
         NodeType result = leftOperandType.checkRel((PrimitiveNodeType) rightOperandType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from" + leftOperandType.toString() + " to " + rightOperandType.toString());
@@ -330,6 +349,9 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(MinusExpr minusExpr, SymbolTable arg) {
         NodeType exprNodeType = minusExpr.getExpr().accept(this, arg);
         NodeType appType = PrimitiveNodeType.INT;
+        if(exprNodeType instanceof OutParPrimitiveNoteType)
+            exprNodeType= ((OutParPrimitiveNoteType)exprNodeType).getNodeType();
+
         NodeType result = appType.checkSub((PrimitiveNodeType) exprNodeType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from int" + " to " + exprNodeType.toString());
@@ -344,6 +366,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(NotExpr notExpr, SymbolTable arg) {
         NodeType exprNodeType = notExpr.getExpr().accept(this, arg);
         NodeType appType = PrimitiveNodeType.BOOL;
+        if(exprNodeType instanceof OutParPrimitiveNoteType)
+            exprNodeType= ((OutParPrimitiveNoteType)exprNodeType).getNodeType();
         NodeType result = appType.checkRel((PrimitiveNodeType) exprNodeType);
         if (result.equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Expression Mismatch:cannot convert from bool" + " to " + exprNodeType.toString());
