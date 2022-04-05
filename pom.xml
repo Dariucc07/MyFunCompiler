@@ -39,7 +39,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>CGeneratorTester</mainClass>
+                    <mainClass>src.CGeneratorTester</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -98,6 +98,7 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     "@" {return generateParserSym(ParserSym.OUTPAR);}
     "out" {return generateParserSym(ParserSym.OUT);}
     "var" {return generateParserSym(ParserSym.VAR);}
+    "elseloop" {return generateParserSym(ParserSym.ELSELOOP);}
 
 /*values*/
     "null" { return generateParserSym(ParserSym.NULL); }

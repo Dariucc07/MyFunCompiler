@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Program>
+  <VarDecl isVar="true">
+    <IdInitObblOp>
+      <Id lexeme="i"/>
+      <Const>
+        <IntegerConst value="1"/>
+      </Const>
+    </IdInitObblOp>
+  </VarDecl>
+  <Fun>
+    <Id lexeme="somma"/>
+    <PrimitiveType type="NULL"/>
+    <WhileStat>
+      <LessThanRelop>
+        <Id lexeme="i"/>
+        <IntegerConst value="3"/>
+      </LessThanRelop>
+      <VarDecl isVar="false">
+        <PrimitiveType type="INTEGER"/>
+        <IdInitOp>
+          <Id lexeme="messaggio"/>
+          <IntegerConst value="3"/>
+        </IdInitOp>
+      </VarDecl>
+      <WriteLnOp>
+        <MinusExpr>
+          <Id lexeme="i"/>
+        </MinusExpr>
+      </WriteLnOp>
+      <AssignStat>
+        <Id lexeme="i"/>
+        <PlusOp>
+          <Id lexeme="i"/>
+          <IntegerConst value="1"/>
+        </PlusOp>
+      </AssignStat>
+      <ElseLoop>
+        <VarDecl isVar="false">
+          <PrimitiveType type="STRING"/>
+          <IdInitOp>
+            <Id lexeme="messaggio"/>
+            <StringConst value="ciao"/>
+          </IdInitOp>
+        </VarDecl>
+        <WriteLnOp>
+          <Id lexeme="i"/>
+        </WriteLnOp>
+        <AssignStat>
+          <Id lexeme="i"/>
+          <PlusOp>
+            <Id lexeme="i"/>
+            <IntegerConst value="1"/>
+          </PlusOp>
+        </AssignStat>
+        <IfStat>
+          <EqualRelop>
+            <Id lexeme="i"/>
+            <IntegerConst value="5"/>
+          </EqualRelop>
+          <AssignStat>
+            <Id lexeme="i"/>
+            <IntegerConst value="0"/>
+          </AssignStat>
+          <WriteLnOp>
+            <Id lexeme="messaggio"/>
+          </WriteLnOp>
+        </IfStat>
+      </ElseLoop>
+    </WhileStat>
+  </Fun>
+  <Main/>
+</Program>

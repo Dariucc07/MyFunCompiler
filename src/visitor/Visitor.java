@@ -133,5 +133,8 @@ public interface Visitor<T, P> {
 
     T visit(VarDecl varDecl, P arg);
 
+    //added for simulation of the exam
+    T visit(ElseLoopOp elseLoopOp, P arg);
+
 
 }

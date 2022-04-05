@@ -382,8 +382,15 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         for(Stat statement : whileStat.getStatList()){
             sjStat.add(statement.accept(this, arg));
         }
+
         arg.exitScope();
-        return String.format("while(%s){\n%s%s\n}", condition, sjVarDecl.toString(), sjStat.toString());
+        String elseLoopString = "";
+        if(whileStat.getElseLoopOp() != null){
+            //setto la condizione del while nella classe elseloop così posso tradurla in C
+            whileStat.getElseLoopOp().setCondition(condition);
+            elseLoopString = whileStat.getElseLoopOp().accept(this, arg);
+        }
+        return String.format("while(%s){\n%s%s\n}\n %s", condition, sjVarDecl.toString(), sjStat.toString(),elseLoopString);
 
 
     }
@@ -399,9 +406,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
         String message ="";
         if(readStat.getExpr()!=null){
-           String expr = readStat.getExpr().accept(this,arg);
-           String format = formatType(readStat.getExpr().getType());
-           message = String.format("printf(\"%s\",%s);\n",format,expr);
+            String expr = readStat.getExpr().accept(this,arg);
+            String format = formatType(readStat.getExpr().getType());
+            message = String.format("printf(\"%s\",%s);\n",format,expr);
         }
         return String.format("%sscanf(\"%s\",%s);",message, typesFormat.toString(),scanfs.toString());
     }
@@ -515,8 +522,28 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }else{
             varDecl.getIdListInitOp().forEach(idInit -> vardecls.add(idInit.accept(this,arg)));
         }
-            return String.format("%s",vardecls.toString());
+        return String.format("%s",vardecls.toString());
     }
+
+    @Override
+    public String visit(ElseLoopOp elseLoopOp, SymbolTable arg) {
+        arg.enterScope();
+        String whileConditionToNegate = elseLoopOp.getCondition();
+        StringJoiner varDeclList = new StringJoiner("\n");
+        if(elseLoopOp.getVarDeclList() != null) {
+            elseLoopOp.getVarDeclList().forEach(varDecl -> varDeclList.add(varDecl.accept(this, arg)));
+        }
+
+        StringJoiner statList = new StringJoiner("\n");
+        if(elseLoopOp.getStaList() != null) {
+            elseLoopOp.getStaList().forEach(stat -> statList.add(stat.accept(this, arg)));
+        }
+        arg.exitScope();
+
+        return String.format("while(! %s) { \n \t %s %s }", whileConditionToNegate, varDeclList.toString(), statList.toString());
+    }
+
+
     private String formatType(NodeType type){
         PrimitiveNodeType pType = (PrimitiveNodeType) type;
         switch(pType){

@@ -458,8 +458,13 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         if (!condWhile.equals(PrimitiveNodeType.BOOL)) {
             throw new RuntimeException("Type Mismatch. While condition doesn't return boolean");
         }
+        whileStat.getVarDeclList().forEach(this.typeCheck(arg));
         whileStat.getStatList().forEach(this.typeCheck(arg));
+
         arg.exitScope();
+        if(whileStat.getElseLoopOp() != null){
+            whileStat.getElseLoopOp().accept(this, arg);
+        }
         return PrimitiveNodeType.NULL;
     }
 
@@ -609,6 +614,20 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+    @Override
+    public NodeType visit(ElseLoopOp elseLoopOp, SymbolTable arg) {
+        arg.enterScope();
+        if(elseLoopOp.getVarDeclList() != null){
+            elseLoopOp.getVarDeclList().forEach(varDecl -> varDecl.accept(this, arg));
+        }
+        if(elseLoopOp.getStaList() != null){
+            elseLoopOp.getStaList().forEach(stat -> stat.accept(this, arg));
+        }
+        arg.exitScope();
+        return PrimitiveNodeType.NULL;
+    }
+
 }
     /*
         if(varDecl.getIdListInitOp() != null){

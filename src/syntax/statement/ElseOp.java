@@ -11,7 +11,6 @@ public class ElseOp extends Stat {
     LinkedList<VarDecl> varDeclList;
     LinkedList<Stat> statList;
 
-
     public ElseOp(int leftLocation,int rightLocation,LinkedList<VarDecl> varDeclList, LinkedList<Stat> statList) {
         super(leftLocation,rightLocation);
         this.varDeclList = varDeclList;

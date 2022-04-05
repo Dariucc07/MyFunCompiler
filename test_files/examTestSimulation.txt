@@ -1,0 +1,20 @@
+var i := 1;
+fun somma()
+    while(i<3) loop
+        integer messaggio := 3;
+        ?. -i;
+        i := i + 1;
+    elseloop
+        string messaggio := "ciao";
+        ?. i;
+        i := i + 1;
+        if(i = 5) then
+            i := 0;
+            ?. messaggio;
+        end if;
+    end loop;
+end fun;
+
+main
+
+end main;
