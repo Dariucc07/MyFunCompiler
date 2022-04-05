@@ -504,6 +504,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     public NodeType visit(AssignStat assignStat, SymbolTable arg) {
         NodeType idType = arg.lookup(assignStat.getId().getValue()).get().getNodeType();
         NodeType exprType = assignStat.getExpr().accept(this, arg);
+        if(exprType instanceof OutParPrimitiveNoteType)
+            exprType= ((OutParPrimitiveNoteType)exprType).getNodeType();
         if (idType.checkRel((PrimitiveNodeType) exprType).equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Mismatch. Trying to assign to " + idType.toString() + " a " + exprType.toString() + " expression");
         } else {
