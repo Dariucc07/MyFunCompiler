@@ -21,6 +21,7 @@ public class XMLVisit {
 
         if(lexer.initialize(args[0])) {
             System.out.println(args[0]);
+            String XMLFileName = args[0].replace(".txt", ".xml");
             parser = new Parser(lexer);
 
             Program program = (Program) parser.parse().value;
@@ -33,7 +34,7 @@ public class XMLVisit {
 
             program.accept(xmlVisitor, xmlDocument);
 
-            xmlTemplate.write(args[0] + ".xml", xmlDocument);
+            xmlTemplate.write(XMLFileName, xmlDocument);
 
         } else {
             System.out.println("File not found!");
