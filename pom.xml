@@ -43,7 +43,7 @@
                 <executions>
                     <execution>
                         <id>copy-resources01</id>
-                        <phase>process-classes</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -68,7 +68,7 @@
                 <executions>
                     <execution>
                         <id>copy-resources02</id>
-                        <phase>process-classes</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
