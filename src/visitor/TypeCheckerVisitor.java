@@ -466,10 +466,11 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         if (!condIf.equals(PrimitiveNodeType.BOOL)) {
             throw new RuntimeException("Type Mismatch. if condition doesn't return boolean");
         }
+        ifStat.getVarDeclList().forEach(this.typeCheck(arg));
         ifStat.getStatList().forEach(this.typeCheck(arg));
         arg.exitScope();
         if (ifStat.getElseOp() != null) {
-            NodeType ElseOp = ifStat.getElseOp().accept(this, arg);
+            ifStat.getElseOp().accept(this, arg);
         }
         return PrimitiveNodeType.NULL;
     }
