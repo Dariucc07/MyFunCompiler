@@ -24,7 +24,7 @@ public class CTemplate implements Template<String> {
     public Optional<String> create() {
         String builder = null;
         try {
-            builder = new String(this.getClass().getResourceAsStream("/resources/program.c").readAllBytes());
+            builder = new String(this.getClass().getClassLoader().getResourceAsStream("resources/program.c").readAllBytes());
         } catch (IOException ex) {
             System.err.println("Input/Output Error during model creation");
         }
