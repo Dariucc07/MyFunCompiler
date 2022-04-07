@@ -296,6 +296,14 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     }
 
     @Override
+    public Element visit(LetOp letOp, Document arg) {
+        Element element = arg.createElement("LetOp");
+        letOp.getVarDeclList().forEach(addParent(element, arg));
+        letOp.getStatList().forEach(addParent(element, arg));
+        return element;
+    }
+
+    @Override
     public Element visit(WhileStat whileStat, Document arg) {
         Element element = arg.createElement("WhileStat");
         element.appendChild(whileStat.getExpr().accept(this, arg));
@@ -407,4 +415,6 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         return element;
 
     }
+
+
 }

@@ -36,6 +36,8 @@ terminal String STR_CONCAT;
 terminal String READ,WRITE,WRITELN,WRITEB,WRITET;
 terminal String DQ_STRING, SQ_STRING;
 terminal String ERROR;
+//added
+terminal String IN, LET;
 
 terminal String STRING_CONST;
 terminal String INTEGER_CONST;
@@ -45,6 +47,8 @@ terminal String REAL_CONST;
 nonterminal Program Program;
 nonterminal LinkedList<VarDecl> VarDeclList;
 nonterminal VarDecl VarDecl;
+//added
+nonterminal LetOp Let;
 nonterminal LinkedList<Fun> FunList;
 nonterminal Fun Fun;
 nonterminal Type Type;
@@ -107,6 +111,9 @@ FunList ::= /* empty */                             {:RESULT = new LinkedList<Fu
 VarDecl ::= Type:t IdListInit:idListInit SEMI      {:RESULT = new VarDecl(tleft, tright, t, idListInit); :}
 	| VAR IdListInitObbl:idListInitObbl SEMI       {:RESULT = new VarDecl(idListInitObblleft,idListInitObblright,true,idListInitObbl);:};
 
+
+Let ::= LET:l VarDeclList:varDeclList IN StatList:statList END LET        {:RESULT = new LetOp(lleft, lright, varDeclList, statList); :};
+
 Type ::= INTEGER:it                                                     {: RESULT = new PrimitiveType(itleft,itright,"INTEGER"); :}
 | BOOL:bt                                                               {: RESULT = new PrimitiveType(btleft,btright,"BOOL"); :}
 | REAL:rt                                                               {: RESULT = new PrimitiveType(rtleft,rtright,"REAL"); :}
@@ -151,7 +158,8 @@ Stat ::= IfStat:ifStat SEMI         {:RESULT = ifStat;  :}
 	| WriteStat:writeStat SEMI      {:RESULT = writeStat;:}
 	| AssignStat:assignStat SEMI    {:RESULT = assignStat;:}
 	| CallFun:callFun SEMI          {:RESULT = new CallFunctionStat(callFunleft, callFunright, callFun); :}
-	| RETURN:rop Expr:expr SEMI     {:RESULT = new ReturnOp(ropleft,ropright,expr); :};
+	| RETURN:rop Expr:expr SEMI     {:RESULT = new ReturnOp(ropleft,ropright,expr); :}
+	| Let:let SEMI                  {:RESULT = let; :};
 
 IfStat ::= IF:ifOp Expr:expr THEN VarDeclList:varDeclList StatList:statList Else:elseOp END IF  {: RESULT= new IfStat(ifOpleft,ifOpright,expr,varDeclList,statList,elseOp); :};
 

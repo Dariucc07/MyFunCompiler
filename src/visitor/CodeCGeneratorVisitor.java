@@ -369,6 +369,24 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     }
 
     @Override
+    public String visit(LetOp letOp, SymbolTable arg) {
+        arg.enterScope();
+
+        StringJoiner sjVarDecl = new StringJoiner("\n");
+        for(VarDecl element : letOp.getVarDeclList()){
+            sjVarDecl.add(element.accept(this, arg));
+        }
+
+        StringJoiner sjStatList = new StringJoiner("\n");
+        for(Stat element : letOp.getStatList()){
+            sjStatList.add(element.accept(this, arg));
+        }
+        arg.exitScope();
+
+        return String.format("{ %s %s }", sjVarDecl.toString(), sjStatList.toString());
+    }
+
+    @Override
     public String visit(WhileStat whileStat, SymbolTable arg) {
         arg.enterScope();
         String condition = whileStat.getExpr().accept(this, arg);
@@ -517,6 +535,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+
+
     private String formatType(NodeType type){
         PrimitiveNodeType pType = (PrimitiveNodeType) type;
         switch(pType){
