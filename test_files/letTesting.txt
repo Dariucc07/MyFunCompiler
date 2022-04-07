@@ -1,0 +1,30 @@
+
+fun somma()
+    let
+        var c := 2;
+    in
+        let
+            var a := 1;
+            var b := 2.3;
+            string size;
+            real result;
+        in
+            result := a+b+c;
+            if result > 100 then
+                integer uff;
+                var valore := "grande";
+                size := valore;
+            else
+                let
+                    var valore := "piccola";
+                in
+                    size := valore;
+                end let;
+            end if;
+        end let;
+    end let;
+end fun;
+
+main
+integer funziona;
+end main;
