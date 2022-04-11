@@ -1,6 +1,7 @@
 package visitor;
 
 import nodekind.NodeKind;
+import nodetype.FunctionNodeType;
 import nodetype.NodeType;
 import nodetype.OutParPrimitiveNoteType;
 import nodetype.PrimitiveNodeType;
@@ -24,6 +25,7 @@ import syntax.type.PrimitiveType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.function.Function;
 
 public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
 
@@ -518,6 +520,8 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
             return String.format("%s",vardecls.toString());
     }
     private String formatType(NodeType type){
+        if(type instanceof FunctionNodeType)
+            type= ((FunctionNodeType) type).getNodeType();
         PrimitiveNodeType pType = (PrimitiveNodeType) type;
         switch(pType){
             case REAL:
