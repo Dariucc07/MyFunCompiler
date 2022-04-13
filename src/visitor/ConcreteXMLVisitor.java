@@ -404,6 +404,17 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         if(varDecl.getIdListInitObblOp() != null) {
             varDecl.getIdListInitObblOp().forEach(addParent(element, arg));
         }
+
+        if(varDecl.getIdList() != null){
+            varDecl.getIdList().forEach(addParent(element, arg));
+        }
+        if(varDecl.getId() != null){
+            element.appendChild(varDecl.getId().accept(this, arg));
+        }
+
+        if(varDecl.getExprList() != null){
+            varDecl.getExprList().forEach(addParent(element, arg));
+        }
         return element;
 
     }

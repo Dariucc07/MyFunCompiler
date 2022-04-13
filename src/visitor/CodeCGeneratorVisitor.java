@@ -513,7 +513,24 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     public String visit(VarDecl varDecl, SymbolTable arg) {
         StringJoiner vardecls = new StringJoiner("\n");
         if(varDecl.getType()==null ){
-            varDecl.getIdListInitObblOp().forEach(idInitObbl -> vardecls.add(idInitObbl.accept(this,arg)));
+            if(varDecl.getIdListInitObblOp() != null) {
+                varDecl.getIdListInitObblOp().forEach(idInitObbl -> vardecls.add(idInitObbl.accept(this, arg)));
+            }
+            if(varDecl.getIdList() != null){
+                for(int i = 0; i < varDecl.getIdList().size(); i++){
+                    String idNode = varDecl.getIdList().get(i).accept(this, arg);
+                    String exprNode = varDecl.getExprList().get(i).accept(this, arg);
+                    if(arg.lookup(idNode).get().getNodeType().equals(PrimitiveNodeType.STRING)){
+                        vardecls.add(String.format("char * %s = %s; \n", idNode, exprNode));
+                    }else if(arg.lookup(idNode).get().getNodeType().equals(PrimitiveNodeType.INT)){
+                        vardecls.add(String.format("int %s = %s; \n", idNode, exprNode));
+                    }else if(arg.lookup(idNode).get().getNodeType().equals(PrimitiveNodeType.BOOL)){
+                        vardecls.add(String.format("int %s = %s; \n", idNode, exprNode));
+                    }else if(arg.lookup(idNode).get().getNodeType().equals(PrimitiveNodeType.REAL)){
+                        vardecls.add(String.format("float %s = %s; \n", idNode, exprNode));
+                    }
+                }
+            }
         }else{
             varDecl.getIdListInitOp().forEach(idInit -> vardecls.add(idInit.accept(this,arg)));
         }

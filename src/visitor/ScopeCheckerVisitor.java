@@ -1,10 +1,7 @@
 package visitor;
 
 import nodekind.NodeKind;
-import nodetype.CompositeNodeType;
-import nodetype.FunctionNodeType;
-import nodetype.NodeType;
-import nodetype.OutParPrimitiveNoteType;
+import nodetype.*;
 import semantic.SymbolTable;
 import semantic.SymbolTableRecord;
 import syntax.*;
@@ -478,14 +475,53 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         boolean isTypeValid = (varDecl.getType() != null) ? varDecl.getType().accept(this, arg) : true;
         boolean areIdInitOpListValid = this.checkContext(varDecl.getIdListInitOp(),arg);
         boolean areIdInitOpObblListValid = this.checkContext(varDecl.getIdListInitObblOp(),arg);
+
         boolean isVarDeclValid = isTypeValid && areIdInitOpListValid && areIdInitOpObblListValid;
+
+
+
         if(isVarDeclValid){
-            if(varDecl.getIdListInitOp()!=null)
-                fillEntries(varDecl.getIdListInitOp(), varDecl.getType(),arg);
-            if(varDecl.getIdListInitObblOp()!=null)
-                fillEntriesObbl(varDecl.getIdListInitObblOp(),arg);
+            if(varDecl.getIdListInitOp()!=null) {
+                fillEntries(varDecl.getIdListInitOp(), varDecl.getType(), arg);
+                return isVarDeclValid;
+            }
+            if(varDecl.getIdListInitObblOp()!=null) {
+                fillEntriesObbl(varDecl.getIdListInitObblOp(), arg);
+                return isVarDeclValid;
+            }
+
         }
-        return isVarDeclValid;
+
+        boolean areIdListValid = false;
+        boolean areIdValid = false;
+        boolean areExprValid = false;
+        if(varDecl.getId() == null) {
+            if (varDecl.getIdList().size() < 3) {
+                throw new RuntimeException("Too many left value in variable declaration");
+            }
+        }else{
+            if(varDecl.getIdList().size() + 1 < 3){
+                throw new RuntimeException("Too many left value in variable declaration");
+            }else{
+                if(varDecl.getExprList() != null && varDecl.getExprList().size() == varDecl.getIdList().size() + 1) {
+                    areIdListValid = this.checkContext(varDecl.getIdList(), arg);
+                    areIdValid = varDecl.getId().accept(this, arg);
+                    areExprValid = this.checkContext(varDecl.getExprList(), arg);
+                }else{
+                    throw new RuntimeException("Too many right value in variable declaration");
+                }
+            }
+        }
+
+
+        boolean areMoreVarDeclValid = !areIdListValid && !areIdValid && areExprValid;
+
+        if(areMoreVarDeclValid){
+            if(varDecl.getIdList()!= null){
+                fillMoreEntries(varDecl.getIdList(), varDecl.getId(), varDecl.getExprList(), arg);
+            }
+        }
+        return areMoreVarDeclValid;
     }
 
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
@@ -499,6 +535,18 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         }
         boolean isBinaryOpValid = isLeftExprOperandValid && isRightExprOperandValid;
         return isBinaryOpValid;
+    }
+    public boolean fillMoreEntries(LinkedList<Id> idList, Id id, LinkedList<Expr> exprList, SymbolTable arg){
+        idList.add(id);
+        for(int i = 0; i < idList.size() ; i++){
+            if(exprList.get(i).getType() != null) {
+                arg.addEntry(idList.get(i).getValue(), new SymbolTableRecord(idList.get(i).getValue(), exprList.get(i).getType(), NodeKind.VARIABLE));
+            }else{
+
+                arg.addEntry(idList.get(i).getValue(), new SymbolTableRecord(idList.get(i).getValue(), PrimitiveNodeType.NULL, NodeKind.VARIABLE));
+            }
+        }
+        return true;
     }
 
     public boolean fillEntries(LinkedList<IdInitOp> idInitList, Type type,SymbolTable arg){

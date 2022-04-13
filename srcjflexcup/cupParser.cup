@@ -105,7 +105,9 @@ FunList ::= /* empty */                             {:RESULT = new LinkedList<Fu
 	| FunList:flist Fun:f                            {:flist.add(f); RESULT = flist; :};
 
 VarDecl ::= Type:t IdListInit:idListInit SEMI      {:RESULT = new VarDecl(tleft, tright, t, idListInit); :}
-	| VAR IdListInitObbl:idListInitObbl SEMI       {:RESULT = new VarDecl(idListInitObblleft,idListInitObblright,true,idListInitObbl);:};
+	| VAR IdListInitObbl:idListInitObbl SEMI       {:RESULT = new VarDecl(idListInitObblleft,idListInitObblright,true,idListInitObbl);:}
+    | VAR IdList:idList COMMA ID:id ASSIGN ExprList:exprList SEMI      {:RESULT = new VarDecl(idListleft, idListright, true, idList, new Id(idleft, idright, id), exprList);:};
+
 
 Type ::= INTEGER:it                                                     {: RESULT = new PrimitiveType(itleft,itright,"INTEGER"); :}
 | BOOL:bt                                                               {: RESULT = new PrimitiveType(btleft,btright,"BOOL"); :}

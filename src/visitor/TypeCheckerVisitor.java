@@ -322,7 +322,6 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
                 for (int i = 0; i < paramList.getTypes().size(); i++) {
                     if (paramList.getTypes().get(i) instanceof OutParPrimitiveNoteType) {
                         if (compositeActualTypes.getTypes().get(i) instanceof OutParPrimitiveNoteType) {
-                            System.out.println("OKAAAAYLESSSSSGOOOOOO");
                         }else {
                             throw new RuntimeException("Missing \"@\" parameter in called function " + callFunction.getId().getValue() + "()");
                         }
@@ -336,7 +335,7 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
             if (paramList.equals(compositeActualTypes)) {
                 callFunction.setNodeType(idNodeType);
             } else {
-                throw new RuntimeException("Type mismatch:" + callFunction.getId() + " doesn't respect parameters:" + paramList.toString());
+                    throw new RuntimeException("Type mismatch:" + callFunction.getId() + " doesn't respect parameters:" + paramList.toString());
             }
         }
         if (callFunction.getExprList() != null) {
@@ -411,7 +410,12 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
             idInitOp.getId().setNodeType((PrimitiveNodeType) idNodeType);
             return idNodeType;
         } else {
-            throw new RuntimeException("Type Mismatch:declaring a variable of type" + idNodeType.toString() + "but its value is " + exprNodeType.toString());
+            if(idNodeType.equals(PrimitiveNodeType.REAL) && exprNodeType.equals(PrimitiveNodeType.INT)){
+                idInitOp.setNodeType((PrimitiveNodeType) idNodeType);
+                idInitOp.getId().setNodeType((PrimitiveNodeType) idNodeType);
+                return idNodeType;
+            }else
+                throw new RuntimeException("Type Mismatch:declaring a variable of type " + idNodeType.toString() + "but its value is " + exprNodeType.toString());
         }
 
     }
@@ -620,8 +624,23 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
 
         if (varDecl.getType() == null) {
             if (varDecl.isVar() == true) {
-                varDecl.getIdListInitObblOp().forEach(this.typeCheck(arg));
-                return PrimitiveNodeType.NULL;
+                if(varDecl.getIdListInitOp() != null) {
+                    varDecl.getIdListInitObblOp().forEach(this.typeCheck(arg));
+                    return PrimitiveNodeType.NULL;
+                }else if(varDecl.getIdList() != null){
+                        //scorri la lista di id
+                        for(int i = 0 ; i < varDecl.getIdList().size() ; i++){
+                                //se nello scope trovi che il tipo è null poichè non è stato possibile stabilirlo nello scope
+                                NodeType idNodetype = varDecl.getIdList().get(i).accept(this, arg);
+                                if( idNodetype == PrimitiveNodeType.NULL){
+                                    //allora controlla il tipo dell'expr e sostituicilo nella tabella delle stringhe
+                                    NodeType exprNodeType = varDecl.getExprList().get(i).accept(this, arg);
+                                    arg.lookup(varDecl.getIdList().get(i).getValue()).get().setNodeType(exprNodeType);
+                                }
+                        }
+
+                    return PrimitiveNodeType.NULL;
+                }
             }
         } else {
             Type varType = varDecl.getType();
