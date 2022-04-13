@@ -54,6 +54,10 @@ public class FunctionNodeType implements NodeType {
     public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
         return null;
     }
+    @Override
+    public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
+        return null;
+    }
 
     public CompositeNodeType getParamsType() {
         return paramsType;

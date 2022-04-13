@@ -58,6 +58,11 @@ public class OutParPrimitiveNoteType implements NodeType{
     }
 
     @Override
+    public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
+        return nodeType.checkStrConcat(type);
+    }
+
+    @Override
     public String toString() {
         return nodeType.toString();
     }

@@ -10,5 +10,6 @@ public interface NodeType {
     PrimitiveNodeType checkDivInt(PrimitiveNodeType type);
     PrimitiveNodeType checkPow(PrimitiveNodeType type);
     PrimitiveNodeType checkStrConcat(PrimitiveNodeType type);
+    PrimitiveNodeType checkOpType(PrimitiveNodeType type);
 
 }

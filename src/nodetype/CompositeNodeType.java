@@ -37,7 +37,8 @@ public class CompositeNodeType implements NodeType {
     public PrimitiveNodeType checkPow(PrimitiveNodeType type){ return PrimitiveNodeType.NULL; }
 
     public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type){ return PrimitiveNodeType.NULL; }
-
+    @Override
+    public PrimitiveNodeType checkOpType(PrimitiveNodeType type){ return PrimitiveNodeType.NULL; }
     @Override
     public PrimitiveNodeType checkRel(PrimitiveNodeType type) {
         return PrimitiveNodeType.NULL;

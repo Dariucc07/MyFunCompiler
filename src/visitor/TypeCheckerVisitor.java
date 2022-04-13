@@ -333,11 +333,24 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
                     }
 
                 }
-            if (paramList.equals(compositeActualTypes)) {
+                for (int i=0;i<paramList.getTypes().size();i++){
+                    NodeType param = paramList.getTypes().get(i);
+                    NodeType actual = compositeActualTypes.getTypes().get(i);
+                        if (actual instanceof OutParPrimitiveNoteType) {
+                            if (param.checkOpType((PrimitiveNodeType) ((OutParPrimitiveNoteType) actual).getNodeType()).equals(PrimitiveNodeType.NULL)) {
+                                throw new RuntimeException("Type mismatch:" + callFunction.getId() + " doesn't respect parameters:" + paramList.toString());
+                            }
+                        }else{
+                            if (param.checkOpType((PrimitiveNodeType) actual).equals(PrimitiveNodeType.NULL)) {
+                                throw new RuntimeException("Type mismatch:" + callFunction.getId() + " doesn't respect parameters:" + paramList.toString());
+                            }
+                        }
+                }
+                //exiting from for means that each parameter respect type check with actual
+
+
                 callFunction.setNodeType(idNodeType);
-            } else {
-                throw new RuntimeException("Type mismatch:" + callFunction.getId() + " doesn't respect parameters:" + paramList.toString());
-            }
+
         }
         if (callFunction.getExprList() != null) {
             callFunction.getExprList().forEach(this.typeCheck(arg));
@@ -406,7 +419,7 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         } else {
             exprNodeType = PrimitiveNodeType.NULL;
         }
-        if (idNodeType.equals(exprNodeType) || exprNodeType.equals(PrimitiveNodeType.NULL)) {
+        if (!(idNodeType.checkOpType((PrimitiveNodeType) exprNodeType)).equals(PrimitiveNodeType.NULL) || exprNodeType.equals(PrimitiveNodeType.NULL)) {
             idInitOp.setNodeType((PrimitiveNodeType) idNodeType);
             idInitOp.getId().setNodeType((PrimitiveNodeType) idNodeType);
             return idNodeType;
@@ -507,7 +520,7 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         NodeType exprType = assignStat.getExpr().accept(this, arg);
         if(exprType instanceof OutParPrimitiveNoteType)
             exprType= ((OutParPrimitiveNoteType)exprType).getNodeType();
-        if (idType.checkRel((PrimitiveNodeType) exprType).equals(PrimitiveNodeType.NULL)) {
+        if (idType.checkOpType((PrimitiveNodeType) exprType).equals(PrimitiveNodeType.NULL)) {
             throw new RuntimeException("Type Mismatch. Trying to assign to " + idType.toString() + " a " + exprType.toString() + " expression");
         } else {
             return idType;

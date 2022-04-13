@@ -53,11 +53,30 @@ public enum PrimitiveNodeType implements NodeType {
                     return NULL;
             }
         }
+        @Override
+        public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
+            switch(type){
+                case BOOL:
+                    return BOOL;
+                default:
+                    return NULL;
+            }
+        }
     },
 
     REAL {
         @Override
         public PrimitiveNodeType checkAdd(PrimitiveNodeType type) {
+            switch(type){
+                case INT: case REAL:
+                    return REAL;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
             switch(type){
                 case INT: case REAL:
                     return REAL;
@@ -135,6 +154,8 @@ public enum PrimitiveNodeType implements NodeType {
     },
 
     INT {
+
+
         @Override
         public PrimitiveNodeType checkAdd(PrimitiveNodeType type) {
             switch(type) {
@@ -227,6 +248,15 @@ public enum PrimitiveNodeType implements NodeType {
             }
         }
 
+        @Override
+        public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
+            switch(type) {
+                case INT: case REAL:
+                    return INT;
+                default:
+                    return NULL;
+            }
+        }
     },
 
     NULL {
@@ -275,7 +305,10 @@ public enum PrimitiveNodeType implements NodeType {
                     return NULL;
             }
         }
-
+        @Override
+        public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
+            return NULL;
+        }
     },
 
     STRING {
@@ -325,6 +358,15 @@ public enum PrimitiveNodeType implements NodeType {
                 case STRING: case INT: case REAL: case BOOL:
                     return STRING;
 
+                default:
+                    return NULL;
+            }
+        }
+        @Override
+        public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
+            switch(type){
+                case STRING:
+                    return STRING;
                 default:
                     return NULL;
             }
