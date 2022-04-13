@@ -424,7 +424,12 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
             idInitOp.getId().setNodeType((PrimitiveNodeType) idNodeType);
             return idNodeType;
         } else {
-            throw new RuntimeException("Type Mismatch:declaring a variable of type" + idNodeType.toString() + "but its value is " + exprNodeType.toString());
+            if (idNodeType.equals(PrimitiveNodeType.REAL) && exprNodeType.equals(PrimitiveNodeType.INT)) {
+                idInitOp.setNodeType((PrimitiveNodeType) idNodeType);
+                idInitOp.getId().setNodeType((PrimitiveNodeType) idNodeType);
+                return idNodeType;
+            } else
+                throw new RuntimeException("Type Mismatch:declaring a variable of type " + idNodeType.toString() + "but its value is " + exprNodeType.toString());
         }
 
     }
