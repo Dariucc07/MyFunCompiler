@@ -26,7 +26,7 @@ public void syntax_error(Symbol cur_token) {
 :}
 
 
-terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL, FUN, END, RETURN, OUTPAR, OUT;
+terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL,CHAR,  FUN, END, RETURN, OUTPAR, OUT;
 terminal String NULL;
 terminal String LPAR,RPAR,COMMA,SEMI,COLON;
 terminal String LT,LE,EQ,NE,GT,GE,ASSIGN;
@@ -41,6 +41,8 @@ terminal String STRING_CONST;
 terminal String INTEGER_CONST;
 terminal String BOOL_CONST;
 terminal String REAL_CONST;
+terminal String CHAR_CONST;
+
 
 nonterminal Program Program;
 nonterminal LinkedList<VarDecl> VarDeclList;
@@ -110,7 +112,8 @@ VarDecl ::= Type:t IdListInit:idListInit SEMI      {:RESULT = new VarDecl(tleft,
 Type ::= INTEGER:it                                                     {: RESULT = new PrimitiveType(itleft,itright,"INTEGER"); :}
 | BOOL:bt                                                               {: RESULT = new PrimitiveType(btleft,btright,"BOOL"); :}
 | REAL:rt                                                               {: RESULT = new PrimitiveType(rtleft,rtright,"REAL"); :}
-| STRING:st                                                             {: RESULT = new PrimitiveType(stleft,stright,"STRING"); :};
+| STRING:st                                                             {: RESULT = new PrimitiveType(stleft,stright,"STRING"); :}
+| CHAR :ch                                                              {:RESULT = new PrimitiveType(chleft, chright, "CHAR");:};
 
 IdListInit ::= ID:id                                                    {:LinkedList<IdInitOp> idInitOpList = new LinkedList<IdInitOp>(); idInitOpList.add(new IdInitOp(idleft,idright, new Id(idleft, idright, id))); RESULT = idInitOpList;:}
 	| IdListInit:idInitOpList COMMA ID:id                                 {:idInitOpList.add(new IdInitOp(idleft,idright, new Id(idleft, idright, id))); RESULT = idInitOpList;:}
@@ -125,7 +128,9 @@ IdListInitObbl ::= ID:id ASSIGN Const:c                                 {:Linked
 Const ::= INTEGER_CONST:ic                                              {: RESULT = new Const(icleft,icright,new IntegerConst(icleft, icright, ic)); :}
          |REAL_CONST:rc                                                 {: RESULT = new Const(rcleft,rcright,new RealConst(rcleft,rcright,rc)); :}
          |BOOL_CONST:bc                                                 {: RESULT = new Const(bcleft,bcright,new BoolConst(bcleft, bcright, bc)); :}
+         |CHAR_CONST:cc                                                 {:RESULT = new Const(ccleft, ccright, new CharConst(ccleft, ccright, cc));:}
          |STRING_CONST:sc                                               {: RESULT = new Const(scleft,scright,new StringConst(scleft,scright,sc)); :};
+
 
 Fun ::= FUN ID:id LPAR ParamDeclList:paramDeclList RPAR COLON Type:t
 		VarDeclList:varDeclList StatList:statList END FUN SEMI          {: RESULT = new Fun(idleft,idright, new Id(idleft, idright, id), paramDeclList, t, varDeclList, statList); :}
@@ -196,6 +201,7 @@ Expr ::= BOOL_CONST:bc            {: RESULT = new BoolConst(bcleft,bcright,bc); 
 	| INTEGER_CONST:ic            {: RESULT = new IntegerConst(icleft,icright,ic); :}
 	| REAL_CONST:rc               {: RESULT = new RealConst(rcleft,rcright,rc); :}
 	| STRING_CONST:sc             {: RESULT = new StringConst(scleft,scright,sc); :}
+	| CHAR_CONST:cc               {: RESULT = new CharConst(ccleft, ccright, cc);:}
 	| ID:id                       {: RESULT = new Id(idleft,idright,id); :}
 	| CallFun:cf                  {: RESULT = cf; :}
 	| Expr:e1  PLUS Expr:e2       {: RESULT = new PlusOp(e1left, e1right, e1, e2); :}

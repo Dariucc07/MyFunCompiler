@@ -190,6 +190,13 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     }
 
     @Override
+    public Element visit(CharConst charConst, Document arg) {
+        Element element = arg.createElement("CharConst");
+        element.setAttribute("value", charConst.getValue().toString());
+        return element;
+    }
+
+    @Override
     public Element visit(Id id, Document arg) {
         Element element = arg.createElement("Id");
         element.setAttribute("lexeme", id.getValue());
@@ -407,4 +414,6 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         return element;
 
     }
+
+
 }

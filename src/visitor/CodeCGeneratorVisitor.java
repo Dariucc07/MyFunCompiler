@@ -217,6 +217,11 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     }
 
     @Override
+    public String visit(CharConst charConst, SymbolTable arg) {
+        return "\'" + charConst.getValue() + "\'";
+    }
+
+    @Override
     public String visit(Id id, SymbolTable arg) {
         if(arg.lookup(id.getValue()).isPresent()){
             if(arg.lookup(id.getValue()).get().getKind().equals(NodeKind.OUTVARIABLE)){
@@ -519,6 +524,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

@@ -2,6 +2,73 @@ package nodetype;
 
 public enum PrimitiveNodeType implements NodeType {
 
+    CHAR {
+        @Override
+        public PrimitiveNodeType checkAdd(PrimitiveNodeType type) {
+            switch (type){
+                case CHAR:
+                    return INT;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkSub(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkMul(PrimitiveNodeType type) {
+            switch(type){
+                case CHAR:
+                    return INT;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkDiv(PrimitiveNodeType type) {
+            return NULL;
+        }
+
+        @Override
+        public PrimitiveNodeType checkRel(PrimitiveNodeType type) {
+            switch(type){
+                case CHAR:
+                    return BOOL;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkDivInt(PrimitiveNodeType type) {
+            return NULL;
+        }
+
+        @Override
+        public PrimitiveNodeType checkPow(PrimitiveNodeType type) {
+            return NULL;
+        }
+
+        @Override
+        public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
+            return NULL;
+        }
+
+        @Override
+        public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
+            switch(type) {
+                case CHAR:
+                    return CHAR;
+                default:
+                    return NULL;
+            }
+        }
+    },
+
     BOOL {
         @Override
         public PrimitiveNodeType checkAdd(PrimitiveNodeType type) {
@@ -372,6 +439,8 @@ public enum PrimitiveNodeType implements NodeType {
             }
         }
     };
+
+
 // c relative code for primitive types
     public String cType(){
         switch(this){
@@ -383,6 +452,8 @@ public enum PrimitiveNodeType implements NodeType {
                 return "int";
             case INT:
                 return "int";
+            case CHAR:
+                return "char";
             default:
                 return "";
         }
@@ -399,6 +470,8 @@ public enum PrimitiveNodeType implements NodeType {
                 return "real";
             case STRING:
                 return "string";
+            case CHAR:
+                return "char";
             default:
                 return "null";
         }

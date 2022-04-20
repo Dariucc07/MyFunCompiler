@@ -190,7 +190,11 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
     public Boolean visit(StringConst stringConst, SymbolTable arg) {
         return true;
     }
-    
+
+    @Override
+    public Boolean visit(CharConst charConst, SymbolTable arg) {
+        return true;
+    }
     @Override
     public Boolean visit(Id id, SymbolTable arg) {
         if(id.isParDecl() == true){
@@ -487,6 +491,8 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         }
         return isVarDeclValid;
     }
+
+
 
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
         boolean isLeftExprOperandValid = (leftOperand != null) ? leftOperand.accept(this, arg): true;

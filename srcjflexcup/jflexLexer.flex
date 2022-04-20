@@ -68,6 +68,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 
 Identifier = [$_A-Za-z][$_A-Za-z0-9]*
 IntegerLiteral = ([0-9]+)
+CharLiteral = ([A-Za-z])
 NumberLiteral = ([0-9]|([0-9]?\.[0-9]+))(E(\+|\-)?[0-9]+)?
 // instead of doing regex for string and comment, we have to handle errors so we create comment and string (single quoted and double quoted) states
 // StringLiteral = ([\"]([^\"])*[\"])|([\']([^\'])*[\'])
@@ -78,6 +79,7 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
 %state SQ_STRING
 %state DQ_STRING
 %state BLK_COMMENT
+%state CHAR
 %%
 
 <YYINITIAL>{
@@ -92,6 +94,7 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     "real" { return generateParserSym(ParserSym.REAL);}
     "string" { return generateParserSym(ParserSym.STRING); }
     "bool"  { return generateParserSym(ParserSym.BOOL); }
+    "char" {return generateParserSym(ParserSym.CHAR);}
     "fun"  { return generateParserSym(ParserSym.FUN); }
     "end"  {return generateParserSym(ParserSym.END);}
     "return" {return generateParserSym(ParserSym.RETURN);}
@@ -176,7 +179,11 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
 <DQ_STRING> {
     "\"" {
           yybegin(YYINITIAL);
-          return generateParserSym(ParserSym.STRING_CONST,string.toString());
+          if(string.length()>1){
+            return generateParserSym(ParserSym.STRING_CONST,string.toString());
+          }else{
+            return generateParserSym(ParserSym.CHAR_CONST, string.toString());
+            }
          }
          '\t' { string.append('\t'); }
          '\n' { string.append('\n'); }
@@ -194,7 +201,11 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
 <SQ_STRING> {
     "\'" {
           yybegin(YYINITIAL);
-          return generateParserSym(ParserSym.STRING_CONST, string.toString());
+          if(string.length()>1){
+              return generateParserSym(ParserSym.STRING_CONST,string.toString());
+          }else{
+              return generateParserSym(ParserSym.CHAR_CONST, string.toString());
+          }
       }
 
       '\t' { string.append('\t'); }

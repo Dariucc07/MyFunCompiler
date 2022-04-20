@@ -299,6 +299,12 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     }
 
     @Override
+    public NodeType visit(CharConst charConst, SymbolTable arg) {
+        charConst.setNodeType(PrimitiveNodeType.CHAR);
+        return PrimitiveNodeType.CHAR;
+    }
+
+    @Override
     public NodeType visit(Id id, SymbolTable arg) {
         NodeType idNodeType = arg.lookup(id.getValue()).get().getNodeType();
         id.setNodeType(idNodeType);
@@ -429,7 +435,7 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
                 idInitOp.getId().setNodeType((PrimitiveNodeType) idNodeType);
                 return idNodeType;
             } else
-                throw new RuntimeException("Type Mismatch:declaring a variable of type " + idNodeType.toString() + "but its value is " + exprNodeType.toString());
+                throw new RuntimeException("Type Mismatch:declaring a variable of type " + idNodeType.toString().toUpperCase() + " but its value is " + exprNodeType.toString().toUpperCase());
         }
 
     }
@@ -655,6 +661,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+
 }
     /*
         if(varDecl.getIdListInitOp() != null){

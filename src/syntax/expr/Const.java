@@ -10,10 +10,13 @@ public class Const extends AstNode {
     private StringConst stringConst;
     private RealConst realConst;
     private BoolConst boolConst;
+    private CharConst charConst;
 
     private PrimitiveType type;
 
-
+    public String getValue(Const constant){
+        return constant.toString();
+    }
 
 
 
@@ -42,6 +45,12 @@ public class Const extends AstNode {
         this.boolConst = boolConst;
     }
 
+    public Const(int leftLocation, int rightLocation, CharConst charConst){
+        super(leftLocation, rightLocation);
+        type = new PrimitiveType(leftLocation, rightLocation, "CHAR");
+        this.charConst = charConst;
+    }
+
     public PrimitiveType getType() {
         return type;
     }
@@ -58,6 +67,9 @@ public class Const extends AstNode {
         }
         if(boolConst!=null){
             return boolConst;
+        }
+        if(charConst != null){
+            return charConst;
         }
         return integerConst;
     }
@@ -77,6 +89,11 @@ public class Const extends AstNode {
     public BoolConst getBoolConst() {
         return boolConst;
     }
+
+    public CharConst getCharConst() {
+        return charConst;
+    }
+
 
     @Override
     public <T, P> T accept(Visitor<T, P> visitor, P arg) {
