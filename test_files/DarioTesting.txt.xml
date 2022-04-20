@@ -43,12 +43,13 @@
         <StringConst value="ab"/>
       </IdInitOp>
     </VarDecl>
-    <VarDecl isVar="false">
-      <PrimitiveType type="CHAR"/>
-      <IdInitOp>
+    <VarDecl isVar="true">
+      <IdInitObblOp>
         <Id lexeme="c2"/>
-        <CharConst value="b"/>
-      </IdInitOp>
+        <Const>
+          <CharConst value="b"/>
+        </Const>
+      </IdInitObblOp>
     </VarDecl>
     <ReturnOp>
       <Id lexeme="nellino"/>

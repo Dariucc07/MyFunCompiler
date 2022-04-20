@@ -34,7 +34,7 @@ char  esempio(int parametro){
 char nellino[256];
  c3 = a;
 char c1[256] = "ab";
- c2 = b;
+char c2 = b;
 return * nellino;
 }
 char  somma(float francesco, char *messaggio, int ciao){

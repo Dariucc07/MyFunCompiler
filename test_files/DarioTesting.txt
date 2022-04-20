@@ -6,7 +6,7 @@ fun esempio(integer parametro):string
     string nellino;
     char c3:= 'a';
     string c1:= 'ab';
-    char c2 := "b";
+    var c2 := "b";
     return nellino;
 end fun;
 

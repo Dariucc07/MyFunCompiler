@@ -16,6 +16,7 @@ public class Const extends AstNode {
 
     public Const(int leftLocation, int rightLocation, CharConst charConst) {
         super(leftLocation, rightLocation);
+        type = new PrimitiveType(leftLocation,rightLocation,"CHAR");
         this.charConst = charConst;
     }
 
@@ -59,6 +60,9 @@ public class Const extends AstNode {
         }
         if(boolConst!=null){
             return boolConst;
+        }
+        if(charConst!=null){
+            return charConst;
         }
         return integerConst;
     }
