@@ -305,6 +305,14 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     }
 
     @Override
+    public Element visit(LetStat letStat, Document arg) {
+        Element element = arg.createElement("LetStat");
+        letStat.getVarDeclList().forEach(addParent(element, arg));
+        letStat.getStatList().forEach(addParent(element, arg));
+        return element;
+    }
+
+    @Override
     public Element visit(ReadStat readStat, Document arg) {
         Element element = arg.createElement("ReadStat");
         readStat.getIdList().forEach(addParent(element, arg));

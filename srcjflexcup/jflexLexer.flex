@@ -99,6 +99,9 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     "out" {return generateParserSym(ParserSym.OUT);}
     "var" {return generateParserSym(ParserSym.VAR);}
 
+      //added for mod
+    "let" {return generateParserSym(ParserSym.LET);}
+    "in" {return generateParserSym(ParserSym.IN);}
 /*values*/
     "null" { return generateParserSym(ParserSym.NULL); }
     "true" { return generateParserSym(ParserSym.BOOL_CONST, "true"); }

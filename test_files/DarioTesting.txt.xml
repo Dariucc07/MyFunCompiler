@@ -86,7 +86,7 @@
       </VarDecl>
       <VarDecl isVar="true">
         <IdInitObblOp>
-          <Id lexeme="c"/>
+          <Id lexeme="clet"/>
           <Const>
             <RealConst value="1.2"/>
           </Const>
@@ -139,6 +139,105 @@
     </CallFunctionStat>
     <ReturnOp>
       <Id lexeme="dario"/>
+    </ReturnOp>
+  </Fun>
+  <Fun>
+    <Id lexeme="sommaesame"/>
+    <ParDecl out="false">
+      <PrimitiveType type="REAL"/>
+      <Id lexeme="messaggio1"/>
+    </ParDecl>
+    <ParDecl out="false">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="concatenazione"/>
+    </ParDecl>
+    <PrimitiveType type="REAL"/>
+    <LetStat>
+      <VarDecl isVar="true">
+        <IdInitObblOp>
+          <Id lexeme="clet"/>
+          <Const>
+            <IntegerConst value="2"/>
+          </Const>
+        </IdInitObblOp>
+      </VarDecl>
+      <LetStat>
+        <VarDecl isVar="true">
+          <IdInitObblOp>
+            <Id lexeme="a"/>
+            <Const>
+              <IntegerConst value="1"/>
+            </Const>
+          </IdInitObblOp>
+        </VarDecl>
+        <VarDecl isVar="true">
+          <IdInitObblOp>
+            <Id lexeme="b"/>
+            <Const>
+              <RealConst value="2.3"/>
+            </Const>
+          </IdInitObblOp>
+        </VarDecl>
+        <VarDecl isVar="false">
+          <PrimitiveType type="STRING"/>
+          <IdInitOp>
+            <Id lexeme="size"/>
+          </IdInitOp>
+        </VarDecl>
+        <VarDecl isVar="false">
+          <PrimitiveType type="REAL"/>
+          <IdInitOp>
+            <Id lexeme="result"/>
+          </IdInitOp>
+        </VarDecl>
+        <AssignStat>
+          <Id lexeme="result"/>
+          <PlusOp>
+            <PlusOp>
+              <Id lexeme="a"/>
+              <Id lexeme="b"/>
+            </PlusOp>
+            <Id lexeme="clet"/>
+          </PlusOp>
+        </AssignStat>
+        <IfStat>
+          <GreaterThanRelop>
+            <Id lexeme="result"/>
+            <IntegerConst value="100"/>
+          </GreaterThanRelop>
+          <VarDecl isVar="true">
+            <IdInitObblOp>
+              <Id lexeme="valore"/>
+              <Const>
+                <StringConst value="grande"/>
+              </Const>
+            </IdInitObblOp>
+          </VarDecl>
+          <AssignStat>
+            <Id lexeme="size"/>
+            <Id lexeme="valore"/>
+          </AssignStat>
+          <ElseOp>
+            <LetStat>
+              <VarDecl isVar="true">
+                <IdInitObblOp>
+                  <Id lexeme="valore"/>
+                  <Const>
+                    <StringConst value="piccola"/>
+                  </Const>
+                </IdInitObblOp>
+              </VarDecl>
+              <AssignStat>
+                <Id lexeme="size"/>
+                <Id lexeme="valore"/>
+              </AssignStat>
+            </LetStat>
+          </ElseOp>
+        </IfStat>
+      </LetStat>
+    </LetStat>
+    <ReturnOp>
+      <Id lexeme="messaggio1"/>
     </ReturnOp>
   </Fun>
   <Fun>

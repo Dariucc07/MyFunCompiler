@@ -133,5 +133,6 @@ public interface Visitor<T, P> {
 
     T visit(VarDecl varDecl, P arg);
 
+    T visit(LetStat letStat, P arg);
 
 }

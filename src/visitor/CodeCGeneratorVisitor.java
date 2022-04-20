@@ -519,6 +519,24 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+    @Override
+    public String visit(LetStat letStat, SymbolTable arg) {
+        arg.enterScope();
+
+        StringJoiner sjVarDecl = new StringJoiner(" ");
+        for(VarDecl declaredElement : letStat.getVarDeclList()){
+            sjVarDecl.add(declaredElement.accept(this, arg));
+        }
+
+        StringJoiner sjStat = new StringJoiner("\n");
+        for(Stat statement : letStat.getStatList()){
+            sjStat.add(statement.accept(this, arg));
+        }
+        arg.exitScope();
+        return String.format("{\n%s%s\n}", sjVarDecl.toString(), sjStat.toString());
+    }
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

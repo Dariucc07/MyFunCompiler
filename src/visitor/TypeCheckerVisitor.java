@@ -655,6 +655,15 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+    @Override
+    public NodeType visit(LetStat letStat, SymbolTable arg) {
+        arg.enterScope();
+        letStat.getVarDeclList().forEach(this.typeCheck(arg));
+        letStat.getStatList().forEach(this.typeCheck(arg));
+        arg.exitScope();
+        return PrimitiveNodeType.NULL;
+    }
 }
     /*
         if(varDecl.getIdListInitOp() != null){

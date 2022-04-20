@@ -14,6 +14,9 @@ fun somma(real francesco, out string messaggio, bool ciao):string
     if(frank) then
         esempio(5);
     end if;
+    let var s := 'ciao'; var clet := 1.2 ; in
+        ?. 'ciao questa è una prova';
+    end let;
     dario := "sono bello";
     return dario;
 end fun;
@@ -25,6 +28,32 @@ fun somma1(string messaggio, string pisello):real
     somma(dario, @ messaggio, false);
     return dario;
 
+end fun;
+
+fun sommaesame(real messaggio1, string concatenazione):real
+    let
+        var clet := 2;
+    in
+        let
+            var a := 1;
+            var b:= 2.3;
+            string size;
+            real result;
+        in
+            result := a + b + clet;
+            if result > 100 then
+                var valore := 'grande';
+                size := valore;
+            else
+                let
+                    var valore := 'piccola';
+                in
+                    size := valore;
+                end let;
+            end if;
+        end let;
+    end let;
+    return messaggio1;
 end fun;
 
 
