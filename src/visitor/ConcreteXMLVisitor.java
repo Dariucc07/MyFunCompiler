@@ -261,6 +261,14 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     }
 
     @Override
+    public Element visit(IdInitMore idInitMore, Document arg) {
+        Element element = arg.createElement("IdInitMore");
+        idInitMore.getIdList().forEach(addParent(element, arg));
+        idInitMore.getExprList().forEach(addParent(element, arg));
+        return element;
+    }
+
+    @Override
     public Element visit(PrimitiveType primitiveType, Document arg) {
         Element element = arg.createElement("PrimitiveType");
         element.setAttribute("type",primitiveType.getType() );
@@ -403,6 +411,10 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         }
         if(varDecl.getIdListInitObblOp() != null) {
             varDecl.getIdListInitObblOp().forEach(addParent(element, arg));
+        }
+        if(varDecl.getIdInitMore()!= null) {
+            Element append = varDecl.getIdInitMore().accept(this,arg);
+            element.appendChild(append);
         }
         return element;
 

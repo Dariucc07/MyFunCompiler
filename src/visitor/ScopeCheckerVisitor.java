@@ -1,10 +1,7 @@
 package visitor;
 
 import nodekind.NodeKind;
-import nodetype.CompositeNodeType;
-import nodetype.FunctionNodeType;
-import nodetype.NodeType;
-import nodetype.OutParPrimitiveNoteType;
+import nodetype.*;
 import semantic.SymbolTable;
 import semantic.SymbolTableRecord;
 import syntax.*;
@@ -48,6 +45,21 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         }
     }
 
+    private boolean checkNotExistContext(List<? extends AstNode> nodes, SymbolTable arg) {
+        if((nodes==null) || nodes.isEmpty()){
+            return true;
+        }
+        else { //return nodes.stream().allMatch(node ->node.accept(this, arg));
+            boolean valid=true;
+            for(AstNode node : nodes){
+                if(node.accept(this,arg)){
+                    valid=false;
+                }
+            }
+            return valid;
+
+        }
+    }
 
 
     private AstNode signalContext(List<? extends AstNode> nodes, SymbolTable arg) {
@@ -478,14 +490,45 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         boolean isTypeValid = (varDecl.getType() != null) ? varDecl.getType().accept(this, arg) : true;
         boolean areIdInitOpListValid = this.checkContext(varDecl.getIdListInitOp(),arg);
         boolean areIdInitOpObblListValid = this.checkContext(varDecl.getIdListInitObblOp(),arg);
-        boolean isVarDeclValid = isTypeValid && areIdInitOpListValid && areIdInitOpObblListValid;
+        boolean isIdInitMore = (varDecl.getIdInitMore()!= null) ? varDecl.getIdInitMore().accept(this,arg): true;
+        boolean isVarDeclValid = isTypeValid && areIdInitOpListValid && areIdInitOpObblListValid && isIdInitMore;
         if(isVarDeclValid){
             if(varDecl.getIdListInitOp()!=null)
                 fillEntries(varDecl.getIdListInitOp(), varDecl.getType(),arg);
             if(varDecl.getIdListInitObblOp()!=null)
                 fillEntriesObbl(varDecl.getIdListInitObblOp(),arg);
+            if(varDecl.getIdInitMore()!=null)
+                fillEntriesMore(varDecl.getIdInitMore(),arg);
         }
         return isVarDeclValid;
+    }
+
+    @Override
+    public Boolean visit(IdInitMore idInitMore, SymbolTable arg) {
+        boolean isIdListValid;
+        boolean isExprListValid;
+        if(idInitMore.getIdList()!=null){
+            isIdListValid= this.checkNotExistContext(idInitMore.getIdList(),arg);
+
+            if(idInitMore.getExprList()!=null){
+                isExprListValid= this.checkContext(idInitMore.getExprList(),arg);
+                if(idInitMore.getIdList().size()== idInitMore.getExprList().size()) {
+                    return isIdListValid && isExprListValid;
+                }else{
+                    if(idInitMore.getIdList().size() > idInitMore.getExprList().size()){
+                        throw new RuntimeException("Error: too many lvalues.");
+                    }else{
+                        throw new RuntimeException("Error: too many rvalues.");
+                    }
+                }
+            }else{
+                throw new RuntimeException("Error: no one expression in id initialization with var is defined.");
+            }
+
+        }
+        else{
+            throw new RuntimeException("Error: no one id in id initialization with var is defined.");
+        }
     }
 
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
@@ -512,6 +555,15 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
             Const c = idInitObblOp.getConstant();
             Type type = c.getType();
             arg.addEntry(idInitObblOp.getId().getValue(),new SymbolTableRecord(idInitObblOp.getId().getValue(),type.typeFactory(), NodeKind.VARIABLE));
+        }
+        return true;
+    }
+
+    public boolean fillEntriesMore(IdInitMore idInitMore,SymbolTable arg){
+        for(int i = 0 ; i<idInitMore.getIdList().size(); i++){
+            Id id = idInitMore.getIdList().get(i);
+            Expr e = idInitMore.getExprList().get(i);
+            arg.addEntry(id.getValue(),new SymbolTableRecord(id.getValue(), PrimitiveNodeType.NULL, NodeKind.VARIABLE));
         }
         return true;
     }

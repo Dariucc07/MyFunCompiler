@@ -90,6 +90,21 @@ public class StackSymbolTable extends LinkedHashMap<Integer, HashMap<Integer, Sy
     }
 
     @Override
+    public Optional<SymbolTableRecord> lookupWithSetType(String lexeme, NodeType type) {
+        int address = this.table.getAddress(lexeme);
+        int size = (this.scopeLevel.size() - 1);
+        for (int i = size; i >= 0; i--) {
+            int level = this.scopeLevel.elementAt(i);
+            if (this.get(level).containsKey(address)) {
+                this.get(level).get(address).setNodeType(type);
+
+                    return Optional.of(this.get(level).get(address));
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public void addEntry(String lexeme, SymbolTableRecord str) {
         int address = this.table.getAddress(lexeme);
         this.get(this.scopeLevel.peek()).put(address, str);

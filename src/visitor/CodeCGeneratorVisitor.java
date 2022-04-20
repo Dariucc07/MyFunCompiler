@@ -23,6 +23,7 @@ import syntax.statement.WriteOps.WriteTOp;
 import syntax.type.PrimitiveType;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Function;
@@ -519,6 +520,35 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+    @Override
+    public String visit(IdInitMore idInitMore, SymbolTable arg) {
+        LinkedList<Id> idList = idInitMore.getIdList();
+        LinkedList<Expr> exprList = idInitMore.getExprList();
+        StringJoiner idInitMoreString = new StringJoiner("\n");
+        for(int i =0 ; i< idList.size() ; i++){
+
+            Id id = idList.get(i);
+            PrimitiveNodeType p;
+            Expr e = exprList.get(i);
+
+            NodeType type = arg.lookup(id.getValue()).get().getNodeType();
+            if(type instanceof OutParPrimitiveNoteType){
+                p = (PrimitiveNodeType) ((OutParPrimitiveNoteType) type).getNodeType();
+            }else{
+                p = (PrimitiveNodeType) type;
+            }
+
+            if(p.cType().equals("string")){
+                idInitMoreString.add(String.format("char %s[256] = %s;",id,e.accept(this,arg)));
+            }else{
+                idInitMoreString.add( String.format("%s %s = %s;",p.cType(),id,e.accept(this,arg)));
+
+            }
+        }
+        return idInitMoreString.toString();
+    }
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

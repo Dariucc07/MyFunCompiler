@@ -1,5 +1,6 @@
 package syntax.expr;
 
+import nodetype.NodeType;
 import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.Leaf;

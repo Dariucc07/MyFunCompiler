@@ -23,6 +23,9 @@ public interface SymbolTable {
     Optional<SymbolTableRecord> lookupForMoreElement(String lexeme);
 
     Optional<SymbolTableRecord> lookupKind(String lexeme, NodeKind kind);
+
+    Optional<SymbolTableRecord> lookupWithSetType(String lexeme, NodeType type);
+
     void addEntry(String lexeme, SymbolTableRecord str);
 
 }

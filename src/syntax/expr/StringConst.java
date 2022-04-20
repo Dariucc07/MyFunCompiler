@@ -1,5 +1,6 @@
 package syntax.expr;
 
+import nodetype.NodeType;
 import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.Leaf;
@@ -23,6 +24,7 @@ public class StringConst extends Expr implements Leaf<String> {
     public String getValue() {
         return this.value;
     }
+
 
     @Override
     public <T, P> T accept(Visitor<T, P> visitor, P arg) {

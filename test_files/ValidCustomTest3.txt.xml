@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Program>
+  <VarDecl isVar="true">
+    <IdInitObblOp>
+      <Id lexeme="c"/>
+      <Const>
+        <RealConst value="1.1"/>
+      </Const>
+    </IdInitObblOp>
+  </VarDecl>
+  <Fun>
+    <Id lexeme="somma"/>
+    <ParDecl out="false">
+      <PrimitiveType type="REAL"/>
+      <Id lexeme="numero"/>
+    </ParDecl>
+    <PrimitiveType type="REAL"/>
+    <AssignStat>
+      <Id lexeme="c"/>
+      <PlusOp>
+        <Id lexeme="c"/>
+        <Id lexeme="numero"/>
+      </PlusOp>
+    </AssignStat>
+    <ReturnOp>
+      <Id lexeme="c"/>
+    </ReturnOp>
+  </Fun>
+  <Main>
+    <VarDecl isVar="false">
+      <PrimitiveType type="REAL"/>
+      <IdInitOp>
+        <Id lexeme="app"/>
+      </IdInitOp>
+    </VarDecl>
+    <WriteLnOp>
+      <StringConst value="Benvenuto!"/>
+    </WriteLnOp>
+    <WriteTOp>
+      <StringConst value="Inserisci un numero e io continuerò a sommarlo finchè non sceglierai 0"/>
+    </WriteTOp>
+    <ReadStat>
+      <Id lexeme="app"/>
+      <StringConst value="Numero:"/>
+    </ReadStat>
+    <WhileStat>
+      <GreaterThanRelop>
+        <Id lexeme="app"/>
+        <IntegerConst value="0"/>
+      </GreaterThanRelop>
+      <AssignStat>
+        <Id lexeme="app"/>
+        <CallFunction>
+          <Id lexeme="somma"/>
+          <Id lexeme="app"/>
+        </CallFunction>
+      </AssignStat>
+      <WriteLnOp>
+        <StringConcatOp>
+          <StringConst value="Ora il numero è:"/>
+          <Id lexeme="app"/>
+        </StringConcatOp>
+      </WriteLnOp>
+      <WriteLnOp>
+        <StringConst value="Scegli un altro numero:"/>
+      </WriteLnOp>
+      <ReadStat>
+        <Id lexeme="app"/>
+      </ReadStat>
+    </WhileStat>
+    <WriteLnOp>
+      <StringConst value="Okk hai scelto un numero minore di 0, ciao!"/>
+    </WriteLnOp>
+  </Main>
+</Program>

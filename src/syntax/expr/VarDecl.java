@@ -11,6 +11,9 @@ public class VarDecl extends AstNode {
     private Type type;
     private LinkedList<IdInitOp> idListInitOp;
     private LinkedList<IdInitObblOp> idListInitObblOp;
+
+
+    private IdInitMore idInitMore;
     private boolean var;
 
     public VarDecl(int leftLocation, int rightLocation, Type type, LinkedList<IdInitOp> idListInitOp) {
@@ -25,6 +28,20 @@ public class VarDecl extends AstNode {
         this.var = var;
         this.idListInitObblOp = idListInitObblOp;
     }
+    public VarDecl(int leftLocation, int rightLocation, IdInitMore idInitMore, boolean var) {
+        super(leftLocation, rightLocation);
+        this.idInitMore = idInitMore;
+        this.var = var;
+    }
+
+    public IdInitMore getIdInitMore() {
+        return idInitMore;
+    }
+
+    public void setIdListInitMore(IdInitMore idListInitMore) {
+        this.idInitMore = idListInitMore;
+    }
+
 
     public Type getType() {
         return type;

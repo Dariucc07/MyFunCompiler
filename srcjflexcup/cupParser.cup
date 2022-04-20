@@ -51,6 +51,7 @@ nonterminal Type Type;
 nonterminal Main Main;
 nonterminal LinkedList<IdInitOp> IdListInit;
 nonterminal LinkedList<Id> IdList;
+nonterminal IdInitMore IdInitMore;
 nonterminal LinkedList<IdInitObblOp> IdListInitObbl;
 nonterminal Const Const;
 nonterminal LinkedList<ParDecl> ParamDeclList;
@@ -105,7 +106,8 @@ FunList ::= /* empty */                             {:RESULT = new LinkedList<Fu
 	| FunList:flist Fun:f                            {:flist.add(f); RESULT = flist; :};
 
 VarDecl ::= Type:t IdListInit:idListInit SEMI      {:RESULT = new VarDecl(tleft, tright, t, idListInit); :}
-	| VAR IdListInitObbl:idListInitObbl SEMI       {:RESULT = new VarDecl(idListInitObblleft,idListInitObblright,true,idListInitObbl);:};
+	| VAR IdListInitObbl:idListInitObbl SEMI       {:RESULT = new VarDecl(idListInitObblleft,idListInitObblright,true,idListInitObbl);:}
+	| VAR IdInitMore:idInitMore SEMI       {:RESULT = new VarDecl(idInitMoreleft, idInitMoreright,idInitMore,true); :};
 
 Type ::= INTEGER:it                                                     {: RESULT = new PrimitiveType(itleft,itright,"INTEGER"); :}
 | BOOL:bt                                                               {: RESULT = new PrimitiveType(btleft,btright,"BOOL"); :}
@@ -121,6 +123,9 @@ IdListInitObbl ::= ID:id ASSIGN Const:c                                 {:Linked
                                                                           idInitObbList.add(idInitObblOp); RESULT = idInitObbList; :}
 	| IdListInitObbl:idListObbl COMMA ID:id ASSIGN Const:c              {:IdInitObblOp idInitObblOp = new IdInitObblOp(idleft, idright, new Id(idleft, idright, id), c);
 	                                                                      idListObbl.add(idInitObblOp); RESULT = idListObbl; :};
+IdInitMore ::= ID:id COMMA IdList:idList ASSIGN ExprList:exprList         {:idList.add(new Id(idleft,idright,id));
+                                                                            IdInitMore idInitMore =  new IdInitMore(idleft,idright,idList,exprList);
+                                                                            RESULT =idInitMore;:};
 
 Const ::= INTEGER_CONST:ic                                              {: RESULT = new Const(icleft,icright,new IntegerConst(icleft, icright, ic)); :}
          |REAL_CONST:rc                                                 {: RESULT = new Const(rcleft,rcright,new RealConst(rcleft,rcright,rc)); :}

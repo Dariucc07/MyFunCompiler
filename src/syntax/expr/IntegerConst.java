@@ -1,5 +1,6 @@
 package syntax.expr;
 
+import nodetype.NodeType;
 import nodetype.PrimitiveNodeType;
 import syntax.Expr;
 import syntax.Leaf;
@@ -23,7 +24,6 @@ public class IntegerConst extends Expr implements Leaf<Integer> {
         this.value = Integer.parseInt(value);
         setNodeType(PrimitiveNodeType.INT);
     }
-
     @Override
     public Integer getValue() {
         return this.value;

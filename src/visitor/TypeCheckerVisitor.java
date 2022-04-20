@@ -633,7 +633,10 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
 
         if (varDecl.getType() == null) {
             if (varDecl.isVar() == true) {
-                varDecl.getIdListInitObblOp().forEach(this.typeCheck(arg));
+                if(varDecl.getIdListInitObblOp()!=null)
+                    varDecl.getIdListInitObblOp().forEach(this.typeCheck(arg));
+                else
+                    varDecl.getIdInitMore().accept(this,arg);
                 return PrimitiveNodeType.NULL;
             }
         } else {
@@ -647,6 +650,16 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
                 element.accept(this, arg);
             }
             return vType;
+        }
+        return PrimitiveNodeType.NULL;
+    }
+
+    @Override
+    public NodeType visit(IdInitMore idInitMore, SymbolTable arg) {
+        for (int i=0; i<idInitMore.getIdList().size();i++){
+            Id id = idInitMore.getIdList().get(i);
+            Expr e = idInitMore.getExprList().get(i);
+            arg.lookupWithSetType(id.getValue(),e.getType());
         }
         return PrimitiveNodeType.NULL;
     }
