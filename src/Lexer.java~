@@ -998,7 +998,7 @@ class Lexer implements java_cup.runtime.Scanner {
           case 89: break;
           case 25:
             { yybegin(YYINITIAL);
-          if(string.length()==1){
+          if(yylength()==1){
                       return generateParserSym(ParserSym.CHAR_CONST,string.toString());
           }
           return generateParserSym(ParserSym.STRING_CONST, string.toString());
@@ -1012,7 +1012,7 @@ class Lexer implements java_cup.runtime.Scanner {
           case 91: break;
           case 27:
             { yybegin(YYINITIAL);
-          if(string.length()==1){
+          if(yylength()==1){
             return generateParserSym(ParserSym.CHAR_CONST,string.toString());
           }
             return generateParserSym(ParserSym.STRING_CONST,string.toString());

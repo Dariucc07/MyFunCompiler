@@ -10,13 +10,14 @@ public class Const extends AstNode {
     private StringConst stringConst;
     private RealConst realConst;
     private BoolConst boolConst;
-
+    private CharConst charConst;
     private PrimitiveType type;
 
 
-
-
-
+    public Const(int leftLocation, int rightLocation, CharConst charConst) {
+        super(leftLocation, rightLocation);
+        this.charConst = charConst;
+    }
 
     public Const(int leftLocation, int rightLocation, IntegerConst integerConst){
         super(leftLocation, rightLocation);
@@ -76,6 +77,10 @@ public class Const extends AstNode {
 
     public BoolConst getBoolConst() {
         return boolConst;
+    }
+
+    public CharConst getCharConst() {
+        return charConst;
     }
 
     @Override

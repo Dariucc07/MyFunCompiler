@@ -334,7 +334,7 @@ public enum PrimitiveNodeType implements NodeType {
 
         @Override
         public PrimitiveNodeType checkRel(PrimitiveNodeType type) {
-            switch(type){
+            switch (type) {
                 case STRING:
                     return BOOL;
                 default:
@@ -371,6 +371,62 @@ public enum PrimitiveNodeType implements NodeType {
                     return NULL;
             }
         }
+    },
+    CHAR {
+        @Override
+        public PrimitiveNodeType checkAdd (PrimitiveNodeType type){
+            return NULL;
+        }
+
+        @Override
+        public PrimitiveNodeType checkSub (PrimitiveNodeType type){
+            return NULL;
+        }
+
+        @Override
+        public PrimitiveNodeType checkMul (PrimitiveNodeType type){
+            return NULL;
+        }
+
+        @Override
+        public PrimitiveNodeType checkDiv (PrimitiveNodeType type){
+            return NULL;
+        }
+
+        @Override
+        public PrimitiveNodeType checkRel (PrimitiveNodeType type){
+            switch (type) {
+                case CHAR:
+                    return BOOL;
+                default:
+                    return NULL;
+            }
+        }
+
+        @Override
+        public PrimitiveNodeType checkDivInt(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkPow(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkStrConcat(PrimitiveNodeType type) {
+            return null;
+        }
+
+        @Override
+        public PrimitiveNodeType checkOpType(PrimitiveNodeType type) {
+            switch(type){
+                case CHAR:
+                    return CHAR;
+                default:
+                    return NULL;
+            }
+        }
     };
 // c relative code for primitive types
     public String cType(){
@@ -399,6 +455,8 @@ public enum PrimitiveNodeType implements NodeType {
                 return "real";
             case STRING:
                 return "string";
+            case CHAR:
+                return "char";
             default:
                 return "null";
         }

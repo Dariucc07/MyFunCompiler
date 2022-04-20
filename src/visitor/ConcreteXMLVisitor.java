@@ -167,6 +167,13 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         element.setAttribute("value", String.valueOf(boolConst.getValue()));
         return element;
     }
+    @Override
+    public Element visit(CharConst charConst, Document arg) {
+
+        Element element = arg.createElement("CharConst");
+        element.setAttribute("value", String.valueOf(charConst.getValue()));
+        return element;
+    }
 
     @Override
     public Element visit(IntegerConst integerConst, Document arg) {

@@ -32,12 +32,12 @@
     <VarDecl isVar="false">
       <PrimitiveType type="CHAR"/>
       <IdInitOp>
-        <Id lexeme="c"/>
+        <Id lexeme="c3"/>
         <CharConst value="a"/>
       </IdInitOp>
     </VarDecl>
     <VarDecl isVar="false">
-      <PrimitiveType type="CHAR"/>
+      <PrimitiveType type="STRING"/>
       <IdInitOp>
         <Id lexeme="c1"/>
         <StringConst value="ab"/>

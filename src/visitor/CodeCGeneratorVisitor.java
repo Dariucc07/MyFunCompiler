@@ -519,6 +519,12 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+    @Override
+    public String visit(CharConst charConst, SymbolTable arg) {
+        return charConst.getValue();
+    }
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();
@@ -528,6 +534,8 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
                 return "%f";
             case STRING:
                 return "%s";
+            case CHAR:
+                return "%c";
             default:
                 return "%d";
         }

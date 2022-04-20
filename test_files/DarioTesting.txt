@@ -4,6 +4,9 @@ var d := "donato";
 fun esempio(integer parametro):string
     #do something
     string nellino;
+    char c3:= 'a';
+    string c1:= 'ab';
+    char c2 := "b";
     return nellino;
 end fun;
 

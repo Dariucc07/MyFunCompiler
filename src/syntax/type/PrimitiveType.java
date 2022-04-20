@@ -27,6 +27,8 @@ public class PrimitiveType extends Type {
                 return PrimitiveNodeType.STRING;
             case "BOOL":
                 return PrimitiveNodeType.BOOL;
+            case "CHAR":
+                return PrimitiveNodeType.CHAR;
             default:
                 return PrimitiveNodeType.NULL;
         }
@@ -41,6 +43,8 @@ public class PrimitiveType extends Type {
                 return "char";
             case "BOOL":
                 return "int";
+            case "CHAR":
+                return "char";
             default:
                 return "void";
         }

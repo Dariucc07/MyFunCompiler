@@ -655,6 +655,12 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+    @Override
+    public NodeType visit(CharConst charConst, SymbolTable arg) {
+        charConst.setNodeType(PrimitiveNodeType.CHAR);
+        return PrimitiveNodeType.CHAR;
+    }
 }
     /*
         if(varDecl.getIdListInitOp() != null){

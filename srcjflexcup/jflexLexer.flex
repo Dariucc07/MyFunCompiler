@@ -91,6 +91,7 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     "integer" { return generateParserSym(ParserSym.INTEGER);}
     "real" { return generateParserSym(ParserSym.REAL);}
     "string" { return generateParserSym(ParserSym.STRING); }
+    "char" {return generateParserSym(ParserSym.CHAR);}
     "bool"  { return generateParserSym(ParserSym.BOOL); }
     "fun"  { return generateParserSym(ParserSym.FUN); }
     "end"  {return generateParserSym(ParserSym.END);}
@@ -176,7 +177,10 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
 <DQ_STRING> {
     "\"" {
           yybegin(YYINITIAL);
-          return generateParserSym(ParserSym.STRING_CONST,string.toString());
+          if(string.length()==1){
+            return generateParserSym(ParserSym.CHAR_CONST,string.toString());
+          }
+            return generateParserSym(ParserSym.STRING_CONST,string.toString());
          }
          '\t' { string.append('\t'); }
          '\n' { string.append('\n'); }
@@ -194,6 +198,9 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
 <SQ_STRING> {
     "\'" {
           yybegin(YYINITIAL);
+          if(string.length()==1){
+              return generateParserSym(ParserSym.CHAR_CONST,string.toString());
+          }
           return generateParserSym(ParserSym.STRING_CONST, string.toString());
       }
 

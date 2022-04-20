@@ -488,6 +488,11 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         return isVarDeclValid;
     }
 
+    @Override
+    public Boolean visit(CharConst charConst, SymbolTable arg) {
+        return true;
+    }
+
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
         boolean isLeftExprOperandValid = (leftOperand != null) ? leftOperand.accept(this, arg): true;
         boolean isRightExprOperandValid = (rightOperand != null) ? rightOperand.accept(this, arg): true;
