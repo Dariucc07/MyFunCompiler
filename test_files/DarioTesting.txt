@@ -10,11 +10,20 @@ end fun;
 fun somma(real francesco, out string messaggio, bool ciao):string
     string dario;
     bool frank;
-    integer donato;
+    integer donato,cicciano:=2;
     if(frank) then
         esempio(5);
     end if;
     dario := "sono bello";
+    while donato < 10 loop
+        donato := donato +1 ;
+
+     elseloop
+        string provaesame :='ciao';
+        integer nellino :=2;
+        ?. donato;
+     end loop;
+
     return dario;
 end fun;
 
@@ -24,15 +33,12 @@ fun somma1(string messaggio, string pisello):real
     integer gilberto;
     somma(dario, @ messaggio, false);
     return dario;
-
 end fun;
-
 
 fun somma2(string messaggio)
     integer dario, donato, result;
     result := dario + donato;
 end fun;
-
 
 fun somma3(string messaggio):string
     integer donato;

@@ -385,6 +385,10 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
             sjStat.add(statement.accept(this, arg));
         }
         arg.exitScope();
+        if(whileStat.getElseLoop()!=null){
+            String elseLoop = whileStat.getElseLoop().accept(this,arg);
+            return String.format("while(%s){\n%s%s\n}\nwhile(!%s)%s", condition, sjVarDecl.toString(), sjStat.toString(),condition,elseLoop);
+        }
         return String.format("while(%s){\n%s%s\n}", condition, sjVarDecl.toString(), sjStat.toString());
 
 
@@ -519,6 +523,17 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+    @Override
+    public String visit(ElseLoop elseLoop, SymbolTable arg) {
+        arg.enterScope();
+        StringJoiner sj = new StringJoiner("\n");
+        elseLoop.getVarDeclList().forEach(varDecl -> sj.add(varDecl.accept(this,arg)));
+        elseLoop.getStatList().forEach(stat -> sj.add(stat.accept(this,arg)));
+        arg.exitScope();
+        return String.format("{\n%s\n}\n",sj.toString());
+    }
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

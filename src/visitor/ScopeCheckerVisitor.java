@@ -354,11 +354,17 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         boolean isExprValid = (whileStat.getExpr() != null) ? whileStat.getExpr().accept(this, arg) : true;
         boolean areVarDeclListValid = this.checkContext(whileStat.getVarDeclList(),arg);
         boolean areStatListValid = this.checkContext(whileStat.getStatList(),arg);
-        boolean isWhileValid = isExprValid && areVarDeclListValid && areStatListValid;
+
         if(!isExprValid){
             throw new RuntimeException("Id:"+whileStat.getExpr().toString()+" doesn't exists!");
         }
         arg.exitScope();
+        boolean isElseLoopValid = true;
+        if(whileStat.getElseLoop()!=null){
+            isElseLoopValid = whileStat.getElseLoop().accept(this,arg);
+        }
+
+        boolean isWhileValid = isExprValid && areVarDeclListValid && areStatListValid &&isElseLoopValid;
         return isWhileValid;
     }
 
@@ -486,6 +492,16 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
                 fillEntriesObbl(varDecl.getIdListInitObblOp(),arg);
         }
         return isVarDeclValid;
+    }
+
+    @Override
+    public Boolean visit(ElseLoop elseLoop, SymbolTable arg) {
+        arg.enterScope();
+        boolean areVarDeclListValid = this.checkContext(elseLoop.getVarDeclList(),arg);
+        boolean areStatListValid = this.checkContext(elseLoop.getStatList(),arg);
+        boolean isElseValid = areVarDeclListValid &areStatListValid;
+        arg.exitScope();
+        return isElseValid;
     }
 
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){

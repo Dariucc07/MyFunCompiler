@@ -301,9 +301,17 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         element.appendChild(whileStat.getExpr().accept(this, arg));
         whileStat.getVarDeclList().forEach(addParent(element, arg));
         whileStat.getStatList().forEach(addParent(element, arg));
+        if(whileStat.getElseLoop()!= null)
+            element.appendChild(whileStat.getElseLoop().accept(this,arg));
         return element;
     }
-
+    @Override
+    public Element visit(ElseLoop elseLoop, Document arg) {
+        Element element = arg.createElement("ElseLoop");
+        elseLoop.getVarDeclList().forEach(addParent(element, arg));
+        elseLoop.getStatList().forEach(addParent(element, arg));
+        return element;
+    }
     @Override
     public Element visit(ReadStat readStat, Document arg) {
         Element element = arg.createElement("ReadStat");

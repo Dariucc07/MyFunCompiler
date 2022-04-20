@@ -503,7 +503,11 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         whileStat.getVarDeclList().forEach(this.typeCheck(arg));
         whileStat.getStatList().forEach(this.typeCheck(arg));
+
         arg.exitScope();
+        if(whileStat.getElseLoop()!=null){
+            whileStat.getElseLoop().accept(this,arg);
+        }
         return PrimitiveNodeType.NULL;
     }
 
@@ -653,6 +657,15 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
             }
             return vType;
         }
+        return PrimitiveNodeType.NULL;
+    }
+
+    @Override
+    public NodeType visit(ElseLoop elseLoop, SymbolTable arg) {
+        arg.enterScope();
+        elseLoop.getVarDeclList().forEach(this.typeCheck(arg));
+        elseLoop.getStatList().forEach(this.typeCheck(arg));
+        arg.exitScope();
         return PrimitiveNodeType.NULL;
     }
 }

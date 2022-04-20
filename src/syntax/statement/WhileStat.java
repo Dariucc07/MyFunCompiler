@@ -13,11 +13,28 @@ public class WhileStat extends Stat {
     private LinkedList<VarDecl> varDeclList;
     private LinkedList<Stat> statList;
 
+    public ElseLoop getElseLoop() {
+        return elseLoop;
+    }
+
+    public void setElseLoop(ElseLoop elseLoop) {
+        this.elseLoop = elseLoop;
+    }
+
+    private ElseLoop elseLoop;
     public WhileStat(int leftLocation, int rightLocation, Expr expr, LinkedList<VarDecl> varDeclList, LinkedList<Stat> statList) {
         super(leftLocation, rightLocation);
         this.expr = expr;
         this.varDeclList = varDeclList;
         this.statList = statList;
+    }
+
+    public WhileStat(int leftLocation, int rightLocation, Expr expr, LinkedList<VarDecl> varDeclList, LinkedList<Stat> statList,ElseLoop elseLoop) {
+        super(leftLocation, rightLocation);
+        this.expr = expr;
+        this.varDeclList = varDeclList;
+        this.statList = statList;
+        this.elseLoop= elseLoop;
     }
 
     public Expr getExpr() {
