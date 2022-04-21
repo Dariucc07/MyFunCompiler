@@ -655,6 +655,39 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+    @Override
+    public NodeType visit(Case case_block, SymbolTable arg) {
+        NodeType const_type = case_block.getConstant().accept(this,arg);
+        case_block.getStatList().forEach(stat -> {stat.accept(this,arg);});
+        return const_type;
+    }
+
+    @Override
+    public NodeType visit(SwitchStat switchStat, SymbolTable arg) {
+        NodeType idType = switchStat.getId().accept(this,arg);
+        if(idType instanceof FunctionNodeType){
+            throw new RuntimeException("Kind Mismatch:"+switchStat.getId().getValue()+"used in switch case is a function!");
+        }
+        if(idType instanceof OutParPrimitiveNoteType){
+            idType= ((OutParPrimitiveNoteType) idType).getNodeType();
+        }
+        PrimitiveNodeType p_idType = (PrimitiveNodeType) idType;
+        if(p_idType.equals(PrimitiveNodeType.REAL)||p_idType.equals(PrimitiveNodeType.INT)||p_idType.equals(PrimitiveNodeType.BOOL)){
+            PrimitiveNodeType case_app = (PrimitiveNodeType) switchStat.getCaseList().get(0).accept(this,arg);
+            for(Case case_block : switchStat.getCaseList()){
+                if(!case_block.accept(this,arg).equals(case_app)){
+                    throw new RuntimeException("Type Mismatch: In switch : "+switchStat.getId().getValue()+", cases are of different types");
+                }
+            }
+            if(!p_idType.equals(case_app)){
+                throw new RuntimeException("Type Mismatch: In switch : "+switchStat.getId().getValue()+", cases have different type to switch variable!");
+            }
+            return p_idType;
+        }else{
+            throw new RuntimeException("Type Mismatch:"+switchStat.getId().getValue()+"used in switch case is a string variable!");
+        }
+    }
 }
     /*
         if(varDecl.getIdListInitOp() != null){

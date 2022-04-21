@@ -83,7 +83,7 @@
       </IdInitOp>
     </VarDecl>
     <SwitchStat>
-      <Id lexeme="donato"/>
+      <Id lexeme="b"/>
       <Case>
         <Const>
           <IntegerConst value="1"/>

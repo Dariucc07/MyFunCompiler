@@ -28,6 +28,7 @@ public void syntax_error(Symbol cur_token) {
 
 terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL, FUN, END, RETURN, OUTPAR, OUT;
 terminal String NULL;
+terminal String SWITCH,STOP;
 terminal String LPAR,RPAR,COMMA,SEMI,COLON;
 terminal String LT,LE,EQ,NE,GT,GE,ASSIGN;
 terminal String AND,OR,NOT;
@@ -47,6 +48,10 @@ nonterminal LinkedList<VarDecl> VarDeclList;
 nonterminal VarDecl VarDecl;
 nonterminal LinkedList<Fun> FunList;
 nonterminal Fun Fun;
+
+nonterminal SwitchStat SwitchStat;
+nonterminal LinkedList<Case> CaseList;
+nonterminal Case Case;
 nonterminal Type Type;
 nonterminal Main Main;
 nonterminal LinkedList<IdInitOp> IdListInit;
@@ -149,6 +154,7 @@ Stat ::= IfStat:ifStat SEMI         {:RESULT = ifStat;  :}
 	| WhileStat:whileStat SEMI      {: RESULT = whileStat; :}
 	| ReadStat:readStat SEMI        {:RESULT = readStat;  :}
 	| WriteStat:writeStat SEMI      {:RESULT = writeStat;:}
+	| SwitchStat:switchStat SEMI {:RESULT = switchStat;:}
 	| AssignStat:assignStat SEMI    {:RESULT = assignStat;:}
 	| CallFun:callFun SEMI          {:RESULT = new CallFunctionStat(callFunleft, callFunright, callFun); :}
 	| RETURN:rop Expr:expr SEMI     {:RESULT = new ReturnOp(ropleft,ropright,expr); :};
@@ -157,7 +163,16 @@ IfStat ::= IF:ifOp Expr:expr THEN VarDeclList:varDeclList StatList:statList Else
 
 Else ::= /* empty */
 	| ELSE:elseOp VarDeclList:varDeclList  StatList:statList  {:RESULT = new ElseOp(elseOpleft,elseOpright,varDeclList,statList);:};
+SwitchStat ::= SWITCH:s LPAR ID:id RPAR CaseList:caseList END SWITCH {:RESULT = new SwitchStat(sleft,sright,new Id(idleft,idright,id),caseList);:};
 
+CaseList   ::= Case:case_block CaseList:caseList {:caseList.add(case_block); RESULT = caseList;:}
+               | Case:case_block1 Case:case_block2 Case:case_block3 {:LinkedList<Case> caseList = new LinkedList<Case>();
+                                caseList.add(case_block1);
+                                caseList.add(case_block2);
+                                caseList.add(case_block3);
+                                RESULT = caseList;:};
+
+Case ::= Const:constant COLON StatList:statList STOP SEMI {:RESULT = new Case(constantleft,constantright,constant,statList); :};
 WhileStat ::= WHILE:w Expr:expr LOOP VarDeclList:varDeclList  StatList:statList END LOOP    {: RESULT = new WhileStat(wleft, wright, expr, varDeclList, statList);:};
 
 ReadStat ::= READ IdList:idList Expr:expr              {: RESULT = new ReadStat(idListleft,idListright,idList,expr);:} // Expr deve essere di tipo stringa

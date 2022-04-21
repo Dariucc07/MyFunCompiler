@@ -89,6 +89,8 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     "while" { return generateParserSym(ParserSym.WHILE);}
     "loop" { return generateParserSym(ParserSym.LOOP);}
     "integer" { return generateParserSym(ParserSym.INTEGER);}
+    "switch" {return generateParserSym(ParserSym.SWITCH);}
+    "stop"    {return generateParserSym(ParserSym.STOP);}
     "real" { return generateParserSym(ParserSym.REAL);}
     "string" { return generateParserSym(ParserSym.STRING); }
     "bool"  { return generateParserSym(ParserSym.BOOL); }

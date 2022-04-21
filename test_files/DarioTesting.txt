@@ -1,4 +1,5 @@
 var c:= 2.2;
+var a := 0;
 var d := "donato";
 
 fun esempio(integer parametro):string
@@ -10,7 +11,13 @@ end fun;
 fun somma(real francesco, out string messaggio, bool ciao):string
     string dario;
     bool frank;
-    integer donato;
+    integer b :=2;
+    integer donato:=2;
+    switch ( b)
+        1 : ?. c*4; a:= a+1; stop;
+        2 : a := b+3; stop;
+        3 :  ?. 3; stop;
+    end switch;
     if(frank) then
         esempio(5);
     end if;

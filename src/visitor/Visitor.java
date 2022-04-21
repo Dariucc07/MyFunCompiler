@@ -132,6 +132,7 @@ public interface Visitor<T, P> {
     T visit(CallFunctionStat callFunctionStat, P arg);
 
     T visit(VarDecl varDecl, P arg);
-
+    T visit(Case case_block, P arg);
+    T visit(SwitchStat switchStat,P arg);
 
 }

@@ -488,7 +488,21 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         return isVarDeclValid;
     }
 
-    public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
+    @Override
+    public Boolean visit(Case case_block, SymbolTable arg) {
+        boolean isConstValid = case_block.getConstant().accept(this,arg);
+        boolean isStatListValid = this.checkContext(case_block.getStatList(),arg);
+        return isConstValid & isStatListValid;
+    }
+
+    @Override
+    public Boolean visit(SwitchStat switchStat, SymbolTable arg) {
+        boolean isIdValid = switchStat.getId().accept(this,arg);
+        boolean isCaseListValid = this.checkContext(switchStat.getCaseList(),arg);
+        return isIdValid && isCaseListValid;
+    }
+
+    public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand, SymbolTable arg){
         boolean isLeftExprOperandValid = (leftOperand != null) ? leftOperand.accept(this, arg): true;
         boolean isRightExprOperandValid = (rightOperand != null) ? rightOperand.accept(this, arg): true;
         if(!isLeftExprOperandValid){

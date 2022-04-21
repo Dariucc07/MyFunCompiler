@@ -519,6 +519,24 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+    @Override
+    public String visit(Case case_block, SymbolTable arg) {
+
+        String constant = case_block.getConstant().accept(this,arg);
+        StringJoiner statements = new StringJoiner("\n");
+        case_block.getStatList().forEach(stat -> statements.add(stat.accept(this,arg)));
+        return String.format("case %s : %s break;",constant,statements.toString());
+    }
+
+    @Override
+    public String visit(SwitchStat switchStat, SymbolTable arg) {
+        String id = switchStat.getId().accept(this,arg);
+        StringJoiner cases = new StringJoiner("\n");
+        switchStat.getCaseList().forEach(case_block -> {cases.add(case_block.accept(this,arg));});
+        return String.format("switch (%s) {\n %s \n}",id,cases.toString());
+    }
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

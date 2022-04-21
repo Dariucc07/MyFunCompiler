@@ -407,4 +407,20 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         return element;
 
     }
+
+    @Override
+    public Element visit(Case case_block, Document arg) {
+        Element element = arg.createElement("Case");
+        element.appendChild(case_block.getConstant().accept(this,arg));
+        case_block.getStatList().forEach(addParent(element,arg));
+        return element;
+    }
+
+    @Override
+    public Element visit(SwitchStat switchStat, Document arg) {
+        Element element = arg.createElement("SwitchStat");
+        element.appendChild(switchStat.getId().accept(this,arg));
+        switchStat.getCaseList().forEach(addParent(element,arg));
+        return element;
+    }
 }
