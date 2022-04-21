@@ -28,6 +28,8 @@ public void syntax_error(Symbol cur_token) {
 
 terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL, FUN, END, RETURN, OUTPAR, OUT;
 terminal String NULL;
+
+terminal String MAPSUM;
 terminal String LPAR,RPAR,COMMA,SEMI,COLON;
 terminal String LT,LE,EQ,NE,GT,GE,ASSIGN;
 terminal String AND,OR,NOT;
@@ -49,6 +51,7 @@ nonterminal LinkedList<Fun> FunList;
 nonterminal Fun Fun;
 nonterminal Type Type;
 nonterminal Main Main;
+nonterminal LinkedList <LinkedList<Expr>> ActualParameterList;
 nonterminal LinkedList<IdInitOp> IdListInit;
 nonterminal LinkedList<Id> IdList;
 nonterminal LinkedList<IdInitObblOp> IdListInitObbl;
@@ -59,6 +62,7 @@ nonterminal ParDecl ParDecl;
 nonterminal LinkedList<Stat> StatList;
 nonterminal Stat Stat;
 nonterminal IfStat IfStat;
+nonterminal MapSum MapSum;
 nonterminal ElseOp Else;
 nonterminal WhileStat WhileStat;
 nonterminal ReadStat ReadStat;
@@ -175,7 +179,18 @@ WriteStat ::=  WRITE  Expr:expr                 {: RESULT = new WriteOp(exprleft
 	| WRITEB  Expr:expr                         {: RESULT = new WriteBOp(exprleft,exprright,expr);:};
 
 
-AssignStat ::=  ID:id ASSIGN Expr:expr              {: RESULT = new AssignStat(idleft,idright, new Id(idleft,idright, id), expr);:};
+AssignStat ::=  ID:id ASSIGN Expr:expr              {: RESULT = new AssignStat(idleft,idright, new Id(idleft,idright, id), expr);:}
+    | ID: id ASSIGN MapSum:mapSum                       {: RESULT = new AssignStat(idleft,idright, new Id(idleft,idright,id),mapSum);:};
+
+MapSum ::= MAPSUM:mp LPAR ID:id COMMA ActualParameterList:actualParList RPAR     {:RESULT = new MapSum(mpleft,mpright,new Id(idleft,idright,id),actualParList);:};
+
+ActualParameterList ::= ActualParameterList:actualParList COMMA LPAR ExprList:exprList RPAR {: actualParList.add(exprList);
+                                                                                           RESULT = actualParList; :}
+| LPAR ExprList:exprList RPAR COMMA  LPAR ExprList:exprList2 RPAR COMMA LPAR ExprList:exprList3 RPAR            {: LinkedList<LinkedList<Expr>> actualParList = new LinkedList<LinkedList<Expr>>();
+                                                                                            actualParList.add(exprList);
+                                                                                            actualParList.add(exprList2);
+                                                                                            actualParList.add(exprList3);
+                                                                                            RESULT = actualParList;:};
 
 CallFun ::= ID:id LPAR ExprList:exprList RPAR       {:RESULT = new CallFunction(idleft,idright,new Id(idleft,idright,id),exprList);:}
 	| ID:id LPAR RPAR                               {:RESULT = new CallFunction(idleft,idright,new Id(idleft,idright,id), new LinkedList<Expr>());:};

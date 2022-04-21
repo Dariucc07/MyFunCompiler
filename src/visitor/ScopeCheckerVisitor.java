@@ -377,13 +377,20 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
     @Override
     public Boolean visit(AssignStat assignStat, SymbolTable arg) {
         boolean isIdValid = (assignStat.getId() != null) ? assignStat.getId().accept(this, arg) : true;
-        boolean isExprValid = (assignStat.getExpr() != null) ? assignStat.getExpr().accept(this, arg) : true;
+        boolean isExprValid = true;
+        if(assignStat.getExpr()!=null){
+            isExprValid = (assignStat.getExpr() != null) ? assignStat.getExpr().accept(this, arg) : true;
+        }else{
+            isExprValid = (assignStat.getMapSum() != null) ? assignStat.getMapSum().accept(this, arg) : true;
+        }
         boolean isAssignValid = isExprValid && isIdValid;
         if(!isIdValid){
             throw new RuntimeException("Id:"+assignStat.getId().toString()+" doesn't exists!");
         }
         if(!isExprValid){
-            throw new RuntimeException("Id:"+assignStat.getExpr().toString()+" doesn't exists!");
+            if(assignStat.getExpr()!=null) {
+                throw new RuntimeException("Id:" + assignStat.getExpr().toString() + " doesn't exists!");
+            }
         }
         return isAssignValid;
     }
@@ -488,6 +495,36 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         return isVarDeclValid;
     }
 
+    @Override
+    public Boolean visit(MapSum mapSum, SymbolTable arg) {
+        boolean isIdValid = mapSum.getId().accept(this, arg);
+        boolean isIdaFunction = arg.lookupKind(mapSum.getId().getValue(), NodeKind.FUNCTION).isPresent();
+        boolean isExprListValid = true;
+        for (int i = 0; i < mapSum.getActualParList().size(); i++) {
+            isExprListValid = isExprListValid && this.checkContext(mapSum.getActualParList().get(i), arg);
+        }
+        if (isIdaFunction) {
+            Optional<SymbolTableRecord> str_opt = arg.lookup(mapSum.getId().getValue());
+            SymbolTableRecord str = str_opt.get();
+            //have taken the size of parameter list of the function definition
+            int size = ((FunctionNodeType) str.getNodeType()).getParamsType().getTypes().size();
+
+
+            //check for each ExprList
+            for (int i = 0; i < mapSum.getActualParList().size(); i++) {
+                LinkedList<Expr> exprList = mapSum.getActualParList().get(i);
+                if (size != exprList.size()) {
+                    throw new RuntimeException("ERROR \"wrong number of arguments\" ");
+                }
+            }
+            return true;
+
+        } else {
+            throw new RuntimeException("Function " + mapSum.getId().getValue() + "used in mapsum doesn't exists!");
+        }
+    }
+
+
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
         boolean isLeftExprOperandValid = (leftOperand != null) ? leftOperand.accept(this, arg): true;
         boolean isRightExprOperandValid = (rightOperand != null) ? rightOperand.accept(this, arg): true;
@@ -515,4 +552,6 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         }
         return true;
     }
+
+
 }

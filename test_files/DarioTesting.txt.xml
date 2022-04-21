@@ -22,15 +22,19 @@
       <PrimitiveType type="INTEGER"/>
       <Id lexeme="parametro"/>
     </ParDecl>
-    <PrimitiveType type="STRING"/>
-    <VarDecl isVar="false">
+    <ParDecl out="false">
       <PrimitiveType type="STRING"/>
+      <Id lexeme="messaggio"/>
+    </ParDecl>
+    <PrimitiveType type="INTEGER"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="INTEGER"/>
       <IdInitOp>
         <Id lexeme="nellino"/>
       </IdInitOp>
     </VarDecl>
     <ReturnOp>
-      <Id lexeme="nellino"/>
+      <Id lexeme="parametro"/>
     </ReturnOp>
   </Fun>
   <Fun>
@@ -73,6 +77,7 @@
         <CallFunction>
           <Id lexeme="esempio"/>
           <IntegerConst value="5"/>
+          <StringConst value="ciao"/>
         </CallFunction>
       </CallFunctionStat>
     </IfStat>
@@ -89,15 +94,18 @@
             <IntegerConst value="5"/>
             <IntegerConst value="4"/>
           </PlusOp>
+          <StringConst value="ciao"/>
         </ActualParList>
         <ActualParList>
           <TimesOp>
             <IntegerConst value="4"/>
             <IntegerConst value="2"/>
           </TimesOp>
+          <StringConst value="ciao"/>
         </ActualParList>
         <ActualParList>
           <Id lexeme="donato"/>
+          <StringConst value="ciao"/>
         </ActualParList>
       </MapSum>
     </AssignStat>

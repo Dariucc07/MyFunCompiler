@@ -318,7 +318,11 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     public Element visit(AssignStat assignStat, Document arg) {
         Element element = arg.createElement("AssignStat");
         element.appendChild(assignStat.getId().accept(this, arg));
-        element.appendChild(assignStat.getExpr().accept(this, arg));
+        if(assignStat.getMapSum()!=null){
+            element.appendChild(assignStat.getMapSum().accept(this,arg));
+        }else {
+            element.appendChild(assignStat.getExpr().accept(this, arg));
+        }
         return element;
     }
 
@@ -406,5 +410,19 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         }
         return element;
 
+    }
+
+    @Override
+    public Element visit(MapSum mapSum, Document arg) {
+        Element element = arg.createElement("MapSum");
+        element.appendChild(mapSum.getId().accept(this, arg));
+
+        mapSum.getActualParList().forEach(actual -> {
+            Element subelement = arg.createElement("ActualParList");
+            actual.forEach(addParent(subelement,arg));
+            element.appendChild(subelement);
+        });
+
+        return element;
     }
 }

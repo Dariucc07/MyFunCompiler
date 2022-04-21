@@ -522,13 +522,26 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     @Override
     public NodeType visit(AssignStat assignStat, SymbolTable arg) {
         NodeType idType = arg.lookup(assignStat.getId().getValue()).get().getNodeType();
-        NodeType exprType = assignStat.getExpr().accept(this, arg);
-        if(exprType instanceof OutParPrimitiveNoteType)
-            exprType= ((OutParPrimitiveNoteType)exprType).getNodeType();
-        if (idType.checkOpType((PrimitiveNodeType) exprType).equals(PrimitiveNodeType.NULL)) {
-            throw new RuntimeException("Type Mismatch. Trying to assign to " + idType.toString() + " a " + exprType.toString() + " expression");
-        } else {
-            return idType;
+        if(assignStat.getExpr()!=null) {
+            NodeType exprType = assignStat.getExpr().accept(this, arg);
+            if (exprType instanceof OutParPrimitiveNoteType)
+                exprType = ((OutParPrimitiveNoteType) exprType).getNodeType();
+            if (idType.checkOpType((PrimitiveNodeType) exprType).equals(PrimitiveNodeType.NULL)) {
+                throw new RuntimeException("Type Mismatch. Trying to assign to " + idType.toString() + " a " + exprType.toString() + " expression");
+            } else {
+                return idType;
+            }
+        }else{
+            if(assignStat.getMapSum()!=null){
+                NodeType mapsumType = assignStat.getMapSum().accept(this,arg);
+                if(idType.equals(PrimitiveNodeType.REAL)||idType.equals(PrimitiveNodeType.INT)){
+                    return idType;
+                }else{
+                    throw new RuntimeException("ERROR  \" argument type mismatch\" on variable "+assignStat.getId().getValue());
+                }
+            }else{
+                throw new RuntimeException("COMPILER ERROR. Both expr and mapsum in assignStat are Null!");
+            }
         }
     }
 
@@ -654,6 +667,22 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
             return vType;
         }
         return PrimitiveNodeType.NULL;
+    }
+
+    @Override
+    public NodeType visit(MapSum mapSum, SymbolTable arg) {
+        FunctionNodeType idType = (FunctionNodeType) arg.lookupKind(mapSum.getId().getValue(),NodeKind.FUNCTION).get().getNodeType();
+
+        if (idType.getNodeType().equals(PrimitiveNodeType.REAL) || idType.getNodeType().equals(PrimitiveNodeType.INT)){
+            //in this way we create a temp call function to check if parameters are correct for each exprlist
+            for (int i = 0; i < mapSum.getActualParList().size(); i++) {
+                CallFunction cf = new CallFunction(1,1,mapSum.getId(),mapSum.getActualParList().get(i));
+                cf.accept(this,arg);
+            }
+            return idType.getNodeType();
+        }else{
+            throw new RuntimeException("ERROR :Type Mismatch: function argument of mapsum must be integer or real ");
+        }
     }
 }
     /*

@@ -411,11 +411,17 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     @Override
     public String visit(AssignStat assignStat, SymbolTable arg) {
         String leftOperand = assignStat.getId().accept(this, arg);
-        String rightOperand = assignStat.getExpr().accept(this, arg);
 
-        if(arg.lookup(assignStat.getId().getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING)){
-            return String.format("strcpy(%s,%s);", leftOperand, rightOperand);
+        String rightOperand ="";
+        if(assignStat.getExpr()!=null) {
+            rightOperand=assignStat.getExpr().accept(this, arg);
+            if(arg.lookup(assignStat.getId().getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING)){
+                return String.format("strcpy(%s,%s);", leftOperand, rightOperand);
+            }
+        }else{
+            rightOperand=assignStat.getMapSum().accept(this,arg);
         }
+
 
         return String.format("%s = %s;", leftOperand, rightOperand);
     }
@@ -519,6 +525,22 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+    @Override
+    public String visit(MapSum mapSum, SymbolTable arg) {
+        CharSequence id_str = mapSum.getId().accept(this,arg);
+        StringJoiner exprList_str = new StringJoiner("+");
+        for(int i=0;i<mapSum.getActualParList().size();i++){
+            StringJoiner parList_str = new StringJoiner(",");
+            for(int j=0;j<mapSum.getActualParList().get(i).size();j++){
+                parList_str.add(mapSum.getActualParList().get(i).get(j).accept(this,arg));
+
+            }
+            exprList_str.add(id_str +"("+parList_str.toString()+")");
+        }
+        return String.format("%s",exprList_str.toString());
+    }
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

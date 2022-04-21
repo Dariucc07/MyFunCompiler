@@ -1,9 +1,6 @@
 package visitor;
 
-import syntax.Fun;
-import syntax.Main;
-import syntax.ParDecl;
-import syntax.Program;
+import syntax.*;
 
 import syntax.expr.*;
 import syntax.expr.binaryexpr.arithop.*;
@@ -132,6 +129,6 @@ public interface Visitor<T, P> {
     T visit(CallFunctionStat callFunctionStat, P arg);
 
     T visit(VarDecl varDecl, P arg);
-
+    T visit(MapSum mapSum, P arg);
 
 }
