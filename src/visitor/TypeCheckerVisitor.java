@@ -1,5 +1,6 @@
 package visitor;
 
+import com.sun.jdi.PrimitiveValue;
 import nodekind.NodeKind;
 import nodetype.*;
 import org.w3c.dom.Node;
@@ -494,6 +495,41 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     }
 
     @Override
+    public NodeType visit(Mapsum mapsum, SymbolTable arg) {
+        NodeType idNode = mapsum.getId().accept(this, arg);
+        NodeType idNode2 = null;
+        if(arg.lookupKind(mapsum.getId().getValue(), NodeKind.FUNCTION).isPresent()){
+            FunctionNodeType functionNodeType = (FunctionNodeType) arg.lookupKind(mapsum.getId().getValue(), NodeKind.FUNCTION).get().getNodeType();
+            idNode2 = functionNodeType.getNodeType();
+        }
+        if(idNode2 != null) {
+            if (!idNode2.equals(PrimitiveNodeType.INT) && !idNode2.equals(PrimitiveNodeType.REAL)) {
+                throw new RuntimeException("Argument Type mismatch ");
+            }
+        }
+        NodeType bodyNode = null;
+        if(mapsum.getBodyList()!= null) {
+            arg.lookup(mapsum.getId().getValue());
+            for (Body element : mapsum.getBodyList()) {
+                bodyNode = element.accept(this, arg);
+                CallFunction callfun = new CallFunction(-1,-1, mapsum.getId(), element.getExprList());
+                callfun.accept(this,arg);
+            }
+        }
+        if(!arg.lookupKind(mapsum.getId().getValue(), NodeKind.FUNCTION).isPresent()){
+            throw new RuntimeException(mapsum.getId().getValue().toUpperCase() + " is not a Function!");
+
+        }
+        return idNode2;
+    }
+
+    @Override
+    public NodeType visit(Body body, SymbolTable arg) {
+        body.getExprList().forEach(this.typeCheck(arg));
+        return PrimitiveNodeType.NULL;
+    }
+
+    @Override
     public NodeType visit(WhileStat whileStat, SymbolTable arg) {
         arg.enterScope();
         NodeType condWhile = whileStat.getExpr().accept(this, arg);
@@ -655,6 +691,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+
 }
     /*
         if(varDecl.getIdListInitOp() != null){

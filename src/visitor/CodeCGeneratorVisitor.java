@@ -371,6 +371,29 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     }
 
     @Override
+    public String visit(Mapsum mapsum, SymbolTable arg) {
+        String functionName = mapsum.getId().accept(this, arg);
+
+        StringJoiner joiner = new StringJoiner("+");
+        for(Body element : mapsum.getBodyList()){
+            String bodyContent = functionName + element.accept(this,arg);
+            joiner.add(bodyContent);
+        }
+        return String.format("%s", joiner.toString());
+
+    }
+
+    @Override
+    public String visit(Body body, SymbolTable arg) {
+        StringJoiner joiner = new StringJoiner(",");
+        for(Expr element : body.getExprList()){
+            joiner.add(element.accept(this,arg));
+        }
+
+        return String.format("(%s)", joiner.toString());
+    }
+
+    @Override
     public String visit(WhileStat whileStat, SymbolTable arg) {
         arg.enterScope();
         String condition = whileStat.getExpr().accept(this, arg);
@@ -519,6 +542,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

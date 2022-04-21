@@ -28,6 +28,7 @@ public void syntax_error(Symbol cur_token) {
 
 terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL, FUN, END, RETURN, OUTPAR, OUT;
 terminal String NULL;
+terminal String MAPSUM;
 terminal String LPAR,RPAR,COMMA,SEMI,COLON;
 terminal String LT,LE,EQ,NE,GT,GE,ASSIGN;
 terminal String AND,OR,NOT;
@@ -43,6 +44,9 @@ terminal String BOOL_CONST;
 terminal String REAL_CONST;
 
 nonterminal Program Program;
+nonterminal Mapsum Mapsum;
+nonterminal LinkedList<Body> BodyList;
+nonterminal Body Body;
 nonterminal LinkedList<VarDecl> VarDeclList;
 nonterminal VarDecl VarDecl;
 nonterminal LinkedList<Fun> FunList;
@@ -180,6 +184,14 @@ AssignStat ::=  ID:id ASSIGN Expr:expr              {: RESULT = new AssignStat(i
 CallFun ::= ID:id LPAR ExprList:exprList RPAR       {:RESULT = new CallFunction(idleft,idright,new Id(idleft,idright,id),exprList);:}
 	| ID:id LPAR RPAR                               {:RESULT = new CallFunction(idleft,idright,new Id(idleft,idright,id), new LinkedList<Expr>());:};
 
+Mapsum ::= MAPSUM LPAR ID:id BodyList:listBody RPAR  {:RESULT = new Mapsum(idleft, idright, new Id(idleft, idright, id), listBody);:};
+
+Body ::= COMMA LPAR ExprList:list RPAR              {:RESULT = new Body(listleft, listright, list);:};
+
+BodyList ::= BodyList:list Body:body                {:list.add(body); RESULT = list;:}
+          | /*empty*/                               {:RESULT = new LinkedList<Body>(); :};
+
+
 ExprList ::= Expr:e                     {:LinkedList<Expr> exprList = new LinkedList<Expr>();
                                         exprList.add(e);
                                         RESULT = exprList; :}
@@ -198,6 +210,7 @@ Expr ::= BOOL_CONST:bc            {: RESULT = new BoolConst(bcleft,bcright,bc); 
 	| STRING_CONST:sc             {: RESULT = new StringConst(scleft,scright,sc); :}
 	| ID:id                       {: RESULT = new Id(idleft,idright,id); :}
 	| CallFun:cf                  {: RESULT = cf; :}
+	| Mapsum:ms                  {:RESULT = ms;:}
 	| Expr:e1  PLUS Expr:e2       {: RESULT = new PlusOp(e1left, e1right, e1, e2); :}
 	| Expr:e1  MINUS Expr:e2      {: RESULT = new MinusOp(e1left, e1right, e1, e2); :}
 	| Expr:e1  TIMES Expr:e2      {: RESULT = new TimesOp(e1left, e1right, e1, e2); :}

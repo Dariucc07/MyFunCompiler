@@ -98,6 +98,7 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     "@" {return generateParserSym(ParserSym.OUTPAR);}
     "out" {return generateParserSym(ParserSym.OUT);}
     "var" {return generateParserSym(ParserSym.VAR);}
+    "mapsum" {return generateParserSym(ParserSym.MAPSUM);}
 
 /*values*/
     "null" { return generateParserSym(ParserSym.NULL); }
@@ -119,6 +120,7 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     ">" { return generateParserSym(ParserSym.GT); }
     ">=" { return generateParserSym(ParserSym.GE); }
     ":=" { return generateParserSym(ParserSym.ASSIGN); }
+
 
 /* bool operators*/
     "and" { return generateParserSym(ParserSym.AND); }

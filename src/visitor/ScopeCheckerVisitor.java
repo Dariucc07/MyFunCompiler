@@ -349,6 +349,27 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
     }
 
     @Override
+    public Boolean visit(Mapsum mapsum, SymbolTable arg) {
+        boolean isIdValid = mapsum.getId().accept(this, arg);
+        boolean isBodyListValid = (mapsum.getBodyList() != null) ? this.checkContext(mapsum.getBodyList(), arg) : true;
+
+        boolean isMapsumValid = isIdValid && isBodyListValid;
+        if(!isIdValid){
+            throw new RuntimeException("Id: " + mapsum.getId().getValue() + " doesn't exist");
+        }
+        if(mapsum.getBodyList().size() < 3){
+            throw new RuntimeException("You cannot have less than 3 call for method " + mapsum.getId().getValue().toString().toUpperCase());
+        }
+        return isMapsumValid;
+    }
+
+    @Override
+    public Boolean visit(Body body, SymbolTable arg) {
+        boolean isExprListValid = (body.getExprList() != null) ? this.checkContext(body.getExprList(), arg) : true;
+        return isExprListValid;
+    }
+
+    @Override
     public Boolean visit(WhileStat whileStat, SymbolTable arg) {
         arg.enterScope();
         boolean isExprValid = (whileStat.getExpr() != null) ? whileStat.getExpr().accept(this, arg) : true;
@@ -487,6 +508,8 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         }
         return isVarDeclValid;
     }
+
+
 
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
         boolean isLeftExprOperandValid = (leftOperand != null) ? leftOperand.accept(this, arg): true;

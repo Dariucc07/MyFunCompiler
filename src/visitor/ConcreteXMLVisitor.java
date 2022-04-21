@@ -208,6 +208,25 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     }
 
     @Override
+    public Element visit(Mapsum mapsum, Document arg) {
+        Element element = arg.createElement("Mapsum");
+        element.appendChild(mapsum.getId().accept(this, arg));
+        mapsum.getBodyList().forEach(addParent(element, arg));
+
+        return element;
+    }
+
+
+    @Override
+    public Element visit(Body body, Document arg) {
+        Element element = arg.createElement("MapsumBody");
+        body.getExprList().forEach(addParent(element, arg));
+
+
+        return element;
+    }
+
+    @Override
     public Element visit(MinusExpr minusExpr, Document arg) {
         Element element = arg.createElement("MinusExpr");
         element.appendChild(minusExpr.getExpr().accept(this, arg));
@@ -407,4 +426,6 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         return element;
 
     }
+
+
 }
