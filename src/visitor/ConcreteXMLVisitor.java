@@ -296,6 +296,26 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     }
 
     @Override
+    public Element visit(Switch switches, Document arg) {
+        Element element = arg.createElement("Switch");
+        element.appendChild(switches.getId().accept(this, arg));
+        if(switches.getBodyList() != null) {
+            switches.getBodyList().forEach(addParent(element, arg));
+        }
+        return element;
+    }
+
+    @Override
+    public Element visit(Body body, Document arg) {
+        Element element = arg.createElement("SwitchBody");
+        element.appendChild(body.getConstant().accept(this, arg));
+        if(body.getStaList() != null){
+            body.getStaList().forEach(addParent(element, arg));
+        }
+        return element;
+    }
+
+    @Override
     public Element visit(WhileStat whileStat, Document arg) {
         Element element = arg.createElement("WhileStat");
         element.appendChild(whileStat.getExpr().accept(this, arg));
@@ -407,4 +427,6 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         return element;
 
     }
+
+
 }

@@ -28,6 +28,7 @@ public void syntax_error(Symbol cur_token) {
 
 terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL, FUN, END, RETURN, OUTPAR, OUT;
 terminal String NULL;
+terminal String SWITCH, STOP;
 terminal String LPAR,RPAR,COMMA,SEMI,COLON;
 terminal String LT,LE,EQ,NE,GT,GE,ASSIGN;
 terminal String AND,OR,NOT;
@@ -43,6 +44,9 @@ terminal String BOOL_CONST;
 terminal String REAL_CONST;
 
 nonterminal Program Program;
+nonterminal Switch Switch;
+nonterminal LinkedList<Body> BodyList;
+nonterminal Body Body;
 nonterminal LinkedList<VarDecl> VarDeclList;
 nonterminal VarDecl VarDecl;
 nonterminal LinkedList<Fun> FunList;
@@ -151,7 +155,15 @@ Stat ::= IfStat:ifStat SEMI         {:RESULT = ifStat;  :}
 	| WriteStat:writeStat SEMI      {:RESULT = writeStat;:}
 	| AssignStat:assignStat SEMI    {:RESULT = assignStat;:}
 	| CallFun:callFun SEMI          {:RESULT = new CallFunctionStat(callFunleft, callFunright, callFun); :}
+	| Switch:sw SEMI                {:RESULT = sw;:}
 	| RETURN:rop Expr:expr SEMI     {:RESULT = new ReturnOp(ropleft,ropright,expr); :};
+
+Switch ::= SWITCH LPAR ID:id RPAR BodyList:bl END SWITCH {:RESULT = new Switch(idleft, idright, new Id(idleft, idright, id), bl);:};
+
+BodyList ::= /*empty*/                  {:RESULT = new LinkedList<Body>();:}
+            | BodyList:bl Body:b          {:bl.add(b); RESULT = bl;:};
+
+Body ::= Const:constant COLON StatList:list STOP SEMI {:RESULT = new Body(constantleft, constantright, constant, list);:};
 
 IfStat ::= IF:ifOp Expr:expr THEN VarDeclList:varDeclList StatList:statList Else:elseOp END IF  {: RESULT= new IfStat(ifOpleft,ifOpright,expr,varDeclList,statList,elseOp); :};
 

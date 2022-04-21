@@ -494,6 +494,32 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     }
 
     @Override
+    public NodeType visit(Switch switches, SymbolTable arg) {
+        NodeType idType = switches.getId().accept(this, arg);
+        NodeType bodyType = null;
+        if(switches.getBodyList() != null) {
+            for (Body element : switches.getBodyList()) {
+                element.accept(this,arg);
+                bodyType = element.getConstant().accept(this, arg);
+                if(!idType.equals(bodyType)){
+                    throw new RuntimeException("Cannot use case with type " + bodyType.toString().toUpperCase() + " when switch uses " + idType.toString().toUpperCase());
+                }
+            }
+        }
+        return PrimitiveNodeType.NULL;
+
+    }
+
+    @Override
+    public NodeType visit(Body body, SymbolTable arg) {
+        NodeType constantType = body.getConstant().accept(this, arg);
+        if(body.getStaList() != null){
+            body.getStaList().forEach(this.typeCheck(arg));
+        }
+        return PrimitiveNodeType.NULL;
+    }
+
+    @Override
     public NodeType visit(WhileStat whileStat, SymbolTable arg) {
         arg.enterScope();
         NodeType condWhile = whileStat.getExpr().accept(this, arg);
@@ -655,6 +681,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+
 }
     /*
         if(varDecl.getIdListInitOp() != null){

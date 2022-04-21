@@ -349,6 +349,28 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
     }
 
     @Override
+    public Boolean visit(Switch switches, SymbolTable arg) {
+        boolean isIdValid = switches.getId().accept(this, arg);
+        boolean isBodyListValid = (switches.getBodyList() != null) ? this.checkContext(switches.getBodyList(), arg): true;
+
+        boolean isSwitchValid = isIdValid && isBodyListValid;
+        if(!isIdValid){
+            throw new RuntimeException("Id: " + switches.getId().toString() + " doesn't exist!");
+
+        }
+        return isSwitchValid;
+    }
+
+    @Override
+    public Boolean visit(Body body, SymbolTable arg) {
+        boolean isConstValid = body.getConstant().accept(this, arg);
+        boolean isStatListValid = (body.getStaList() != null) ?  this.checkContext(body.getStaList(), arg) : true;
+
+        boolean isBodyValild = isConstValid && isStatListValid;
+        return isBodyValild;
+    }
+
+    @Override
     public Boolean visit(WhileStat whileStat, SymbolTable arg) {
         arg.enterScope();
         boolean isExprValid = (whileStat.getExpr() != null) ? whileStat.getExpr().accept(this, arg) : true;
@@ -487,6 +509,8 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         }
         return isVarDeclValid;
     }
+
+
 
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
         boolean isLeftExprOperandValid = (leftOperand != null) ? leftOperand.accept(this, arg): true;

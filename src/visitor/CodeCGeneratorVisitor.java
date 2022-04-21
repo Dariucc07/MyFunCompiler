@@ -371,6 +371,26 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     }
 
     @Override
+    public String visit(Switch switches, SymbolTable arg) {
+        String id = switches.getId().accept(this, arg);
+        StringJoiner sjBodyList = new StringJoiner("\n");
+        for(Body element : switches.getBodyList()){
+            sjBodyList.add(element.accept(this, arg));
+        }
+        return String.format("switch (%s) {\n\t %s }", id, sjBodyList.toString());
+    }
+
+    @Override
+    public String visit(Body body, SymbolTable arg) {
+        String constant = body.getConstant().accept(this, arg);
+        StringJoiner sjStatList = new StringJoiner("\n");
+        for(Stat element : body.getStaList()){
+            sjStatList.add(element.accept(this,arg));
+        }
+        return String.format("case %s: {\n\t %s \n\t break; }", constant, sjStatList.toString());
+    }
+
+    @Override
     public String visit(WhileStat whileStat, SymbolTable arg) {
         arg.enterScope();
         String condition = whileStat.getExpr().accept(this, arg);
@@ -519,6 +539,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

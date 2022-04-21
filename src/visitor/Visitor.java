@@ -133,5 +133,7 @@ public interface Visitor<T, P> {
 
     T visit(VarDecl varDecl, P arg);
 
+    T visit(Switch switches, P arg);
 
+    T visit(Body body, P arg);
 }
