@@ -28,6 +28,7 @@ public void syntax_error(Symbol cur_token) {
 
 terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL, FUN, END, RETURN, OUTPAR, OUT;
 terminal String NULL;
+terminal String FOR;
 terminal String LPAR,RPAR,COMMA,SEMI,COLON;
 terminal String LT,LE,EQ,NE,GT,GE,ASSIGN;
 terminal String AND,OR,NOT;
@@ -58,6 +59,7 @@ nonterminal LinkedList<ParDecl> NonEmptyParamDeclList;
 nonterminal ParDecl ParDecl;
 nonterminal LinkedList<Stat> StatList;
 nonterminal Stat Stat;
+nonterminal ForStat ForStat;
 nonterminal IfStat IfStat;
 nonterminal ElseOp Else;
 nonterminal WhileStat WhileStat;
@@ -150,6 +152,7 @@ Stat ::= IfStat:ifStat SEMI         {:RESULT = ifStat;  :}
 	| ReadStat:readStat SEMI        {:RESULT = readStat;  :}
 	| WriteStat:writeStat SEMI      {:RESULT = writeStat;:}
 	| AssignStat:assignStat SEMI    {:RESULT = assignStat;:}
+	| ForStat:forStat SEMI          {:RESULT = forStat;:}
 	| CallFun:callFun SEMI          {:RESULT = new CallFunctionStat(callFunleft, callFunright, callFun); :}
 	| RETURN:rop Expr:expr SEMI     {:RESULT = new ReturnOp(ropleft,ropright,expr); :};
 
@@ -159,6 +162,8 @@ Else ::= /* empty */
 	| ELSE:elseOp VarDeclList:varDeclList  StatList:statList  {:RESULT = new ElseOp(elseOpleft,elseOpright,varDeclList,statList);:};
 
 WhileStat ::= WHILE:w Expr:expr LOOP VarDeclList:varDeclList  StatList:statList END LOOP    {: RESULT = new WhileStat(wleft, wright, expr, varDeclList, statList);:};
+
+ForStat ::= FOR:f LPAR VarDecl:varDecl Expr:expr SEMI Stat:stat RPAR LOOP VarDeclList:varDeclList StatList:statList END LOOP {:RESULT = new ForStat(fleft,fright,varDecl,expr,stat,varDeclList,statList);:};
 
 ReadStat ::= READ IdList:idList Expr:expr              {: RESULT = new ReadStat(idListleft,idListright,idList,expr);:} // Expr deve essere di tipo stringa
 	| READ IdList:idList                               {: RESULT = new ReadStat(idListleft,idListright,idList);:};

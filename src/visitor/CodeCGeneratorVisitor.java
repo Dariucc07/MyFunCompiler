@@ -519,6 +519,29 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+    @Override
+    public String visit(ForStat forStat, SymbolTable arg) {
+        arg.enterScope();
+        String initialization = forStat.getVarDecl().accept(this,arg);
+        String condition = forStat.getExpr().accept(this, arg);
+        String jumper = forStat.getStat().accept(this,arg);
+        jumper= jumper.replace(";","");
+        StringJoiner sjVarDecl = new StringJoiner(", ");
+        for(VarDecl declaredElement : forStat.getVarDeclList()){
+            sjVarDecl.add(declaredElement.accept(this, arg));
+        }
+
+        StringJoiner sjStat = new StringJoiner("\n");
+        for(Stat statement : forStat.getStatList()){
+            sjStat.add(statement.accept(this, arg));
+        }
+        arg.exitScope();
+        return String.format("for(%s%s;%s){\n%s%s\n}", initialization,condition,jumper, sjVarDecl.toString(), sjStat.toString());
+
+
+    }
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

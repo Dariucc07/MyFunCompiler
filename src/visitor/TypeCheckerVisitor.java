@@ -655,6 +655,22 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+    @Override
+    public NodeType visit(ForStat forStat, SymbolTable arg) {
+        arg.enterScope();
+
+        forStat.getVarDecl().accept(this,arg);
+        NodeType condWhile = forStat.getExpr().accept(this, arg);
+        forStat.getStat().accept(this,arg);
+        if (!condWhile.equals(PrimitiveNodeType.BOOL)) {
+            throw new RuntimeException("Type Mismatch. While condition doesn't return boolean");
+        }
+        forStat.getVarDeclList().forEach(this.typeCheck(arg));
+        forStat.getStatList().forEach(this.typeCheck(arg));
+        arg.exitScope();
+        return PrimitiveNodeType.NULL;
+    }
 }
     /*
         if(varDecl.getIdListInitOp() != null){

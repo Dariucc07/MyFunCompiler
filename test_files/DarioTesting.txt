@@ -11,6 +11,10 @@ fun somma(real francesco, out string messaggio, bool ciao):string
     string dario;
     bool frank;
     integer donato;
+    for(integer i:=0;i<donato;i:=i+1;) loop
+         integer antonio:=0;
+         antonio := antonio +1;
+     end loop;
     if(frank) then
         esempio(5);
     end if;
