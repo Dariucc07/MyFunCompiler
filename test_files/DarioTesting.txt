@@ -1,51 +1,18 @@
 var c:= 2.2;
 var d := "donato";
 
-fun esempio(integer parametro):string
-    #do something
-    string nellino;
-    return nellino;
-end fun;
+fun esempio(integer counter)
+    integer param := 2;
 
-fun somma(real francesco, out string messaggio, bool ciao):string
-    string dario;
-    bool frank;
-    integer donato;
-    if(frank) then
-        esempio(5);
-    end if;
-    dario := "sono bello";
-    return dario;
+    for(integer i := 0 ; i < counter ; i := i + 1;) loop
+        var gibbe := "sono gilberto e sono nello scope del for";
+
+        ?. 3;
+    end loop;
 end fun;
 
 
-fun somma1(string messaggio, string pisello):real
-    real dario;
-    integer gilberto;
-    somma(dario, @ messaggio, false);
-    return dario;
-
-end fun;
-
-
-fun somma2(string messaggio)
-    integer dario, donato, result;
-    result := dario + donato;
-end fun;
-
-
-fun somma3(string messaggio):string
-    integer donato;
-    integer dario;
-    return messaggio;
-end fun;
-
-fun somma6(string somma6):string
-    integer dario;
-    return somma6;
-end fun;
 
 main
-    string dario;
-    dario := "sono bello";
+    esempio(3);
 end main;

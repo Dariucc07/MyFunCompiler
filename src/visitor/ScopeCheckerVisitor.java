@@ -363,6 +363,25 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
     }
 
     @Override
+    public Boolean visit(ForStat forStat, SymbolTable arg) {
+        arg.enterScope();
+        boolean isVarDeclValid = forStat.getVarDecl().accept(this, arg);
+        boolean isExprValid = (forStat.getExpr() != null) ? forStat.getExpr().accept(this, arg) : true;
+        boolean areStatListValid = (forStat.getStatList() != null) ? this.checkContext(forStat.getStatList(), arg) : true;
+
+        boolean areVarDeclInsideValid = (forStat.getVarDeclInside() != null) ? this.checkContext(forStat.getVarDeclInside(), arg) : true;
+        boolean areStatListInside = (forStat.getStatListInside() != null) ? this.checkContext(forStat.getStatListInside(),arg) : true;
+
+        boolean isForValid = isVarDeclValid && isExprValid && areStatListValid && areVarDeclInsideValid && areStatListInside;
+        if(!isExprValid){
+            throw new RuntimeException("Id:"+forStat.getExpr().toString()+" doesn't exists!");
+        }
+        arg.exitScope();
+
+        return isForValid;
+    }
+
+    @Override
     public Boolean visit(ReadStat readStat, SymbolTable arg) {
 
         boolean isExprValid = (readStat.getExpr() != null) ? readStat.getExpr().accept(this, arg) : true;
@@ -487,6 +506,8 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         }
         return isVarDeclValid;
     }
+
+
 
     public Boolean binaryExprVisitation(Expr leftOperand, Expr rightOperand,SymbolTable arg){
         boolean isLeftExprOperandValid = (leftOperand != null) ? leftOperand.accept(this, arg): true;

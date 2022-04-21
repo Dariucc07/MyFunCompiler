@@ -391,6 +391,28 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     }
 
     @Override
+    public String visit(ForStat forStat, SymbolTable arg) {
+        arg.enterScope();
+        String first = forStat.getVarDecl().accept(this,arg).replace(";", "");
+        String middle = forStat.getExpr().accept(this, arg).replace(";", "");
+        StringJoiner sjStat = new StringJoiner("");
+        for(Stat element : forStat.getStatList()){
+            sjStat.add(element.accept(this, arg).replace(";", ""));
+        }
+        StringJoiner sjVarDeclInside = new StringJoiner(";");
+        for(VarDecl element : forStat.getVarDeclInside()){
+            sjVarDeclInside.add(element.accept(this, arg));
+        }
+        StringJoiner sjStatListInside = new StringJoiner(";");
+        for(Stat element : forStat.getStatListInside()){
+            sjStatListInside.add(element.accept(this, arg));
+        }
+
+        return String.format("for(%s ; %s ; %s) {\n\t %s\n\t %s\n}", first, middle, sjStat.toString(), sjVarDeclInside.toString(), sjStatListInside.toString());
+
+    }
+
+    @Override
     public String visit(ReadStat readStat, SymbolTable arg) {
         StringJoiner scanfs = new StringJoiner(",");
         readStat.getIdList().forEach(id -> scanfs.add("&"+id.accept(this,arg)));
@@ -519,6 +541,9 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         }
             return String.format("%s",vardecls.toString());
     }
+
+
+
     private String formatType(NodeType type){
         if(type instanceof FunctionNodeType)
             type= ((FunctionNodeType) type).getNodeType();

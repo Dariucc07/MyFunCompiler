@@ -305,6 +305,18 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     }
 
     @Override
+    public Element visit(ForStat forStat, Document arg) {
+        Element element = arg.createElement("ForStat");
+        element.appendChild(forStat.getVarDecl().accept(this, arg));
+        element.appendChild(forStat.getExpr().accept(this, arg));
+        forStat.getStatList().forEach(addParent(element, arg));
+
+        forStat.getVarDeclInside().forEach(addParent(element, arg));
+        forStat.getStatListInside().forEach(addParent(element, arg));
+        return element;
+    }
+
+    @Override
     public Element visit(ReadStat readStat, Document arg) {
         Element element = arg.createElement("ReadStat");
         readStat.getIdList().forEach(addParent(element, arg));
@@ -407,4 +419,6 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         return element;
 
     }
+
+
 }

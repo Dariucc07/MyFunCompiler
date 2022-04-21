@@ -1,4 +1,4 @@
-import java_cup.runtime.ComplexSymbolFactory;import java_cup.runtime.Symbol;import lexical.StringTable;
+import java_cup.runtime.ComplexSymbolFactory;import java_cup.runtime.Symbol;import lexical.StringTable;import javax.swing.text.html.parser.Parser;
 
 /**
 * This class is a simple example lexer.
@@ -98,6 +98,7 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     "@" {return generateParserSym(ParserSym.OUTPAR);}
     "out" {return generateParserSym(ParserSym.OUT);}
     "var" {return generateParserSym(ParserSym.VAR);}
+    "for" {return generateParserSym(ParserSym.FOR);}
 
 /*values*/
     "null" { return generateParserSym(ParserSym.NULL); }

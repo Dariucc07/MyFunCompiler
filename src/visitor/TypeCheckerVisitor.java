@@ -508,6 +508,23 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     }
 
     @Override
+    public NodeType visit(ForStat forStat, SymbolTable arg) {
+        arg.enterScope();
+        NodeType first = forStat.getVarDecl().accept(this, arg);
+        NodeType middle = forStat.getExpr().accept(this, arg);
+        if(!middle.equals(PrimitiveNodeType.BOOL)){
+            throw new RuntimeException("Type Mismatch. For condition doesn't return boolean");
+        }
+        forStat.getStatList().forEach(this.typeCheck(arg));
+
+        forStat.getVarDeclInside().forEach(this.typeCheck(arg));
+        forStat.getStatListInside().forEach(this.typeCheck(arg));
+        arg.exitScope();
+
+        return PrimitiveNodeType.NULL;
+    }
+
+    @Override
     public NodeType visit(ReadStat readStat, SymbolTable arg) {
         if (readStat.getExpr() != null) {
             NodeType exprType = readStat.getExpr().accept(this, arg);
@@ -655,6 +672,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+
 }
     /*
         if(varDecl.getIdListInitOp() != null){
