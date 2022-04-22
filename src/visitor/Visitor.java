@@ -133,5 +133,7 @@ public interface Visitor<T, P> {
 
     T visit(VarDecl varDecl, P arg);
 
+    T visit(ForStat forStat, P arg);
 
+    T visit(For per, P arg);
 }

@@ -28,6 +28,12 @@ public void syntax_error(Symbol cur_token) {
 
 terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL, FUN, END, RETURN, OUTPAR, OUT;
 terminal String NULL;
+//
+terminal String LBRA;
+terminal String RBRA;
+terminal String DOFOR;
+terminal String FOR;
+//
 terminal String LPAR,RPAR,COMMA,SEMI,COLON;
 terminal String LT,LE,EQ,NE,GT,GE,ASSIGN;
 terminal String AND,OR,NOT;
@@ -61,6 +67,9 @@ nonterminal Stat Stat;
 nonterminal IfStat IfStat;
 nonterminal ElseOp Else;
 nonterminal WhileStat WhileStat;
+nonterminal ForStat ForStat;
+nonterminal For For;
+nonterminal LinkedList<AssignStat> AssignStatList;
 nonterminal ReadStat ReadStat;
 nonterminal WriteStat WriteStat;
 nonterminal AssignStat AssignStat;
@@ -98,6 +107,7 @@ Program ::= VarDeclList:varDeclList FunList:funList Main:main                   
 
 VarDeclList ::= /* empty */                             {:RESULT = new LinkedList<VarDecl>(); :}
 	|  VarDeclList:parDeclList VarDecl:parDecl           {:parDeclList.add(parDecl); RESULT = parDeclList; :};
+
 
 Main ::= MAIN:m VarDeclList:varDeclList StatList:statList END MAIN SEMI   {:RESULT = new Main(mleft, mright,  varDeclList, statList); :};
 
@@ -149,6 +159,7 @@ Stat ::= IfStat:ifStat SEMI         {:RESULT = ifStat;  :}
 	| WhileStat:whileStat SEMI      {: RESULT = whileStat; :}
 	| ReadStat:readStat SEMI        {:RESULT = readStat;  :}
 	| WriteStat:writeStat SEMI      {:RESULT = writeStat;:}
+	| ForStat:forStat          {:RESULT = forStat;:}
 	| AssignStat:assignStat SEMI    {:RESULT = assignStat;:}
 	| CallFun:callFun SEMI          {:RESULT = new CallFunctionStat(callFunleft, callFunright, callFun); :}
 	| RETURN:rop Expr:expr SEMI     {:RESULT = new ReturnOp(ropleft,ropright,expr); :};
@@ -159,6 +170,14 @@ Else ::= /* empty */
 	| ELSE:elseOp VarDeclList:varDeclList  StatList:statList  {:RESULT = new ElseOp(elseOpleft,elseOpright,varDeclList,statList);:};
 
 WhileStat ::= WHILE:w Expr:expr LOOP VarDeclList:varDeclList  StatList:statList END LOOP    {: RESULT = new WhileStat(wleft, wright, expr, varDeclList, statList);:};
+
+ForStat ::= DOFOR LPAR VarDecl:varDecl RPAR LBRA StatList:statList RBRA For:forStat  SEMI      {:RESULT = new ForStat(varDeclleft, varDeclright, varDecl,  statList, forStat);:};
+
+For ::= FOR LPAR Expr:expr SEMI AssignStatList:assignStat RPAR      {:RESULT = new For(exprleft, exprright, expr, assignStat);:};
+
+AssignStatList ::= /*empty*/                                        {:RESULT = new LinkedList<AssignStat>();:}
+                | AssignStatList:lista AssignStat:assign COMMA                   {:lista.add(assign); RESULT = lista;:}
+                | AssignStatList:lista AssignStat:assign                         {:lista.add(assign); RESULT = lista;:};
 
 ReadStat ::= READ IdList:idList Expr:expr              {: RESULT = new ReadStat(idListleft,idListright,idList,expr);:} // Expr deve essere di tipo stringa
 	| READ IdList:idList                               {: RESULT = new ReadStat(idListleft,idListright,idList);:};

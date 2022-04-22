@@ -14,9 +14,6 @@ public class IntegerConst extends Expr implements Leaf<Integer> {
         return NodeType;
     }
 
-    public void setNodeType(PrimitiveNodeType nodeType) {
-        NodeType = nodeType;
-    }
 
     public IntegerConst(int leftLocation, int rightLocation, String value) {
         super(leftLocation, rightLocation);

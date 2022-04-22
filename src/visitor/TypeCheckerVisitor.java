@@ -508,6 +508,25 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     }
 
     @Override
+    public NodeType visit(ForStat forStat, SymbolTable arg) {
+        arg.enterScope();
+
+        NodeType first = forStat.getVarDecl().accept(this, arg);
+        forStat.getStatList().forEach(this.typeCheck(arg));
+        NodeType element = forStat.getForStat().accept(this, arg);
+        arg.exitScope();
+        return PrimitiveNodeType.NULL;
+    }
+
+    @Override
+    public NodeType visit(For per, SymbolTable arg) {
+        NodeType middle = per.getExpr().accept(this, arg);
+        per.getAssignStatList().forEach(this.typeCheck(arg));
+
+        return PrimitiveNodeType.NULL;
+    }
+
+    @Override
     public NodeType visit(ReadStat readStat, SymbolTable arg) {
         if (readStat.getExpr() != null) {
             NodeType exprType = readStat.getExpr().accept(this, arg);
@@ -655,6 +674,8 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
         }
         return PrimitiveNodeType.NULL;
     }
+
+
 }
     /*
         if(varDecl.getIdListInitOp() != null){

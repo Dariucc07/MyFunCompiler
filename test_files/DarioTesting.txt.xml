@@ -23,6 +23,12 @@
       <Id lexeme="esempio"/>
     </ParDecl>
     <PrimitiveType type="NULL"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="INTEGER"/>
+      <IdInitOp>
+        <Id lexeme="j"/>
+      </IdInitOp>
+    </VarDecl>
     <DoFor>
       <VarDecl isVar="false">
         <PrimitiveType type="INTEGER"/>
