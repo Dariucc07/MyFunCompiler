@@ -91,6 +91,8 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
     "integer" { return generateParserSym(ParserSym.INTEGER);}
     "real" { return generateParserSym(ParserSym.REAL);}
     "string" { return generateParserSym(ParserSym.STRING); }
+      "for" {return generateParserSym(ParserSym.FOR);}
+      "dofor" {return generateParserSym(ParserSym.DOFOR);}
     "bool"  { return generateParserSym(ParserSym.BOOL); }
     "fun"  { return generateParserSym(ParserSym.FUN); }
     "end"  {return generateParserSym(ParserSym.END);}
@@ -107,6 +109,8 @@ EndOfLineComment = (\/\/|#[^\r\n\*]){InputCharacter}*{LineTerminator}?
 /* separatori */
     "(" {return generateParserSym(ParserSym.LPAR);}
     ")" {return generateParserSym(ParserSym.RPAR);}
+    "{" {return generateParserSym(ParserSym.LBRA);}
+    "}" {return generateParserSym(ParserSym.RBRA);}
     "," {return generateParserSym(ParserSym.COMMA);}
     ";" {return generateParserSym(ParserSym.SEMI);}
     ":" {return generateParserSym(ParserSym.COLON);}

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Program>
+  <VarDecl isVar="true">
+    <IdInitObblOp>
+      <Id lexeme="c"/>
+      <Const>
+        <IntegerConst value="1"/>
+      </Const>
+    </IdInitObblOp>
+  </VarDecl>
+  <Fun>
+    <Id lexeme="sommac"/>
+    <ParDecl out="false">
+      <PrimitiveType type="INTEGER"/>
+      <Id lexeme="a"/>
+    </ParDecl>
+    <ParDecl out="false">
+      <PrimitiveType type="REAL"/>
+      <Id lexeme="b"/>
+    </ParDecl>
+    <ParDecl out="true">
+      <PrimitiveType type="STRING"/>
+      <Id lexeme="size"/>
+    </ParDecl>
+    <PrimitiveType type="REAL"/>
+    <VarDecl isVar="false">
+      <PrimitiveType type="REAL"/>
+      <IdInitOp>
+        <Id lexeme="result"/>
+      </IdInitOp>
+    </VarDecl>
+    <AssignStat>
+      <Id lexeme="result"/>
+      <PlusOp>
+        <PlusOp>
+          <Id lexeme="a"/>
+          <Id lexeme="b"/>
+        </PlusOp>
+        <Id lexeme="c"/>
+      </PlusOp>
+    </AssignStat>
+    <IfStat>
+      <GreaterThanRelop>
+        <Id lexeme="result"/>
+        <IntegerConst value="100"/>
+      </GreaterThanRelop>
+      <VarDecl isVar="true">
+        <IdInitObblOp>
+          <Id lexeme="valore"/>
+          <Const>
+            <StringConst value="grande"/>
+          </Const>
+        </IdInitObblOp>
+      </VarDecl>
+      <AssignStat>
+        <Id lexeme="size"/>
+        <Id lexeme="valore"/>
+      </AssignStat>
+      <ElseOp>
+        <VarDecl isVar="true">
+          <IdInitObblOp>
+            <Id lexeme="valore"/>
+            <Const>
+              <StringConst value="piccola"/>
+            </Const>
+          </IdInitObblOp>
+        </VarDecl>
+        <AssignStat>
+          <Id lexeme="size"/>
+          <Id lexeme="valore"/>
+        </AssignStat>
+      </ElseOp>
+    </IfStat>
+    <DoForStat>
+      <VarDecl isVar="false">
+        <PrimitiveType type="INTEGER"/>
+        <IdInitOp>
+          <Id lexeme="i"/>
+          <IntegerConst value="1"/>
+        </IdInitOp>
+        <IdInitOp>
+          <Id lexeme="j"/>
+          <IntegerConst value="1"/>
+        </IdInitOp>
+      </VarDecl>
+      <AndRelop>
+        <LessThanRelop>
+          <Id lexeme="i"/>
+          <IntegerConst value="20"/>
+        </LessThanRelop>
+        <GreaterThanRelop>
+          <Id lexeme="j"/>
+          <MinusExpr>
+            <IntegerConst value="20"/>
+          </MinusExpr>
+        </GreaterThanRelop>
+      </AndRelop>
+      <WriteLnOp>
+        <StringConcatOp>
+          <StringConcatOp>
+            <StringConcatOp>
+              <StringConst value="ciao"/>
+              <Id lexeme="i"/>
+            </StringConcatOp>
+            <StringConst value=" "/>
+          </StringConcatOp>
+          <Id lexeme="j"/>
+        </StringConcatOp>
+      </WriteLnOp>
+      <AssignStat>
+        <Id lexeme="i"/>
+        <PlusOp>
+          <Id lexeme="i"/>
+          <IntegerConst value="1"/>
+        </PlusOp>
+      </AssignStat>
+      <AssignStat>
+        <Id lexeme="j"/>
+        <MinusOp>
+          <Id lexeme="j"/>
+          <IntegerConst value="1"/>
+        </MinusOp>
+      </AssignStat>
+    </DoForStat>
+    <ReturnOp>
+      <Id lexeme="result"/>
+    </ReturnOp>
+  </Fun>
+  <Main>
+    <VarDecl isVar="false">
+      <PrimitiveType type="STRING"/>
+      <IdInitOp>
+        <Id lexeme="size"/>
+        <StringConst value="ciao"/>
+      </IdInitOp>
+    </VarDecl>
+    <VarDecl isVar="false">
+      <PrimitiveType type="REAL"/>
+      <IdInitOp>
+        <Id lexeme="result"/>
+        <CallFunction>
+          <Id lexeme="sommac"/>
+          <IntegerConst value="1"/>
+          <RealConst value="2.2"/>
+          <OutParIdExpr>
+            <Id lexeme="size"/>
+          </OutParIdExpr>
+        </CallFunction>
+      </IdInitOp>
+    </VarDecl>
+    <WriteLnOp>
+      <StringConst value="finito"/>
+    </WriteLnOp>
+  </Main>
+</Program>

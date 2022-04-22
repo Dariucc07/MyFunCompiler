@@ -1,0 +1,40 @@
+
+var c := 1;
+
+
+# fa somma e restituisce anche la taglia del numero, oltre che il risultato
+fun sommac(integer a, real b,out string size): real
+
+	real result;
+
+	result  :=  a + b + c;
+
+	if result > 100 then
+		var valore := 'grande';
+ 		size := valore;
+	else
+		var valore := 'piccola';
+ 		size := valore;
+	end if;
+	dofor (integer i := 1, j:=1)
+	{
+	    ?. "ciao" & i & " " & j;
+	}for(i < 20 and j >-20; i:=i+1, j:=j-1);
+
+
+    dofor (var i := 1.1) {
+        ?. "ciao " & i;
+    } for(i < 10; i:=i+1);
+
+	return result;
+
+end fun;
+
+
+#programma main
+main
+	string size :='ciao';
+	real result := sommac( 1,2.2,@size);
+	?. 'finito';
+
+end main;

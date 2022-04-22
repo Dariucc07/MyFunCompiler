@@ -515,4 +515,20 @@ public class ScopeCheckerVisitor implements Visitor<Boolean, SymbolTable>{
         }
         return true;
     }
+
+    @Override
+    public Boolean visit(DoForStat doForStat, SymbolTable arg) {
+        arg.enterScope();
+            boolean isVarDeclValid = (doForStat.getVarDecl() != null) ? doForStat.getVarDecl().accept(this, arg) : true;
+            boolean isExprValid = (doForStat.getExpr() != null) ? doForStat.getExpr().accept(this, arg) : true;
+
+            boolean isStatValid = doForStat.getStat().accept(this,arg);
+            boolean areStatListValid = this.checkContext(doForStat.getCommaStatList(),arg);
+            boolean isDoForStatValid = isVarDeclValid && isExprValid && isStatValid && areStatListValid;
+            if(!isExprValid){
+                throw new RuntimeException("Id:"+doForStat.getExpr().toString()+" doesn't exists!");
+            }
+        arg.exitScope();
+        return isDoForStatValid;
+    }
 }

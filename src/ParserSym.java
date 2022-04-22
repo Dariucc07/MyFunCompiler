@@ -6,59 +6,63 @@
 /** CUP generated class containing symbol constants. */
 public class ParserSym {
   /* terminals */
-  public static final int POW = 40;
-  public static final int GE = 30;
-  public static final int INTEGER_CONST = 51;
+  public static final int POW = 42;
+  public static final int DOFOR = 20;
+  public static final int GE = 32;
+  public static final int LBRA = 44;
+  public static final int INTEGER_CONST = 55;
   public static final int INTEGER = 10;
-  public static final int SEMI = 23;
+  public static final int SEMI = 25;
   public static final int OUT = 18;
-  public static final int MINUS = 36;
-  public static final int WRITE = 43;
-  public static final int WRITET = 46;
-  public static final int NOT = 34;
-  public static final int AND = 32;
-  public static final int LT = 25;
-  public static final int RPAR = 21;
+  public static final int MINUS = 38;
+  public static final int FOR = 21;
+  public static final int WRITE = 47;
+  public static final int WRITET = 50;
+  public static final int NOT = 36;
+  public static final int AND = 34;
+  public static final int LT = 27;
+  public static final int RPAR = 23;
   public static final int FUN = 14;
-  public static final int OR = 33;
+  public static final int OR = 35;
   public static final int BOOL = 13;
-  public static final int COMMA = 22;
-  public static final int DQ_STRING = 47;
-  public static final int DIV = 39;
-  public static final int PLUS = 35;
+  public static final int COMMA = 24;
+  public static final int DQ_STRING = 51;
+  public static final int DIV = 41;
+  public static final int PLUS = 37;
   public static final int LOOP = 9;
-  public static final int WRITELN = 44;
-  public static final int ASSIGN = 31;
+  public static final int WRITELN = 48;
+  public static final int ASSIGN = 33;
   public static final int MAIN = 2;
   public static final int IF = 5;
   public static final int ID = 3;
-  public static final int LE = 26;
-  public static final int WRITEB = 45;
+  public static final int LE = 28;
+  public static final int WRITEB = 49;
   public static final int EOF = 0;
   public static final int RETURN = 16;
   public static final int error = 1;
+  public static final int RBRA = 45;
   public static final int NULL = 19;
-  public static final int DIVINT = 38;
-  public static final int EQ = 27;
-  public static final int ERROR = 49;
+  public static final int DIVINT = 40;
+  public static final int EQ = 29;
+  public static final int ERROR = 53;
   public static final int REAL = 11;
   public static final int OUTPAR = 17;
-  public static final int TIMES = 37;
-  public static final int COLON = 24;
+  public static final int TIMES = 39;
+  public static final int COLON = 26;
   public static final int ELSE = 7;
-  public static final int READ = 42;
+  public static final int READ = 46;
   public static final int WHILE = 8;
-  public static final int SQ_STRING = 48;
-  public static final int STR_CONCAT = 41;
-  public static final int REAL_CONST = 53;
+  public static final int SQ_STRING = 52;
+  public static final int STR_CONCAT = 43;
+  public static final int REAL_CONST = 57;
   public static final int THEN = 6;
-  public static final int NE = 28;
+  public static final int NE = 30;
   public static final int END = 15;
-  public static final int BOOL_CONST = 52;
-  public static final int LPAR = 20;
+  public static final int BOOL_CONST = 56;
+  public static final int LPAR = 22;
   public static final int STRING = 12;
-  public static final int STRING_CONST = 50;
-  public static final int GT = 29;
+  public static final int STRING_CONST = 54;
+  public static final int GT = 31;
   public static final int VAR = 4;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -81,6 +85,8 @@ public class ParserSym {
   "OUTPAR",
   "OUT",
   "NULL",
+  "DOFOR",
+  "FOR",
   "LPAR",
   "RPAR",
   "COMMA",
@@ -103,6 +109,8 @@ public class ParserSym {
   "DIV",
   "POW",
   "STR_CONCAT",
+  "LBRA",
+  "RBRA",
   "READ",
   "WRITE",
   "WRITELN",

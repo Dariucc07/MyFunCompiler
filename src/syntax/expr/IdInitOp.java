@@ -10,6 +10,19 @@ public class IdInitOp extends AstNode {
     private Id id;
     private Expr expr;
 
+    public boolean isFor_flag() {
+        return for_flag;
+    }
+
+
+
+    public void setFor_flag(boolean for_flag) {
+        this.for_flag = for_flag;
+    }
+
+    private boolean for_flag = false;
+
+
     private PrimitiveNodeType NodeType;
 
     public PrimitiveNodeType getNodeType() {

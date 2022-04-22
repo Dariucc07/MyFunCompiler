@@ -12,6 +12,23 @@ public class VarDecl extends AstNode {
     private LinkedList<IdInitOp> idListInitOp;
     private LinkedList<IdInitObblOp> idListInitObblOp;
     private boolean var;
+    public boolean isFor_flag() {
+        return for_flag;
+    }
+
+
+
+    public void setFor_flag(boolean for_flag) {
+        this.for_flag = for_flag;
+        if(idListInitObblOp!=null){
+            idListInitObblOp.forEach(idInitObblOp -> idInitObblOp.setFor_flag(for_flag));
+        }
+        if(idListInitOp!=null){
+            idListInitOp.forEach(idInitOp -> idInitOp.setFor_flag(for_flag));
+        }
+    }
+
+    private boolean for_flag = false;
 
     public VarDecl(int leftLocation, int rightLocation, Type type, LinkedList<IdInitOp> idListInitOp) {
         super(leftLocation, rightLocation);

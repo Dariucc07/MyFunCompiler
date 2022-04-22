@@ -276,19 +276,28 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
 
             expr = idInitOp.getExpr().accept(this, arg);
             if(arg.lookup(idInitOp.getId().getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING)){
+                if(idInitOp.isFor_flag())
+                    return String.format("%s[256] = %s",id,expr);
                 return String.format("char %s[256] = %s;",id,expr);
             }
             PrimitiveNodeType tp= (PrimitiveNodeType) arg.lookup(idInitOp.getId().getValue()).get().getNodeType();
             String type= tp.cType();
+            if(idInitOp.isFor_flag())
+                return String.format("%s = %s",id,expr);
             return String.format("%s %s = %s;",type,id,expr);
         }else {
             if(arg.lookup(idInitOp.getId().getValue()).get().getNodeType().equals(PrimitiveNodeType.STRING)){
+                if(idInitOp.isFor_flag())
+                    return String.format("%s[256]",id);
                 return String.format("char %s[256];",id);
             }
             PrimitiveNodeType tp= (PrimitiveNodeType) arg.lookup(idInitOp.getId().getValue()).get().getNodeType();
             String type= tp.cType();
+            if(idInitOp.isFor_flag())
+                return String.format("%s",id);
             return String.format("%s %s;",type,id);
         }
+
 
     }
 
@@ -306,9 +315,13 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
             constant = idInitObblOp.getConstant().getConst().accept(this, arg);
             String type = idInitObblOp.getConstant().getType().getType();
             if(type.equals("STRING")){
+                if(idInitObblOp.isFor_flag())
+                    return String.format("%s[256] = %s",id,constant);
                 return String.format("char %s[256] = %s;",id,constant);
             }else{
                 type = idInitObblOp.getConstant().getType().typeConverterC();
+                if(idInitObblOp.isFor_flag())
+                    return String.format("%s = %s",id,constant);
                 return String.format("%s %s = %s;",type,id,constant);
 
             }
@@ -510,12 +523,45 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     }
 
     @Override
+    public String visit(DoForStat doForStat, SymbolTable arg) {
+        arg.enterScope();
+        doForStat.getVarDecl().setFor_flag(true);
+        String cond = doForStat.getExpr().accept(this,arg);
+        String stat = doForStat.getStat().accept(this,arg);
+        String varDecl = doForStat.getVarDecl().accept(this,arg);
+        StringJoiner statList = new StringJoiner(",");
+        doForStat.getCommaStatList().forEach(stat_comma -> {
+            String comma_stat = stat_comma.accept(this,arg).replace(";","");
+            statList.add(comma_stat);
+        }
+        );
+        arg.exitScope();
+        return String.format("for(%s%s;%s) {\n%s}",varDecl,cond,statList,stat);
+
+    }
+
+    @Override
     public String visit(VarDecl varDecl, SymbolTable arg) {
-        StringJoiner vardecls = new StringJoiner("\n");
+        StringJoiner vardecls;
+        String format ="";
+        if(varDecl.isFor_flag()){
+            vardecls = new StringJoiner(",");
+        }else{
+            vardecls = new StringJoiner("\n");
+        }
         if(varDecl.getType()==null ){
+            if(varDecl.isFor_flag()){
+                format = varDecl.getIdListInitObblOp().get(0).getNodeType().cType();
+            }
             varDecl.getIdListInitObblOp().forEach(idInitObbl -> vardecls.add(idInitObbl.accept(this,arg)));
         }else{
+            if(varDecl.isFor_flag()){
+                format = varDecl.getIdListInitOp().get(0).getNodeType().cType();
+            }
             varDecl.getIdListInitOp().forEach(idInit -> vardecls.add(idInit.accept(this,arg)));
+        }
+        if(varDecl.isFor_flag()){
+            return String.format("%s %s;",format,vardecls.toString());
         }
             return String.format("%s",vardecls.toString());
     }

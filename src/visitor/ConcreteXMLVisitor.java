@@ -27,6 +27,15 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
         return (AstNode node) -> parent.appendChild(node.accept(this, arg));
     }
 
+    @Override
+    public Element visit(DoForStat doForStat, Document arg) {
+        Element element = arg.createElement("DoForStat");
+        element.appendChild(doForStat.getVarDecl().accept(this,arg));
+        element.appendChild(doForStat.getExpr().accept(this, arg));
+        element.appendChild(doForStat.getStat().accept(this,arg));
+        doForStat.getCommaStatList().forEach(addParent(element, arg));
+        return element;
+    }
 
     @Override
     public Element visit(Program program, Document arg) {

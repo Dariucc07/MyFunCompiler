@@ -28,11 +28,13 @@ public void syntax_error(Symbol cur_token) {
 
 terminal String MAIN, ID, VAR, IF ,THEN, ELSE, WHILE, LOOP, INTEGER, REAL, STRING, BOOL, FUN, END, RETURN, OUTPAR, OUT;
 terminal String NULL;
+terminal String DOFOR,FOR;
 terminal String LPAR,RPAR,COMMA,SEMI,COLON;
 terminal String LT,LE,EQ,NE,GT,GE,ASSIGN;
 terminal String AND,OR,NOT;
 terminal String PLUS,MINUS,TIMES,DIVINT,DIV,POW;
 terminal String STR_CONCAT;
+terminal String LBRA,RBRA;
 terminal String READ,WRITE,WRITELN,WRITEB,WRITET;
 terminal String DQ_STRING, SQ_STRING;
 terminal String ERROR;
@@ -68,6 +70,10 @@ nonterminal CallFunction CallFun;
 nonterminal CallFunctionStat callFunctionStat;
 nonterminal LinkedList<Expr> ExprList;
 nonterminal Expr Expr;
+nonterminal DoForStat DoForStat;
+nonterminal LinkedList<Stat> CommaStatList;
+nonterminal Stat CommaStat;
+nonterminal VarDecl VarDeclFor;
 
 
 
@@ -106,6 +112,10 @@ FunList ::= /* empty */                             {:RESULT = new LinkedList<Fu
 
 VarDecl ::= Type:t IdListInit:idListInit SEMI      {:RESULT = new VarDecl(tleft, tright, t, idListInit); :}
 	| VAR IdListInitObbl:idListInitObbl SEMI       {:RESULT = new VarDecl(idListInitObblleft,idListInitObblright,true,idListInitObbl);:};
+
+VarDeclFor ::= Type:t IdListInit:idListInit       {:RESULT = new VarDecl(tleft, tright, t, idListInit); :}
+    	| VAR IdListInitObbl:idListInitObbl        {:RESULT = new VarDecl(idListInitObblleft,idListInitObblright,true,idListInitObbl);:}
+    	| /*empty*/     {:RESULT = null; :};
 
 Type ::= INTEGER:it                                                     {: RESULT = new PrimitiveType(itleft,itright,"INTEGER"); :}
 | BOOL:bt                                                               {: RESULT = new PrimitiveType(btleft,btright,"BOOL"); :}
@@ -150,6 +160,7 @@ Stat ::= IfStat:ifStat SEMI         {:RESULT = ifStat;  :}
 	| ReadStat:readStat SEMI        {:RESULT = readStat;  :}
 	| WriteStat:writeStat SEMI      {:RESULT = writeStat;:}
 	| AssignStat:assignStat SEMI    {:RESULT = assignStat;:}
+	| DoForStat:doForStat SEMI {:RESULT = doForStat;:}
 	| CallFun:callFun SEMI          {:RESULT = new CallFunctionStat(callFunleft, callFunright, callFun); :}
 	| RETURN:rop Expr:expr SEMI     {:RESULT = new ReturnOp(ropleft,ropright,expr); :};
 
@@ -173,6 +184,19 @@ WriteStat ::=  WRITE  Expr:expr                 {: RESULT = new WriteOp(exprleft
 	| WRITELN  Expr:expr                        {: RESULT = new WriteLnOp(exprleft,exprright,expr);:}
 	| WRITET  Expr:expr                         {: RESULT = new WriteTOp(exprleft,exprright,expr);:}
 	| WRITEB  Expr:expr                         {: RESULT = new WriteBOp(exprleft,exprright,expr);:};
+
+DoForStat ::= DOFOR:df LPAR VarDeclFor:varDecl RPAR LBRA Stat:stat RBRA FOR:f LPAR Expr:expr SEMI CommaStatList:cslist RPAR {:RESULT = new DoForStat(dfleft,dfright,varDecl,stat,expr,cslist);:};
+CommaStatList ::= /*empty*/ {:RESULT = new LinkedList<Stat>();:}
+ | CommaStat:stat {: LinkedList<Stat> statList = new LinkedList<Stat>(); statList.add(stat); RESULT = statList;:}
+ | CommaStatList:list COMMA CommaStat:stat                       {:list.add(stat); RESULT = list; :};
+
+ CommaStat ::=  IfStat:ifStat               {:RESULT = ifStat;  :}
+               	| WhileStat:whileStat      {: RESULT = whileStat; :}
+               	| WriteStat:writeStat       {:RESULT = writeStat;:}
+               	| AssignStat:assignStat     {:RESULT = assignStat;:}
+               	| DoForStat:doForStat       {:RESULT = doForStat;:}
+               	| CallFun:callFun           {:RESULT = new CallFunctionStat(callFunleft, callFunright, callFun); :}
+               	| RETURN:rop Expr:expr      {:RESULT = new ReturnOp(ropleft,ropright,expr); :};
 
 
 AssignStat ::=  ID:id ASSIGN Expr:expr              {: RESULT = new AssignStat(idleft,idright, new Id(idleft,idright, id), expr);:};
