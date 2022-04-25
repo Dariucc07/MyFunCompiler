@@ -43,8 +43,10 @@ char valore[256] = "piccola";
 for(int i = 1,j = 1;i < 20 && j > -20;i = i + 1,j = j - 1) {
 printf("%s\n",stringConcat(stringConcat(stringConcat("ciao", toStringInt(i)), " "), toStringInt(j)));
 }
-for(float i = 1.1;i < 10;i = i + 1) {
+for(float i = 1.1;i < 10.1;i = i + 1) {
 printf("%s\n",stringConcat("ciao ", toStringFloat(i)));
+}
+for(;;) {
 }
 return result;
 }

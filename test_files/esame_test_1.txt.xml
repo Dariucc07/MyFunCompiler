@@ -133,7 +133,7 @@
       </VarDecl>
       <LessThanRelop>
         <Id lexeme="i"/>
-        <IntegerConst value="10"/>
+        <RealConst value="10.1"/>
       </LessThanRelop>
       <WriteLnOp>
         <StringConcatOp>
@@ -149,6 +149,7 @@
         </PlusOp>
       </AssignStat>
     </DoForStat>
+    <DoForStat/>
     <ReturnOp>
       <Id lexeme="result"/>
     </ReturnOp>

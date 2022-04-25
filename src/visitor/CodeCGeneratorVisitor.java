@@ -525,10 +525,18 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
     @Override
     public String visit(DoForStat doForStat, SymbolTable arg) {
         arg.enterScope();
-        doForStat.getVarDecl().setFor_flag(true);
-        String cond = doForStat.getExpr().accept(this,arg);
-        String stat = doForStat.getStat().accept(this,arg);
-        String varDecl = doForStat.getVarDecl().accept(this,arg);
+        if(doForStat.getVarDecl()!=null)
+            doForStat.getVarDecl().setFor_flag(true);
+
+        String cond = "";
+        if(doForStat.getExpr()!=null)
+            cond = doForStat.getExpr().accept(this,arg);
+        String stat = "";
+        if(doForStat.getStat()!=null)
+            stat = doForStat.getStat().accept(this,arg);
+        String varDecl =";";
+        if(doForStat.getVarDecl()!=null)
+            varDecl = doForStat.getVarDecl().accept(this,arg);
         StringJoiner statList = new StringJoiner(",");
         doForStat.getCommaStatList().forEach(stat_comma -> {
             String comma_stat = stat_comma.accept(this,arg).replace(";","");
@@ -537,7 +545,6 @@ public class CodeCGeneratorVisitor implements Visitor<String, SymbolTable> {
         );
         arg.exitScope();
         return String.format("for(%s%s;%s) {\n%s}",varDecl,cond,statList,stat);
-
     }
 
     @Override

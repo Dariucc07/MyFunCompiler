@@ -636,9 +636,12 @@ public class TypeCheckerVisitor implements Visitor <NodeType, SymbolTable> {
     @Override
     public NodeType visit(DoForStat doForStat, SymbolTable arg) {
         arg.enterScope();
-        doForStat.getVarDecl().accept(this,arg);
-        NodeType condFor = doForStat.getExpr().accept(this, arg);
-        doForStat.getStat().accept(this,arg);
+        if(doForStat.getVarDecl()!=null)
+            doForStat.getVarDecl().accept(this,arg);
+
+        NodeType condFor = (doForStat.getExpr()!=null) ? doForStat.getExpr().accept(this, arg) : PrimitiveNodeType.BOOL;
+        if(doForStat.getStat()!=null)
+            doForStat.getStat().accept(this,arg);
         if (!condFor.equals(PrimitiveNodeType.BOOL)) {
             throw new RuntimeException("Type Mismatch. For condition doesn't return boolean");
         }

@@ -30,9 +30,12 @@ public class ConcreteXMLVisitor implements Visitor<Element, Document> {
     @Override
     public Element visit(DoForStat doForStat, Document arg) {
         Element element = arg.createElement("DoForStat");
-        element.appendChild(doForStat.getVarDecl().accept(this,arg));
-        element.appendChild(doForStat.getExpr().accept(this, arg));
-        element.appendChild(doForStat.getStat().accept(this,arg));
+        if(doForStat.getVarDecl()!=null)
+            element.appendChild(doForStat.getVarDecl().accept(this,arg));
+        if(doForStat.getExpr()!=null)
+            element.appendChild(doForStat.getExpr().accept(this, arg));
+        if(doForStat.getStat()!=null)
+            element.appendChild(doForStat.getStat().accept(this,arg));
         doForStat.getCommaStatList().forEach(addParent(element, arg));
         return element;
     }

@@ -74,6 +74,10 @@ nonterminal DoForStat DoForStat;
 nonterminal LinkedList<Stat> CommaStatList;
 nonterminal Stat CommaStat;
 nonterminal VarDecl VarDeclFor;
+nonterminal Expr ForExpr;
+nonterminal Stat ForStat;
+
+
 
 
 
@@ -185,11 +189,16 @@ WriteStat ::=  WRITE  Expr:expr                 {: RESULT = new WriteOp(exprleft
 	| WRITET  Expr:expr                         {: RESULT = new WriteTOp(exprleft,exprright,expr);:}
 	| WRITEB  Expr:expr                         {: RESULT = new WriteBOp(exprleft,exprright,expr);:};
 
-DoForStat ::= DOFOR:df LPAR VarDeclFor:varDecl RPAR LBRA Stat:stat RBRA FOR:f LPAR Expr:expr SEMI CommaStatList:cslist RPAR {:RESULT = new DoForStat(dfleft,dfright,varDecl,stat,expr,cslist);:};
+DoForStat ::= DOFOR:df LPAR VarDeclFor:varDecl RPAR LBRA ForStat:stat RBRA FOR:f LPAR ForExpr:expr SEMI CommaStatList:cslist RPAR {:RESULT = new DoForStat(dfleft,dfright,varDecl,stat,expr,cslist);:};
 CommaStatList ::= /*empty*/ {:RESULT = new LinkedList<Stat>();:}
  | CommaStat:stat {: LinkedList<Stat> statList = new LinkedList<Stat>(); statList.add(stat); RESULT = statList;:}
  | CommaStatList:list COMMA CommaStat:stat                       {:list.add(stat); RESULT = list; :};
 
+ ForExpr::= /*empty*/ {: RESULT = null;:}
+        | Expr:e {:RESULT = e;:};
+
+ ForStat ::= /*empty*/ {: RESULT = null;:}
+                 | Stat:s {:RESULT = s;:};
  CommaStat ::=  IfStat:ifStat               {:RESULT = ifStat;  :}
                	| WhileStat:whileStat      {: RESULT = whileStat; :}
                	| WriteStat:writeStat       {:RESULT = writeStat;:}
